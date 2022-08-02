@@ -10,3 +10,4 @@ collections:
     output: true
 sass:
   style: compressed
+logo_image: "/uploads/ThirdPersonProjectLogo.png"
