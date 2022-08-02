@@ -2,7 +2,7 @@
 ---
 
 // Resets and Universal Classes ================================================
-html, body {margin:0px; padding:0px; width:100%; min-height:100%; overflow-x: hidden !important;}
+html, body {position:relative; margin:0px; padding:0px; width:100%; min-height:100%;}
 h1, h2, h3, h4, h5, h6 {margin:0px;}
 img {max-width:100%; border:0px;}
 a {text-decoration:none; color:inherit;}
@@ -22,4 +22,10 @@ input:focus, textarea:focus {outline:none;}
     @else if $point == xs {
         @media screen and (max-width:375px) {@content;}
     }
+}
+
+// Styles
+.circle {
+    position:absolute; height:2000px; width:2000px; left:50%; margin-left:-1000px; top:0px; margin-top:-1600px; border-radius:50%; 
+    background:black; content:''; z-index:1;
 }
