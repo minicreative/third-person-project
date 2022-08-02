@@ -13,7 +13,10 @@ input:focus, textarea:focus {outline:none;}
 .clear {clear:both;}
 
 @mixin breakpoint($point) {
-    @if $point == m{
+    @if $point == l {
+        @media screen and (max-width: 1200px)  {@content;}
+    }
+    @if $point == m {
         @media screen and (max-width: 1000px)  {@content;}
     }
     @if $point == s {
@@ -24,8 +27,27 @@ input:focus, textarea:focus {outline:none;}
     }
 }
 
+body {font-family:'EB Garamond', serif;}
+h1 {font-size:48px;}
+
 // Styles
 .circle {
     position:absolute; height:2000px; width:2000px; left:50%; margin-left:-1000px; top:0px; margin-top:-1600px; border-radius:50%; 
-    background:black; content:''; z-index:1;
+    background:black; content:''; z-index:0;
+}
+.container {
+    position:relative; width:1130px; margin:0px auto; z-index:5;
+}
+
+.header {
+    padding-top:30px; color:white;
+    .logo {height:80px;}
+    .navigation {
+        float:right; text-align:right;
+        a {display:inline-block; line-height:80px; font-size:26px; margin-left:30px; font-weight:500;}
+    }
+}
+
+.page-header {
+    padding-top:100px; text-align:center; color:white;
 }
