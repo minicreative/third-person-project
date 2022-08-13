@@ -1,6 +1,7 @@
 ---
 title: Archives
 permalink: "/archives/"
+position: 4
 layout: basic
 order: 3
 ---
