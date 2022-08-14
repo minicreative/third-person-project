@@ -9,7 +9,11 @@ header_images:
 - "/uploads/Travel%20by%20land,%20Wilmington%20scene,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"
 - "/uploads/Travel%20by%20water,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"
 - "/uploads/TPP_B1_F1_Third%20Street,%20Wilmington,%20NC%20-%20postcard%20-%20nothing%20on%20back,%20undated.jpg"
-header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founded in 2015 by&#8212;as The New Yorker described us&#8212;"a loose-knit band of writers, teachers, scholars, and local history buffs." From those vague beginnings, TPP has evolved into one of the most innovative, community-driven research initiatives in the South.
+header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founded
+  in 2015 by&#8212;as The New Yorker described us&#8212;"a loose-knit band of writers,
+  teachers, scholars, and local history buffs." From those vague beginnings, TPP has
+  evolved into one of the most innovative, community-driven research initiatives in
+  the South.
 home_features_header: Explore our work
 home_features:
 - title: Projects
@@ -22,3 +26,4 @@ home_features:
   link: "/archives"
 layout: home
 ---
+
