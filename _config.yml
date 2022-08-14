@@ -10,4 +10,6 @@ collections:
     output: true
 sass:
   style: compressed
+  sass_dir: _sass
 logo_image: "/uploads/ThirdPersonProjectLogo.png"
+footer_content: Thanks for visiting! You can contact us at email@address.com 

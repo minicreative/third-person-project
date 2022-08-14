@@ -1,0 +1,200 @@
+// Sizing Defaults
+$padding: 30px !default;
+$padding_: 20px !default;
+
+// Breakpoint Sizing Default
+$l_max: 1140px !default;
+$m_max: 1020px !default;
+$s_max: 760px !default;
+$xs_max: 480px !default;
+
+// Container Sizing Defaults
+$max_container: 1080px !default;
+$basic_container: 960px !default;
+$tablet_container: 720px !default;
+$mobile_container: 440px !default;
+
+// SASS Plugins
+@mixin box-shadow($shadow) {-moz-box-shadow: $shadow; -webkit-box-shadow: $shadow; box-shadow: $shadow;}
+@mixin border-radius($radius) {-webkit-border-radius: $radius; border-radius: $radius; background-clip: padding-box;}
+
+// Resets & Basic Classes ===================================================
+
+html, body {margin:0px; padding:0px; width:100%; min-height:100vh;}
+h1, h2, h3 {margin:0px; color:inherit; font-family:inherit;}
+div {box-sizing:border-box;}
+input, textarea {width:100%; box-sizing:border-box; font-size:16px;}
+.end {margin-right:0px;}
+img {border:0; max-width:100%;}
+a {color:inherit; text-decoration:none;}
+.clear {clear:both;}
+
+// Default Responsive Breakpoints & Container Sizes =========================
+
+@mixin breakpoint($point) {
+	@if $point == l {
+		@media screen and (max-width: $l_max) {@content;}
+	}
+	@else if $point == m {
+		@media screen and (max-width: $m_max)  {@content;}
+	}
+	@else if $point == m-only {
+		@media screen and (max-width: $m_max) and (min-width:$s_max) {@content;}
+	}
+	@else if $point == s {
+		@media screen and (max-width: $s_max)  {@content;}
+	}
+	@else if $point == xs {
+		@media screen and (max-width: $xs_max)  {@content;}
+	}
+	@else if $point == notTouch {
+		@media screen and (min-width: $m_max)  {@content;}
+	}
+}
+
+.container {
+	width: $max_container; margin:0px auto;
+	@include breakpoint(l) {width:$basic_container;}
+	@include breakpoint(m) {width:$tablet_container;}
+	@include breakpoint(s) {width:$mobile_container;}
+	@include breakpoint(xs) {width:100%; padding:0px 20px;}
+}
+
+// Fonts =====================================================================
+
+body {
+	font-family:'EB Garamond', serif; 
+	font-size:24px;
+	color:#222;
+	line-height:1.4;
+	@include breakpoint(s) {font-size:20px;}
+}
+h1 {
+	font-size:48px;
+	@include breakpoint(s) {font-size:40px;}
+}
+h2 {
+	font-size:36px;
+	@include breakpoint(s) {font-size:32px;}
+}
+h3 {
+	font-size:24px;
+	@include breakpoint(s) {font-size:20px;}
+}
+
+// Spacing ===================================================================
+@mixin row {
+	margin-top:$padding;
+	@include breakpoint(m) {margin-top:$padding_;}
+}
+@mixin push {
+	margin-right:$padding;
+	@include breakpoint(m) {margin-right:$padding_;}
+}
+@mixin row_pad {
+	padding-top:$padding; 
+	@include breakpoint(m) {padding-top:$padding_;}
+}
+@mixin content_pad {
+	padding-bottom:$padding;
+	@include breakpoint(m) {padding-bottom:$padding_;}
+}
+@mixin vertical_pad {
+	padding-top:$padding; padding-bottom:$padding;
+	@include breakpoint(m) {padding-top:$padding_; padding-bottom:$padding_;}
+}
+
+// Reusable Element Styles ===================================================
+
+// Columns: further styled by jQuery in main.js
+.columns {
+	display:block;
+	@include breakpoint(s) {margin-bottom:-$padding_; padding-bottom:1px;}
+	.column {
+		display:inline-block; vertical-align:top; box-sizing:border-box;
+		margin-right:$padding;
+		@include breakpoint(m) {margin-right:$padding_;}
+		@include breakpoint(s) {margin-bottom:$padding_;}
+		&.full {width:100%; margin-right:0px;}
+	}
+	&.stacked, &.bricks {
+		.column {
+			margin-bottom:$padding; 
+			@include breakpoint(m) {margin-bottom:$padding_;}
+		}
+	}
+	&.stacked {
+		margin-bottom:-$padding; 
+		@include breakpoint(m) {margin-bottom:-$padding_;}
+	}
+	&.bricks {
+		@include breakpoint(s) {margin-bottom:0px !important;}
+	}
+}
+
+// Complex Component Styles ===============================================
+
+.navigation {
+
+	// Reset lists
+	ul {display:block; margin:0px; padding:0px;}
+
+	// For desktop computers
+	@include breakpoint(notTouch) {
+
+		// Top-Level Links
+		> ul > li  {
+			display:inline-block; position:relative;
+
+			// Show dropdown menus on hover
+			&:hover .sub-menu {display:block;}
+		}
+
+		// Dropdown Menus
+		ul.sub-menu {
+			display:none; // Hide dropdown menus until hover
+			position:absolute; top:100%; left:0px; width:100%; text-align:left;
+
+			// Dropdown Links
+			> li {display:block;}
+		}
+	}
+
+	// For mobile devices
+	@include breakpoint(m) {
+		display:none;
+		position:fixed; height:100vh; width:320px; left:0px; top:0px; z-index:500;
+		overflow:scroll;
+		background:white; @include box-shadow(0px 0px 5px rgba(0,0,0,0.4));
+		padding:20px 0px;
+
+		li {
+			padding:0px 20px; line-height:2.4; font-size:18px; border-top:1px solid #e5e5e5;
+			a {display:block;}
+		}
+		ul.sub-menu {
+			margin:0px -20px;
+			li {display:block; padding-left:40px;}
+		}
+
+		&.show {display:block; -webkit-animation:slideInLeft 300ms; animation:slideInLeft 300ms;}
+	}
+	@include breakpoint(s) {
+		width:280px;
+	}
+}
+
+// Mobile Navigation Components
+#nav-underlay {
+	display:none;
+	position:fixed; width:100vw; height:100vh; top:0px; left:0px; z-index:400;
+	background:rgba(0,0,0,0.5);
+	&.show {display:block; -webkit-animation:fadeIn 300ms; animation:fadeIn 300ms;}
+}
+#nav-toggle {
+	display:none;
+	position:absolute; right:0px; top:50%; margin-top:-16px; 
+	width:32px; height:32px; font-size:32px; line-height:1;
+	@include breakpoint(m) {display:block;}
+	@include breakpoint(xs) {right:20px;}
+}

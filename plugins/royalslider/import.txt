@@ -1,0 +1,3 @@
+<script src="<?= $config->urls->templates?>plugins/royalslider/jquery.royalslider.min.js"></script>
+<link href="<?= $config->urls->templates?>plugins/royalslider/royalslider.css" rel="stylesheet">
+<link href="<?= $config->urls->templates?>plugins/royalslider/skins/minimal-white/rs-minimal-white.css" rel="stylesheet">

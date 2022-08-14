@@ -16,26 +16,50 @@
 
 		<!-- JS Includes -->
 		<script src="https://unpkg.com/jquery@3/dist/jquery.min.js"></script>
+		<script src="/js/main.js"></script>
+
+		{% if page.header_images %}
+		<!-- RoyalSlider plugin-->
+		<link rel="stylesheet" href="/plugins/royalslider/royalslider.css">
+		<link rel="stylesheet" href="/plugins/royalslider/skins/minimal-white/rs-minimal-white.css">
+		<script src="/plugins/royalslider/jquery.royalslider.min.js"></script>
+		{% endif %}
 
 	</head>
-	<body>
+	<body class="{{ page.layout }}">
 
-		<div class="circle"></div>
-		<div class="container">
-			<div class="header">
-				<img src="{{ site.logo_image }}" class="logo" />
-				<div class="navigation">
-					{% assign sorted_pages = site.pages | sort:"order" %}
-					{% for page in sorted_pages | sort:"order" %}
-						{% if page.url != "/css/main.css" %}
-							<a href="{{ page.url }}">{{ page.title }}</a>
-						{% endif %}
-					{% endfor %}
+		<div class="circle{% if page.header_images %} slideshow{% endif %}"
+			{% if page.header_image %}
+				style="background-image:url('{{ page.header_image }}');"
+			{% endif %}>
+			{% if page.header_images %}
+				<div id="slider">
+				{% for image in page.header_images %}
+					<img class="rsImg" src="{{ image }}" />
+				{% endfor %}
 				</div>
-			</div>
-			<div class="page-header">
+				<div class="slider-overlay"></div>
+			{% endif %}
+		</div>
+
+		<div class="header container">
+			<img src="{{ site.logo_image }}" class="logo" />
+			<div class="navigation"><ul>
+				{% assign sorted_pages = site.pages | sort:"order" %}
+				{% for page in sorted_pages | sort:"order" %}
+					{% if page.url != "/css/main.css" %}
+						<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+					{% endif %}
+				{% endfor %}
+			</ul></div>
+		</div>
+
+		<div class="page-header container {% if page.header_images %} slideshow{% endif %}">
+			{% if page.header_text %}
+				<h2>{{ page.header_text }}</h2>
+			{% else %}
 				<h1>{{ page.title }}</h1>
-			</div>
+			{% endif %}
 		</div>
 		
 
