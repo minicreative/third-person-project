@@ -1,0 +1,13 @@
+{% include header.html %}
+
+    <div class="content container">
+        {{ page.content | markdownify }}
+    </div>
+
+    <div class="list container">
+        {% for item in site.findings %}
+            <a href="{{ item.url }}">{{ item.title }}</a>
+        {% endfor %}
+    </div>
+
+{% include footer.html %}
