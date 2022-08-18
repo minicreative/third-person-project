@@ -28,10 +28,7 @@
 	</head>
 	<body class="{{ page.layout }}">
 
-		<div class="circle{% if page.header_images %} slideshow{% endif %}"
-			{% if page.header_image %}
-				style="background-image:url('{{ page.header_image }}');"
-			{% endif %}>
+		<div class="circle{% if page.header_images %} slideshow{% endif %}">
 			{% if page.header_images %}
 				<div id="slider">
 				{% for image in page.header_images %}
@@ -39,6 +36,12 @@
 				{% endfor %}
 				</div>
 				<div class="slider-overlay"></div>
+            {% else %}
+                {% if page.header_image %}
+                    <div class="bg" style="background-image:url('{{ page.header_image }}');"></div>
+                {% else if site.header_image %}
+                    <div class="bg" style="background-image:url('{{ site.header_image }}');"></div>
+                {% endif %}
 			{% endif %}
 		</div>
 

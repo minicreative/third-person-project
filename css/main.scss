@@ -9,21 +9,33 @@ $circleRevealSmall: 400px;
 $circleRevealLarge: 700px;
 $navHeight: 80px;
 
+$section_pad: 50px;
+$section_pad_: 30px;
+
+@mixin section_row {
+	margin-top:$section_pad;
+	@include breakpoint(m) {margin-top:$section_pad_;}
+}
+
 body {overflow-x:hidden;}
 
 // Reusuable Circle Styles =========================================================
 
 .circle {
-    position:absolute; height:$circleSize; width:$circleSize; left:50%; margin-left:0 - ($circleSize/2); 
+    position:absolute; content:''; height:$circleSize; width:$circleSize; left:50%; margin-left:0 - ($circleSize/2); 
     top:0px; margin-top:0 - $circleSize + $circleRevealSmall; border-radius:50%; 
-    background-size:cover; background-color:black; content:''; z-index:0; overflow:hidden;
+    background-size:cover; background-color:black; background-position:center center;
+    z-index:0; overflow:hidden;
     
     &.slideshow {
         margin-top:0 - $circleSize + $circleRevealLarge;
     }
-    #slider {
+    #slider, .bg {
         position:relative; margin-top:$circleSize - $circleRevealLarge; margin-left:auto; margin-right:auto; 
         width:100vw; height:$circleRevealLarge; opacity:0.55;
+    }
+    .bg {
+        background-size:cover; background-position:center center;
     }
 }
 
@@ -48,6 +60,7 @@ body {overflow-x:hidden;}
             font-weight:500; text-shadow:0px 0px 2px rgba(0,0,0,0.3);
             &:hover {text-shadow:0px 0px 5px rgba(0,0,0,0.6);}
         }
+        a {border-bottom:none;}
     }
 }
 
@@ -63,7 +76,7 @@ body {overflow-x:hidden;}
 }
 
 .content {
-    max-width:840px; padding:50px 0px;
+    max-width:840px; padding:$section_pad 0px;
 }
 
 .footer {
@@ -72,13 +85,13 @@ body {overflow-x:hidden;}
         height:$circleSizeFooter; width:$circleSizeFooter; margin-left:0 - ($circleSizeFooter/2);
         background:#eee; margin-top:0px; z-index:0;
     }
-    .container {position:relative; padding:100px 0px 80px; z-index:1;}
+    .container {position:relative; padding:60px 0px 45px; z-index:1;}
 }
 
 // Pages Styles =============================================================
 
 .home-features {
-    @include row; text-align:center;
+    @include section_row; text-align:center;
     .columns {@include row;}
     .column {
         .item-circle {width:110%; margin-left:-5%; padding-top:110%;}
