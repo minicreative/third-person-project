@@ -2,9 +2,10 @@
 title: Third Person Project
 timezone: America/New_York
 collections:
-  findings:
+  finding:
     title: Findings
     output: true
+    permalink: findings
   posts:
     title: Posts
     output: true
