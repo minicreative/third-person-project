@@ -1,6 +1,7 @@
 ---
 title: Findings
 permalink: "/findings/"
+collection: findings
 position: 1
 layout: list
 order: 4

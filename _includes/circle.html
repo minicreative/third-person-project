@@ -1,0 +1,16 @@
+<div class="circle{% if circle_item.header_images %} slideshow{% endif %}">
+    {% if circle_item.header_images %}
+        <div class="slider">
+        {% for image in circle_item.header_images %}
+            <img class="rsImg" src="{{ image }}" />
+        {% endfor %}
+        </div>
+        <div class="slider-overlay"></div>
+    {% else %}
+        {% if circle_item.header_image %}
+            <div class="bg" style="background-image:url('{{ circle_item.header_image }}');"></div>
+        {% else if site.header_image %}
+            <div class="bg" style="background-image:url('{{ site.header_image }}');"></div>
+        {% endif %}
+    {% endif %}
+</div>

@@ -16,18 +16,20 @@ $(window).resize(function () {
 })
 
 function setupSlider() {
-    $("#slider").royalSlider({
-        imageScaleMode: 'fill',
-        transitionType: 'fade',
-        transitionSpeed: 1200,
-        sliderDrag: false,
-        navigateByClick: false,
-        autoplay: {
-            enabled: true,
-            pauseOnHover: false,
-            delay: 4000
-        }
-    })
+    if ($(".slider").length > 0) {
+        $(".slider").royalSlider({
+            imageScaleMode: 'fill',
+            transitionType: 'fade',
+            transitionSpeed: 1200,
+            sliderDrag: false,
+            navigateByClick: false,
+            autoplay: {
+                enabled: true,
+                pauseOnHover: false,
+                delay: 4000
+            }
+        })
+    }
 }
 
 function setupMobileNav() {

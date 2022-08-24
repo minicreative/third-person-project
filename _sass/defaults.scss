@@ -21,7 +21,7 @@ $mobile_container: 440px !default;
 // Resets & Basic Classes ===================================================
 
 html, body {margin:0px; padding:0px; width:100%; min-height:100vh;}
-h1, h2, h3 {margin:0px; color:inherit; font-family:inherit;}
+h1, h2, h3, h4 {margin:0px; color:inherit; font-family:inherit;}
 div {box-sizing:border-box;}
 input, textarea {width:100%; box-sizing:border-box; font-size:16px;}
 .end {margin-right:0px;}
@@ -80,6 +80,9 @@ h2 {
 h3 {
 	font-size:24px;
 	@include breakpoint(s) {font-size:20px;}
+}
+h4 {
+    font-size:20px; font-weight:normal;
 }
 a {
     border-bottom:2px solid #ccc;

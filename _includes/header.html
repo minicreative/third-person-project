@@ -26,24 +26,10 @@
 		{% endif %}
 
 	</head>
-	<body class="{{ page.layout }}">
+	<body>
 
-		<div class="circle{% if page.header_images %} slideshow{% endif %}">
-			{% if page.header_images %}
-				<div id="slider">
-				{% for image in page.header_images %}
-					<img class="rsImg" src="{{ image }}" />
-				{% endfor %}
-				</div>
-				<div class="slider-overlay"></div>
-            {% else %}
-                {% if page.header_image %}
-                    <div class="bg" style="background-image:url('{{ page.header_image }}');"></div>
-                {% else if site.header_image %}
-                    <div class="bg" style="background-image:url('{{ site.header_image }}');"></div>
-                {% endif %}
-			{% endif %}
-		</div>
+        {% assign circle_item = page %}
+		{% include circle.html %}
 
 		<div class="header container">
 			<img src="{{ site.logo_image }}" class="logo" />
@@ -60,11 +46,14 @@
 		<div class="page-header container {% if page.header_images %} slideshow{% endif %}">
 			{% if page.header_text %}
 				<h2>{{ page.header_text }}</h2>
-			{% else %}
-				<h1>{{ page.title }}</h1>
+            {% else %}
+                {% if page.collection %}
+                    {% for parent in site.pages %}
+                        {% if parent.collection == page.collection %}{% assign page_title = parent.title %}{% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% assign page_title = page.title %}
+                {% endif %}
+				<h1>{{ page_title }}</h1>
 			{% endif %}
 		</div>
-		
-
-
-	

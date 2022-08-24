@@ -5,8 +5,18 @@
     </div>
 
     <div class="list container">
-        {% for item in site.findings %}
-            <a href="{{ item.url }}">{{ item.title }}</a>
+        {% assign collection = site[page.collection] %}
+        {% for item in collection %}
+            <a href="{{ item.url }}"><div class="item">
+                {% assign circle_item = item %}{% include circle.html %}
+                <h2 class="block-title"><span>{{ item.title }}</span><h2>
+                <h4 class="subtitle">
+                    By {{ item.author }}
+                    <span class="inline-divider">/</span>
+                    {{ item.date | date: "%B %e, %Y" }}
+                </h4>
+                <p>{{ item.content | truncate: 225 }}</p>
+            </div></a>
         {% endfor %}
     </div>
 

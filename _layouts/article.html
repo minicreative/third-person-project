@@ -1,0 +1,17 @@
+{% include header.html %}
+
+    <div class="content container">
+
+        <div class="article-header">
+            <h2 class="block-title"><span>{{ page.title }}</span></h2>
+            <h4 class="subtitle">
+                By {{ page.author }}
+                <span class="inline-divider">/</span>
+                {{ page.date | date: "%B %e, %Y" }}
+            </h4>
+        </div>
+
+        {{ page.content | markdownify }}
+    </div>
+
+{% include footer.html %}

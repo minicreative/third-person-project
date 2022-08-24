@@ -9,8 +9,8 @@ $circleRevealSmall: 400px;
 $circleRevealLarge: 700px;
 $navHeight: 80px;
 
-$section_pad: 50px;
-$section_pad_: 30px;
+$section_pad: 60px;
+$section_pad_: 40px;
 
 @mixin section_row {
 	margin-top:$section_pad;
@@ -30,7 +30,7 @@ body {overflow-x:hidden;}
     &.slideshow {
         margin-top:0 - $circleSize + $circleRevealLarge;
     }
-    #slider, .bg {
+    .slider, .bg {
         position:relative; margin-top:$circleSize - $circleRevealLarge; margin-left:auto; margin-right:auto; 
         width:100vw; height:$circleRevealLarge; opacity:0.55;
     }
@@ -39,7 +39,7 @@ body {overflow-x:hidden;}
     }
 }
 
-.item-circle {
+.circle-item {
     position:relative; width:100%; padding-top:100%; border-radius:50%; background-size:cover; overflow:hidden;
     .inside {
         position:absolute; top:0px; width:100%; height:100%; text-align:center; 
@@ -47,6 +47,16 @@ body {overflow-x:hidden;}
         background-color:rgba(0,0,0,0.55); color:white;
     }
 }
+
+.block-title {
+    border-left:3px solid #222;
+    span {
+        display:inline; padding:6px 18px; background:#eee; line-height:1.6;
+        box-decoration-break: clone; -webkit-box-decoration-break: clone;
+    }
+}
+.subtitle {color:#666;}
+.inline-divider {display:inline-block; margin:0px 6px;}
 
 // Site Styles ============================================================
 
@@ -69,18 +79,37 @@ body {overflow-x:hidden;}
 
     h2 {max-width:960px; margin:0px auto; font-weight:normal; color:white;}
 
-    min-height:$circleRevealSmall - $navHeight - $padding;
+    min-height:$circleRevealSmall - $navHeight - $padding - 10px;
     &.slideshow {
         min-height:$circleRevealLarge - $navHeight - $padding;
     }
 }
 
 .content {
-    max-width:840px; padding:$section_pad 0px;
+    max-width:840px; @include section_row;
+}
+
+.list {
+    @include section_row;
+}
+
+.item {
+    position:relative; background:#ddd; @include row; overflow:hidden;
+    padding:240px $padding $padding;
+    .circle {
+        height:500px; width:500px; top:-120px; left:-100px; margin-top:0px; margin-left:0px;
+        .slider, .bg {margin-top:0px; margin-left:0px; width:100%; height:100%;}
+    }
+    h2, h4, p {position:relative; z-index:1;}
+}
+
+.article-header {
+    display:relative; text-align:left; margin-bottom:$padding; padding-bottom:$padding; border-bottom:1px solid #e5e5e5;
+    .block-title {margin:0px 0px 20px;}
 }
 
 .footer {
-    position:relative; @include row; text-align:center; overflow:hidden;
+    position:relative; @include section_row; text-align:center; overflow:hidden;
     .circle {
         height:$circleSizeFooter; width:$circleSizeFooter; margin-left:0 - ($circleSizeFooter/2);
         background:#eee; margin-top:0px; z-index:0;
@@ -88,7 +117,7 @@ body {overflow-x:hidden;}
     .container {position:relative; padding:60px 0px 45px; z-index:1;}
 }
 
-// Pages Styles =============================================================
+// Page Styles =============================================================
 
 .home-features {
     @include section_row; text-align:center;

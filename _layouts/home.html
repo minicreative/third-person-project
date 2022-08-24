@@ -5,7 +5,7 @@
         <div class="columns">
         {% for feature in page.home_features %}
             <div class="column half"><a href="{{ feature.link }}">
-                <div class="item-circle" style="background-image:url('{{ feature.image }}')">
+                <div class="circle-item" style="background-image:url('{{ feature.image }}')">
                     <div class="inside"><div>
                         <h2>{{ feature.title }}</h2>
                         <p>{{ feature.description }}</p>
