@@ -5,7 +5,7 @@ collections:
   findings:
     title: Findings
     output: true
-    permalink: /findings/:name/
+    permalink: "/findings/:name/"
   posts:
     title: Posts
     output: true
