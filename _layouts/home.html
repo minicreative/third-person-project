@@ -1,7 +1,11 @@
 {% include header.html %}
 
+    <div class="home-findings container">
+        {% assign item = site.findings | sort: "date" | first %}{% include item.html %}
+    </div>
+
     <div class="home-features columns container">
-        <h2>Explore our work</h2>
+        <h2>{{ page.home_features_header }}</h2>
         <div class="columns">
         {% for feature in page.home_features %}
             <div class="column half"><a href="{{ feature.link }}">

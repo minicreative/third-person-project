@@ -11,7 +11,9 @@
             </h4>
         </div>
 
-        {{ page.content | markdownify }}
+        <div class="article-body row">
+            {{ page.content | markdownify }}
+        </div>
     </div>
 
 {% include footer.html %}

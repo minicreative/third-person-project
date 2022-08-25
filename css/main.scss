@@ -7,6 +7,8 @@ $circleSize: 2000px;
 $circleSizeFooter: 2000px;
 $circleRevealSmall: 400px;
 $circleRevealLarge: 700px;
+$circleSizeItem: 500px;
+$circleRevealItem:400px;
 $navHeight: 80px;
 
 $section_pad: 60px;
@@ -49,7 +51,7 @@ body {overflow-x:hidden;}
 }
 
 .block-title {
-    border-left:3px solid #222;
+    border-left:3px solid #222; margin-bottom:20px;
     span {
         display:inline; padding:6px 18px; background:#eee; line-height:1.6;
         box-decoration-break: clone; -webkit-box-decoration-break: clone;
@@ -94,18 +96,15 @@ body {overflow-x:hidden;}
 }
 
 .item {
-    position:relative; background:#ddd; @include row; overflow:hidden;
-    padding:240px $padding $padding;
+    position:relative; border:2px solid #e9e9e9; @include row; overflow:hidden;
+    padding:50px $padding 50px ($circleRevealItem + $padding);
     .circle {
-        height:500px; width:500px; top:-120px; left:-100px; margin-top:0px; margin-left:0px;
+        height:$circleSizeItem; width:$circleSizeItem; top:50%; left:$circleRevealItem - $circleSizeItem; 
+        margin-top:0 - ($circleSizeItem / 2); margin-left:0px;
         .slider, .bg {margin-top:0px; margin-left:0px; width:100%; height:100%;}
     }
     h2, h4, p {position:relative; z-index:1;}
-}
-
-.article-header {
-    display:relative; text-align:left; margin-bottom:$padding; padding-bottom:$padding; border-bottom:1px solid #e5e5e5;
-    .block-title {margin:0px 0px 20px;}
+    h2 {margin-left:-160px;}
 }
 
 .footer {
@@ -114,15 +113,21 @@ body {overflow-x:hidden;}
         height:$circleSizeFooter; width:$circleSizeFooter; margin-left:0 - ($circleSizeFooter/2);
         background:#eee; margin-top:0px; z-index:0;
     }
-    .container {position:relative; padding:60px 0px 45px; z-index:1;}
+    .container {position:relative; padding:60px 0px; z-index:1;}
 }
 
 // Page Styles =============================================================
 
+.home-findings{
+    margin-top:-120px;
+    .item {
+        border:0px; box-shadow:0px 0px 5px rgba(0,0,0,0.3); background:white;
+    }
+}
 .home-features {
     @include section_row; text-align:center;
     .columns {@include row;}
     .column {
-        .item-circle {width:110%; margin-left:-5%; padding-top:110%;}
+        .circle-item {width:110%; margin-left:-5%; padding-top:110%;}
     }
 }
