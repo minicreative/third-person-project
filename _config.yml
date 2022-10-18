@@ -2,14 +2,17 @@
 title: Third Person Project
 timezone: America/New_York
 collections:
-  findings:
-    title: Findings
-    output: true
-    permalink: "/findings/:name/"
   archives:
     title: Archives
     output: true
     permalink: "/archives/:name/"
+  findings:
+    title: Findings
+    output: true
+    permalink: "/findings/:name/"
+  posts:
+    title: Posts
+    output: true
   projects:
     title: Projects
     output: true
