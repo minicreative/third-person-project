@@ -6,9 +6,14 @@ collections:
     title: Findings
     output: true
     permalink: "/findings/:name/"
-  posts:
-    title: Posts
+  archives:
+    title: Archives
     output: true
+    permalink: "/archives/:name/"
+  projects:
+    title: Projects
+    output: true
+    permalink: "/projects/:name/"
   uploads:
     title: Uploads
     output: true

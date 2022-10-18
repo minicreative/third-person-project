@@ -4,9 +4,11 @@
         {{ page.content | markdownify }}
     </div>
 
-    <div class="list container">
+    <div class="list columns {{ page.collection }} container">
         {% assign collection = site[page.collection] %}
-        {% for item in collection %}{% include item.html %}{% endfor %}
+        {% for item in collection %}
+            {% include item.html %}
+        {% endfor %}
     </div>
 
 {% include footer.html %}

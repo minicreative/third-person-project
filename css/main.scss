@@ -89,6 +89,11 @@ body {overflow-x:hidden;}
 
 .content {
     max-width:840px; @include section_row;
+
+    a {
+        border-bottom:2px solid #ccc;
+        &:hover {border-bottom:2px solid #222;}
+    }
 }
 
 .list {
@@ -97,14 +102,27 @@ body {overflow-x:hidden;}
 
 .item {
     position:relative; border:2px solid #e9e9e9; @include row; overflow:hidden;
-    padding:50px $padding 50px ($circleRevealItem + $padding);
-    .circle {
-        height:$circleSizeItem; width:$circleSizeItem; top:50%; left:$circleRevealItem - $circleSizeItem; 
-        margin-top:0 - ($circleSizeItem / 2); margin-left:0px;
-        .slider, .bg {margin-top:0px; margin-left:0px; width:100%; height:100%;}
-    }
     h2, h4, p {position:relative; z-index:1;}
-    h2 {margin-left:-160px;}
+
+    &.full {
+        padding:50px $padding 50px ($circleRevealItem + $padding);
+        .circle {
+            height:$circleSizeItem; width:$circleSizeItem; top:50%; left:$circleRevealItem - $circleSizeItem; 
+            margin-top:0 - ($circleSizeItem / 2); margin-left:0px;
+            .slider, .bg {margin-top:0px; margin-left:0px; width:100%; height:100%;}
+        }
+        h2 {margin-left:-160px;}
+    }
+    
+    &.half {
+        text-align:center; padding:120px 30px 30px;
+        h2 {margin-bottom:50px;}
+        .block-title {border:0px;}
+        .circle {
+            width:500px; height:500px; left:50%; top:0px; margin:-300px 0px 0px -250px;
+            .bg {width:100%; height:50%; margin-top:250px;}
+        }
+    }
 }
 
 .footer {

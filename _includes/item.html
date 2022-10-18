@@ -1,10 +1,8 @@
-<a href="{{ item.url }}"><div class="item">
+<div class="item column {% if item.collection == 'findings' %}full{% else %}half{% endif %}"><a href="{{ item.url }}">
     {% assign circle_item = item %}{% include circle.html %}
     <h2 class="block-title"><span>{{ item.title }}</span><h2>
-    <h4 class="subtitle">
-        By {{ item.author }}
-        <span class="inline-divider">/</span>
-        {{ item.date | date: "%B %e, %Y" }}
-    </h4>
-    <p>{{ item.content | truncate: 225 }}</p>
-</div></a>
+    {% include subtitle.html %}
+    {% if item.collection == 'findings' %}
+        <p>{{ item.content | truncate: 225 }}</p>
+    {% endif %}
+</a></div>
