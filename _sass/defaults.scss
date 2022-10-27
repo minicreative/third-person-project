@@ -85,6 +85,10 @@ h3 {
 h4 {
     font-size:18px; font-weight:normal;
 }
+p a {
+    border-bottom:2px solid #ccc;
+    &:hover {border-bottom:2px solid #222;}
+}
 
 // Spacing ===================================================================
 @mixin row {

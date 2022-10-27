@@ -4,20 +4,26 @@
         {% assign item = site.findings | sort: "date" | first %}{% include item.html %}
     </div>
 
-    <div class="home-features columns container">
+    <div class="home-features">
         <h2>{{ page.home_features_header }}</h2>
-        <div class="columns">
+        <div class="columns container">
         {% for feature in page.home_features %}
             <div class="column half"><a href="{{ feature.link }}">
                 <div class="circle-item" style="background-image:url('{{ feature.image }}')">
-                    <div class="inside"><div>
+                    <div class="center-inside"><div>
                         <h2>{{ feature.title }}</h2>
-                        <p>{{ feature.description }}</p>
+                        {{ feature.description | markdownify }}
                     </div></div>
                 </div>
             </a></div>
         {% endfor %}
         </div>
+    </div>
+
+    <div class="home-about content container">
+        <h2>{{ page.home_about_header }}</h2>
+        {{ page.home_about_content | markdownify }}
+        <p><a href="{{ page.home_about_link_url }}">{{ page.home_about_link }} &#187;</a></p>
     </div>
 
 {% include footer.html %}
