@@ -28,7 +28,11 @@
 	</head>
 	<body>
 
-        {% assign circle_item = page %}
+		{% if page.collection == "archives" %}
+			{% assign circle_item = page.parent %}
+		{% else %}
+			{% assign circle_item = page %}
+		{% endif %}
 		{% include circle.html %}
 
 		<div class="header container">

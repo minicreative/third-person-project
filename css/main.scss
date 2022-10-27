@@ -11,7 +11,7 @@ $circleSizeItem: 500px;
 $circleRevealItem:400px;
 $navHeight: 80px;
 
-$section_pad: 60px;
+$section_pad: 80px;
 $section_pad_: 40px;
 
 @mixin section_row {
@@ -70,6 +70,9 @@ body {overflow-x:hidden;}
 .subtitle {color:#666;}
 .inline-divider {display:inline-block; margin:0px 6px;}
 .section {@include section_row;}
+.file-embed {
+    @include row; border:0px; width:100%; height:calc(100vh - 60px);
+}
 
 // Site Styles ============================================================
 
@@ -107,14 +110,14 @@ body {overflow-x:hidden;}
 }
 
 .list {
-    @include section_row;
+    margin-top:$section_pad - $padding;
 }
 
 .item {
     position:relative; border:2px solid #e9e9e9; @include row; overflow:hidden;
     h2, h4, p {position:relative; z-index:1;}
 
-    &.full {
+    &.finding {
         padding:50px $padding 50px ($circleRevealItem + $padding);
         .circle {
             height:$circleSizeItem; width:$circleSizeItem; top:50%; left:$circleRevealItem - $circleSizeItem; 
@@ -124,7 +127,7 @@ body {overflow-x:hidden;}
         h2 {margin-left:-160px;}
     }
     
-    &.half {
+    &.project {
         text-align:center; padding:120px 30px 30px;
         h2 {margin-bottom:50px;}
         .block-title {border:0px;}
@@ -132,6 +135,14 @@ body {overflow-x:hidden;}
             width:500px; height:500px; left:50%; top:0px; margin:-300px 0px 0px -250px;
             .bg {width:100%; height:50%; margin-top:250px;}
         }
+    }
+
+    &.archive {
+        padding:30px 30px 30px 330px;
+        .circle {
+            height:100%; width:300px; top:0px; left:0px; margin-top:0px; margin-left:0px; border-radius:0px;
+            .bg {width:100%; height:100%; margin:0px; background-position:top center;}
+        } 
     }
 }
 
@@ -154,9 +165,9 @@ body {overflow-x:hidden;}
 }
 .home-features {
     @include section_row; background:#eee; padding:50px 0px; text-align:center;
-    .columns {@include row; max-width:720px;}
+    .columns {@include row; max-width:840px;}
     .column {
-        .circle-item {width:112%; margin-left:-5%; padding-top:112%; @include basic_shadow;}
+        .circle-item {width:110%; margin-left:-5%; padding-top:110%; @include basic_shadow;}
     }
 }
 .home-about {

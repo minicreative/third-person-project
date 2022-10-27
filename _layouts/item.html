@@ -2,14 +2,16 @@
 
     <div class="content container">
 
-        <div class="article-header">
-            <h2 class="block-title"><span>{{ page.title }}</span></h2>
-            {% assign item = page %}{% include subtitle.html %}
-        </div>
+        <h2 class="block-title"><span>{{ page.title }}</span></h2>
+        {% assign item = page %}{% include subtitle.html %}
+        {{ page.content | markdownify }}
 
-        <div class="article-body row">
-            {{ page.content | markdownify }}
-        </div>
+    </div>
+
+    <div class="wide">
+        {% if page.file %}
+            <iframe src="{{ page.file }}" class="file-embed"></iframe>
+        {% endif %}
     </div>
 
 {% include footer.html %}

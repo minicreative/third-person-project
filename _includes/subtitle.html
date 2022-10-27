@@ -1,9 +1,7 @@
-<h4 class="subtitle">
-    {% if item.collection == "findings" %}
-    By {{ item.author }}<span class="inline-divider">/</span>{{ item.date | date: "%B %e, %Y" }}
-    {% endif %}
 
-    {% if item.collection == "projects" %}
-    {{ item.description }}
+    {% if item.collection == "findings" %}
+        <h4 class="subtitle">By {{ item.author }}<span class="inline-divider">/</span>{{ item.date | date: "%B %e, %Y" }}</h4>
     {% endif %}
-</h4>
+    {% if item.collection == "projects" %}
+        <h4>{{ item.description }}</h4>
+    {% endif %}

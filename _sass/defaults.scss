@@ -61,6 +61,10 @@ p:last-child {margin-bottom:0px;}
 	@include breakpoint(xs) {width:100%; padding:0px 20px;}
 }
 
+.wide {
+	width:100%; padding:0px $padding;
+}
+
 // Fonts =====================================================================
 
 body {
@@ -110,6 +114,10 @@ p a {
 @mixin vertical_pad {
 	padding-top:$padding; padding-bottom:$padding;
 	@include breakpoint(m) {padding-top:$padding_; padding-bottom:$padding_;}
+}
+@mixin padding {
+	padding:$padding;
+	@include breakpoint(m) {padding:$padding_;}
 }
 
 // Reusable Element Styles ===================================================
