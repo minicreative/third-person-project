@@ -25,7 +25,11 @@ home_features:
   image: "/uploads/Wilmington%20Cotton%20Compress%20-%20postcard%20front.png"
   link: "/archives"
 home_about_header: Learn more about Third Person Project
-home_about_content: Here’s a short introduction on the projects page. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam cursus, turpis ac ultricies placerat, lacus dolor tincidunt sapien, eu bibendum quam sapien eu est. Aenean mauris mi, malesuada sed consequat sed, euismod sit amet enim. Integer eget ultricies elit, in porttitor erat.
+home_about_content: Here’s a short introduction on the projects page. Lorem ipsum
+  dolor sit amet, consectetur adipiscing elit. Nam cursus, turpis ac ultricies placerat,
+  lacus dolor tincidunt sapien, eu bibendum quam sapien eu est. Aenean mauris mi,
+  malesuada sed consequat sed, euismod sit amet enim. Integer eget ultricies elit,
+  in porttitor erat.
 home_about_link: About Third Person Project
 home_about_link_url: "/about"
 layout: home
