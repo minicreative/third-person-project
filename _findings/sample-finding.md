@@ -1,7 +1,7 @@
 ---
 title: A Sample Finding with a Title that is Guaranteed to go to The Second Line
 date: 2022-08-18 13:42:00 -04:00
-author: John Sullivan
+author: Joel Finsel
 layout: item
 ---
 
