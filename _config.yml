@@ -31,14 +31,12 @@ defaults:
     values:
       layout: "item"
       primary_image: ""
-      date: ""
       file: ""
   - scope:
       type: "findings"
     values:
       layout: "item"
       primary_image: ""
-      date: ""
       author: ""
   - scope:
       type: "projects"
