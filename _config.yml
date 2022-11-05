@@ -34,7 +34,7 @@ defaults:
     layout: item
     primary_image: ''
     file: ''
-    transcript_content: ''
+    transcript_text: ''
 - scope:
     path: ''
     type: findings
