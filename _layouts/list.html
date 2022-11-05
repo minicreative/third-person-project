@@ -5,7 +5,11 @@
     </div>
 
     <div class="list columns {{ page.collection }} container">
-        {% assign collection = site[page.collection] %}
+        {% if page.collection == "archives" or page.collection == "findings" %}
+            {% assign collection = site[page.collection] | sort: "date" | reverse %}
+        {% else %}
+            {% assign collection = site[page.collection] | sort: "order" %}
+        {% endif %}
         {% for item in collection %}
             {% include item.html %}
         {% endfor %}

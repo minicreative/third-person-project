@@ -5,3 +5,6 @@
     {% if item.collection == "projects" %}
         <h4>{{ item.description }}</h4>
     {% endif %}
+    {% if item.collection == "archives" %}
+        <h4>{{ item.date | date: "%B %e, %Y" }}</h4>
+    {% endif %}

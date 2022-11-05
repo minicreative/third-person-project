@@ -3,7 +3,7 @@ title: Home
 permalink: "/"
 position: 0
 order: 1
-header_images:
+primary_images:
 - "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
 - "/uploads/Wilmington%20Cotton%20Compress%20-%20postcard%20front.png"
 - "/uploads/Travel%20by%20water,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"

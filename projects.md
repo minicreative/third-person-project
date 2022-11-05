@@ -4,7 +4,7 @@ permalink: "/projects/"
 position: 2
 layout: list
 collection: projects
-header_image: "/uploads/TPP_B1_F1_Third%20Street,%20Wilmington,%20NC%20-%20postcard%20-%20nothing%20on%20back,%20undated.jpg"
+primary_image: "/uploads/TPP_B1_F1_Third%20Street,%20Wilmington,%20NC%20-%20postcard%20-%20nothing%20on%20back,%20undated.jpg"
 order: 2
 ---
 

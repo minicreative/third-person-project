@@ -1,7 +1,7 @@
 {% include header.html %}
 
     <div class="home-findings container">
-        {% assign item = site.findings | sort: "date" | first %}{% include item.html %}
+        {% assign item = site.findings | sort: "date" | reverse | first %}{% include item.html %}
     </div>
 
     <div class="home-features">

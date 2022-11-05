@@ -18,7 +18,7 @@
 		<script src="https://unpkg.com/jquery@3/dist/jquery.min.js"></script>
 		<script src="/js/main.js"></script>
 
-		{% if page.header_images %}
+		{% if page.primary_images %}
 		<!-- RoyalSlider plugin-->
 		<link rel="stylesheet" href="/plugins/royalslider/royalslider.css">
 		<link rel="stylesheet" href="/plugins/royalslider/skins/minimal-white/rs-minimal-white.css">
@@ -47,7 +47,7 @@
 			</ul></div>
 		</div>
 
-		<div class="page-header container {% if page.header_images %} slideshow{% endif %}">
+		<div class="page-header container {% if page.primary_images %} slideshow{% endif %}">
 			{% if page.header_text %}
 				<h2>{{ page.header_text }}</h2>
             {% else %}

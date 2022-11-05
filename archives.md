@@ -4,7 +4,7 @@ permalink: "/archives/"
 position: 4
 layout: list
 collection: archives
-header_image: "/uploads/railway.jpg"
+primary_image: "/uploads/railway.jpg"
 order: 3
 ---
 

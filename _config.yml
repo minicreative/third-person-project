@@ -10,9 +10,6 @@ collections:
     title: Findings
     output: true
     permalink: "/findings/:name/"
-  posts:
-    title: Posts
-    output: true
   projects:
     title: Projects
     output: true
@@ -24,5 +21,5 @@ sass:
   style: compressed
   sass_dir: _sass
 logo_image: "/uploads/ThirdPersonProjectLogo.png"
-header_image: "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
+primary_image: "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
 footer_content: Thanks for visiting! You can contact us at [email@address.com](mailto:email@address.com)
