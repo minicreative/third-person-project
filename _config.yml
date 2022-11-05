@@ -10,6 +10,9 @@ collections:
     title: Findings
     output: true
     permalink: "/findings/:name/"
+  posts:
+    title: Posts
+    output: true
   projects:
     title: Projects
     output: true
