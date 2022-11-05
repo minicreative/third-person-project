@@ -21,29 +21,33 @@ collections:
     title: Uploads
     output: true
 defaults:
-  - scope:
-      type: "pages"
-    values:
-      layout: "page"
-      primary_image: ""
-  - scope:
-      type: "archives"
-    values:
-      layout: "item"
-      primary_image: ""
-      date: ""
-      file: ""
-  - scope:
-      type: "findings"
-    values:
-      layout: "item"
-      primary_image: ""
-      date: ""
-      author: ""
-  - scope:
-      type: "projects"
-    values:
-      layout: "item" 
+- scope:
+    path: ''
+    type: pages
+  values:
+    layout: page
+    primary_image: ''
+- scope:
+    path: ''
+    type: archives
+  values:
+    layout: item
+    primary_image: ''
+    date: ''
+    file: ''
+- scope:
+    path: ''
+    type: findings
+  values:
+    layout: item
+    primary_image: ''
+    date: ''
+    author: ''
+- scope:
+    path: ''
+    type: projects
+  values:
+    layout: item
 sass:
   style: compressed
   sass_dir: _sass
