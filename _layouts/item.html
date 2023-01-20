@@ -6,12 +6,14 @@
         {{ page.content | markdownify }}
     </div>
 
+    <!-- PDF Embed -->
     {% if page.file != nil and page.file != '' %}
-    <div class="wide section">
+    <div class="section container">
         <iframe src="{{ page.file }}" class="file-embed"></iframe>
     </div>
     {% endif %}
 
+    <!-- Transcript (Archives) -->
     {% if page.transcript_text != '' %}
     <div class="content container">
         {{ page.transcript_text | markdownify }}

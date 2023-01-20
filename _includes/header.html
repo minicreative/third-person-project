@@ -26,10 +26,10 @@
 		{% endif %}
 
 	</head>
-	<body>
+	<body class="{{ page.layout }}_{{ page.collection }}">
 
-		{% if page.collection == "archives" and page.layout == "item" %}
-			{% for p in site.pages %}{% if p.collection == "archives" %}{% assign circle_item = p %}{% endif %}{% endfor %}
+		{% if page.layout == "item" and page.collection == "archives" or page.collection == "findings" %}
+			{% for p in site.pages %}{% if p.collection == page.collection %}{% assign circle_item = p %}{% endif %}{% endfor %}
 		{% else %}
 			{% assign circle_item = page %}
 		{% endif %}

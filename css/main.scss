@@ -71,7 +71,7 @@ body {overflow-x:hidden;}
 .inline-divider {display:inline-block; margin:0px 6px;}
 .section {@include section_row;}
 .file-embed {
-    @include row; border:0px; width:100%; height:calc(100vh - 60px);
+    @include row; border:0px; width:100%; height:calc(100vh - 60px); min-height:400px;
 }
 
 // Site Styles ============================================================
@@ -196,4 +196,7 @@ body {overflow-x:hidden;}
 }
 .home-about {
     @include section_row; text-align:center;
+}
+.item_archives {
+    text-align:center;
 }

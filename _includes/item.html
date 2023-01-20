@@ -24,6 +24,6 @@
 
     <!-- Content Preview -->
     {% if item.collection == 'findings' %}
-        <p>{{ item.content | truncate: 225 }}</p>
+        <p>{{ item.content | strip_html | truncate: 225 }}</p>
     {% endif %}
 </a></div>

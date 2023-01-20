@@ -6,7 +6,7 @@ order: 1
 primary_images:
 - "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
 - "/uploads/Wilmington%20Cotton%20Compress%20-%20postcard%20front.png"
-- "/uploads/Travel%20by%20water,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"
+- "/uploads/RemainsOfBurntBuildings.jpg"
 - "/uploads/TPP_B1_F1_Third%20Street,%20Wilmington,%20NC%20-%20postcard%20-%20nothing%20on%20back,%20undated.jpg"
 - "/uploads/railway.jpg"
 header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founded
@@ -17,12 +17,12 @@ header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founde
 home_features_header: Explore our work
 home_features:
 - title: Projects
-  description: Explore our research and creative projects
-  image: "/uploads/Travel%20by%20water,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"
+  description: Explore our research projects and creative endeavors
+  image: "/uploads/RemainsOfBurntBuildings.jpg"
   link: "/projects"
 - title: Archives
-  description: Explore our digital artifacts archive
-  image: "/uploads/Wilmington%20Cotton%20Compress%20-%20postcard%20front.png"
+  description: Explore our digital archive of Wilmington's *Daily Record*
+  image: "/uploads/DailyRecordClipping.jpg"
   link: "/archives"
 home_about_header: Learn more about Third Person Project
 home_about_content: Our work began with attempting to undo an act of historical erasure.
