@@ -21,7 +21,7 @@ home_features:
   image: "/uploads/Travel%20by%20water,%20Leslie_s%20Popular%20Monthly%20of%20April%201877.png"
   link: "/projects"
 - title: Archives
-  description: Here's a description of the archives portion of the website.
+  description: A digital artifacts archive maintained by Third Person Project
   image: "/uploads/Wilmington%20Cotton%20Compress%20-%20postcard%20front.png"
   link: "/archives"
 home_about_header: Learn more about Third Person Project
