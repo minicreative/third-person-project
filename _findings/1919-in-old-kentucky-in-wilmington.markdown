@@ -7,6 +7,8 @@ primary_image: "/uploads/IMG_1927-844741.jpeg"
 ---
 
 Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... 
+
 ![IMG_1927.jpeg](/uploads/IMG_1927.jpeg)
+*Sample caption goes here*
 
 Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... Something very weird happened... 

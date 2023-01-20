@@ -2,12 +2,16 @@
     {% if item.collection == 'projects' %}project half
     {% elsif item.collection == 'findings' %}finding full
     {% elsif item.collection == 'archives' %}archive full
-    {% endif %}">
+    {% endif %}
+    {% if item.primary_image == nil or item.primary_image == '' %} no-image{% endif%}    
+">
 <a href="{{ item.url }}">
 
     <!-- Preview -->
-    {% assign circle_item = item %}{% include circle.html %}
-    
+    {% if item.primary_image != nil and item.primary_image != '' %}
+        {% assign circle_item = item %}{% include circle.html %}
+    {% endif %}
+
     <!-- Title -->
     {% if item.collection == "findings" or item.collection == "projects" %}
         <h2 class="block-title"><span>{{ item.title }}</span><h2>

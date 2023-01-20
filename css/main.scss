@@ -107,6 +107,12 @@ body {overflow-x:hidden;}
         border-bottom:2px solid #ccc;
         &:hover {border-bottom:2px solid #222;}
     }
+    img {
+        display:block; max-height:500px; margin:auto;
+    }
+    img + em {
+        display:block; text-align:center; max-width:300px; margin:20px auto 0px; font-size:16px; font-style:normal;
+    }
 }
 
 .list {
@@ -129,6 +135,11 @@ body {overflow-x:hidden;}
             .slider, .bg {margin-top:0px; margin-left:0px; width:100%; height:100%;}
         }
         h2 {margin-left:-160px;}
+
+        &.no-image {
+            padding:50px;
+            h2 {margin-left:0px;}
+        }
     }
     
     &.project {
@@ -139,6 +150,11 @@ body {overflow-x:hidden;}
             width:500px; height:500px; left:50%; top:0px; margin:-300px 0px 0px -250px;
             .bg {width:100%; height:50%; margin-top:250px;}
         }
+
+        &.no-image {
+            padding:30px;
+            h2 {margin-bottom:20px;}
+        }
     }
 
     &.archive {
@@ -146,7 +162,11 @@ body {overflow-x:hidden;}
         .circle {
             height:100%; width:300px; top:0px; left:0px; margin-top:0px; margin-left:0px; border-radius:0px;
             .bg {width:100%; height:100%; margin:0px; background-position:top center;}
-        } 
+        }
+
+        &.no-image {
+            padding:30px;
+        }
     }
 }
 

@@ -1,18 +1,18 @@
 {% include header.html %}
 
     <div class="content container">
-        <h2 class="block-title"><span>{{ page.title }}</span></h2>
+        <h2>{{ page.title }}</h2>
         {% assign item = page %}{% include subtitle.html %}
         {{ page.content | markdownify }}
     </div>
 
-    {% if page.file %}
-    <div class="wide">
+    {% if page.file != nil and page.file != '' %}
+    <div class="wide section">
         <iframe src="{{ page.file }}" class="file-embed"></iframe>
     </div>
     {% endif %}
 
-    {% if page.transcript_text %}
+    {% if page.transcript_text != '' %}
     <div class="content container">
         {{ page.transcript_text | markdownify }}
     </div>
