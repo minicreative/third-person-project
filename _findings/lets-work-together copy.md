@@ -1,6 +1,6 @@
 ---
 title: Sylvester Russell "Would Not Move"
-date: 2020-07-10 00:00:00 -12:00
+date: 2020-07-10 08:00:00 -04:00
 author: Joel Finsel
 layout: item
 primary_image: "/uploads/Russell1.jpg"
