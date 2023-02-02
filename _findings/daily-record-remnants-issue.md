@@ -1,6 +1,6 @@
 ---
 title: The Daily Record Remnants Vol. 4
-date: 2021-01-10 00:00:00 -12:00
+date: 2021-01-10 07:00:00 -05:00
 author: John Sullivan
 layout: item
 primary_image: "/uploads/archive_previews/2021-01-10.jpg"

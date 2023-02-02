@@ -1,7 +1,6 @@
 ---
-title: |-
-  "Let's Work Together"
-date: 2020-07-30 00:00:00 -12:00
+title: '"Let''s Work Together"'
+date: 2020-07-30 08:00:00 -04:00
 author: Joel Finsel
 layout: item
 primary_image: "/uploads/CannedHeat1.jpg"

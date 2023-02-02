@@ -1,6 +1,6 @@
 ---
 title: Desperate Resistance
-date: 2020-11-22 00:00:00 -12:00
+date: 2020-11-22 07:00:00 -05:00
 author: John Sullivan
 layout: item
 primary_image: "/uploads/NewOrleansNewspaperClipping.jpg"
