@@ -11,7 +11,7 @@ primary_images:
 - "/uploads/railway.jpg"
 header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founded
   in 2015 by&#8212;as The New Yorker described us&#8212;"a loose-knit band of writers,
-  teachers, scholars, and local history buffs." From those vague beginnings, TPP has
+  teachers, scholars, and local history buffs." From those vague beginnings, we have
   evolved into one of the most innovative, community-driven research initiatives in
   the South.
 home_features_header: Explore our work
