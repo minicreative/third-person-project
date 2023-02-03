@@ -5,11 +5,11 @@
     </div>
 
     <div class="home-features">
-        <h2>{{ page.home_features_header }}</h2>
+        <h2>{{ page.features_header }}</h2>
         <div class="columns container">
-        {% for feature in page.home_features %}
+        {% for feature in page.features %}
             <div class="column half"><a href="{{ feature.link }}">
-                <div class="circle-item" style="background-image:url('{{ feature.image }}')">
+                <div class="circle-item" style="background-image:url('{{ feature.primary_image }}')">
                     <div class="center-inside"><div>
                         <h2>{{ feature.title }}</h2>
                         {{ feature.description | markdownify }}
@@ -21,9 +21,9 @@
     </div>
 
     <div class="home-about content container">
-        <h2>{{ page.home_about_header }}</h2>
-        {{ page.home_about_content | markdownify }}
-        <p><a href="{{ page.home_about_link_url }}">{{ page.home_about_link }} &#187;</a></p>
+        <h2>{{ page.about_header }}</h2>
+        {{ page.about_content | markdownify }}
+        <p><a href="{{ page.about_link_url }}">{{ page.about_link }} &#187;</a></p>
     </div>
 
 {% include footer.html %}

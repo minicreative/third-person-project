@@ -14,26 +14,26 @@ header_text: Third Person Project, a 501(c)(3) non-profit initiative, was founde
   teachers, scholars, and local history buffs." From those vague beginnings, we have
   evolved into one of the most innovative, community-driven research initiatives in
   the South.
-home_features_header: Explore our work
-home_features:
+features_header: Explore our work
+features:
 - title: Projects
   description: Explore our research projects and creative endeavors
-  image: "/uploads/RemainsOfBurntBuildings.jpg"
+  primary_image: "/uploads/RemainsOfBurntBuildings.jpg"
   link: "/projects"
 - title: Archives
-  description: Explore our digital archive of Wilmington's *Daily Record*
-  image: "/uploads/DailyRecordClipping.jpg"
+  description: Explore our digital archive of Wilmington's *Daily Record* and more
+  primary_image: "/uploads/DailyRecordClipping.jpg"
   link: "/archives"
-home_about_header: Learn more about Third Person Project
-home_about_content: Our work began with attempting to undo an act of historical erasure.
+about_header: Learn more about Third Person Project
+about_content: Our work began with attempting to undo an act of historical erasure.
   By recruiting students from multiple schools to work as research assistants, we
   led a class to uncover and preserve lost or forgotten copies of the The Wilmington
   Daily Record, the African-American newspaper destroyed at the onset of the 1898
   Wilmington Massacre. Our students located multiple copies, transcribed, and digitized
   them. The voices that the mob sought to silence are readable today by anyone with
   an internet connection.
-home_about_link: About Third Person Project
-home_about_link_url: "/about"
+about_link: About Third Person Project
+about_link_url: "/about"
 layout: home
 ---
 
