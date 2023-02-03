@@ -53,21 +53,20 @@ sass:
 logo_image: "/uploads/ThirdPersonProjectLogo.png"
 primary_image: "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
 footer_sections:
-  - class: newsletter
-    header: Get updates from Third Person Project
-    text: |-
-      <form action="https://gmail.us20.list-manage.com/subscribe/post?u=ab18431e5215b9a2d5458810f&amp;id=ec688b9cad&amp;f_id=003056e6f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-        <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" required placeholder="Enter an email address">
-        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab18431e5215b9a2d5458810f_ec688b9cad" tabindex="-1" value=""></div>
-        <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
-        <div class="response" id="mce-error-response" style="display:none"></div>
-        <div class="response" id="mce-success-response" style="display:none"></div>
-      </form>
-      <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
-  - class: donate
-    header: Donate to Third Person Project
-    text: |-
-      <a href="https://www.paypal.com/donate?token=Zhxq--G8DxO2IMGrP-9G4QiY3JIlBF2_JRc6GfHNe7B-OZuscKh-k1483766tHLv1ROeMxtD6tEv2ovX"><img src="https://www.paypalobjects.com/digitalassets/c/website/marketing/apac/C2/logos-buttons/optimize/44_Grey_PayPal_Pill_Button.png" alt="PayPal" /></a>
-  - text: |-
-      We welcome inquires at [thirdpersonproject@gmail.com](mailto:thirdpersonproject@gmail.com)
-  
+- class: newsletter
+  header: Get updates from Third Person Project
+  text: |-
+    <form action="https://gmail.us20.list-manage.com/subscribe/post?u=ab18431e5215b9a2d5458810f&amp;id=ec688b9cad&amp;f_id=003056e6f0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" required placeholder="Enter an email address">
+      <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_ab18431e5215b9a2d5458810f_ec688b9cad" tabindex="-1" value=""></div>
+      <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      <div class="response" id="mce-error-response" style="display:none"></div>
+      <div class="response" id="mce-success-response" style="display:none"></div>
+    </form>
+    <script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script><script type='text/javascript'>(function($) {window.fnames = new Array(); window.ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='ADDRESS';ftypes[3]='address';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='BIRTHDAY';ftypes[5]='birthday';}(jQuery));var $mcj = jQuery.noConflict(true);</script>
+- class: donate
+  header: Donate to Third Person Project
+  text: <a href="https://www.paypal.com/donate?token=Zhxq--G8DxO2IMGrP-9G4QiY3JIlBF2_JRc6GfHNe7B-OZuscKh-k1483766tHLv1ROeMxtD6tEv2ovX"><img
+    src="https://www.paypalobjects.com/digitalassets/c/website/marketing/apac/C2/logos-buttons/optimize/44_Grey_PayPal_Pill_Button.png"
+    alt="PayPal" /></a>
+- text: We welcome inquires at [thirdpersonproject@gmail.com](mailto:thirdpersonproject@gmail.com)
