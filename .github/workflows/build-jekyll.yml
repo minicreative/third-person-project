@@ -1,0 +1,45 @@
+name: Build Jeykll & Publish
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  KUBE_DEPLOYMENT: "${{ vars.KUBE_DEPLOYMENT }}"
+  DOCKER_NAME: "${{ vars.DOCKER_NAME }}"
+  DOCKER_TAG: "${{ vars.DOCKER_NAME }}:${{ github.sha }}"
+
+jobs:
+  build:
+    environment: Production
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+      with:
+        ruby-version: '2.7'
+    - name: Install dependencies
+      run: bundle install
+    - name: Build Jekyll site
+      run: bundle exec jekyll build
+    - name: Build the Docker image
+      run: docker build . --tag "$DOCKER_TAG"
+    - name: Login to Docker
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ vars.DOCKER_USERNAME }}" --password-stdin
+    - name: Make this Docker image tag the latest
+      run: docker tag "$DOCKER_TAG" "${{ vars.DOCKER_NAME }}:latest"
+    - name: Push Docker image
+      run: docker image push --all-tags "$DOCKER_NAME"
+  publish:
+    environment: Production
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: ${{ secrets.KUBE_CONFIG }}
+    - name: Update Kubernetes deployment
+      run: kubectl set image "deployment/$KUBE_DEPLOYMENT" "main=$DOCKER_TAG"
