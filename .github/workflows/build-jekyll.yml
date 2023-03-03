@@ -2,9 +2,11 @@ name: Build Jeykll & Publish
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 env:
   KUBE_DEPLOYMENT: "${{ vars.KUBE_DEPLOYMENT }}"
