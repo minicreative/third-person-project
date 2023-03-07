@@ -31,7 +31,7 @@ about_content: Our work began with attempting to undo an act of historical erasu
   Daily Record, the African-American newspaper destroyed at the onset of the 1898
   Wilmington Massacre. Our students located multiple copies, transcribed, and digitized
   them. The voices that the mob sought to silence are readable today by anyone with
-  an internet connection.
+  an internet connection
 about_link: About Third Person Project
 about_link_url: "/about"
 layout: home
