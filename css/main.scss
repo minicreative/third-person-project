@@ -144,7 +144,7 @@ body {overflow-x:hidden;}
     
     &.project {
         text-align:center; padding:120px 30px 30px;
-        h2 {margin-bottom:50px;}
+        h2 {margin-top:30px;}
         .block-title {border:0px;}
         .circle {
             width:500px; height:500px; left:50%; top:0px; margin:-300px 0px 0px -250px;
@@ -218,4 +218,14 @@ body {overflow-x:hidden;}
 }
 .item_archives {
     text-align:center;
+}
+.press {
+    .column {
+        @include row; border:2px solid #ddd;
+        .inside {@include padding;}
+        a {
+            position:relative; display:block; padding:10px 30px; background:#ddd;
+            &:after {position:absolute; right:30px; content:"\2192";}
+        }
+    }
 }

@@ -2,7 +2,11 @@
 
     <div class="content container">
         <h2>{{ page.title }}</h2>
-        {% assign item = page %}{% include subtitle.html %}
+
+        {% if page.collection != "projects" %}
+            {% assign item = page %}{% include subtitle.html %}
+        {% endif %}
+
         {{ page.content | markdownify }}
     </div>
 
@@ -19,5 +23,20 @@
         {{ page.transcript_text | markdownify }}
     </div>
     {% endif%}
+
+    <!-- Press Listing -->
+    {%if page.press != nil %}
+    <div class="section container columns press">
+        {% for item in page.press %}
+            <div class="column half">
+                <div class="inside">
+                    <h3>{{ item.title }}</h3>
+                    {{ item.publication }} &#183; {{ item.date }}
+                </div>
+                <a href="{{ item.url }}">Read story</a>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
  
 {% include footer.html %}
