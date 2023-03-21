@@ -1,6 +1,6 @@
 ---
 title: Lost Watch, Rock Spring, 1806
-date: 2019-08-07 07:00:00 -05:00
+date: 2019-08-07 08:00:00 -04:00
 author: John Sullivan
 layout: item
 primary_image: "/uploads/LostWatch1.jpg"

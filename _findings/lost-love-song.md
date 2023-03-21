@@ -1,6 +1,6 @@
 ---
 title: Lost Love Song at the Lumina Festival of the Arts, July 22, 2019
-date: 2019-07-15 07:00:00 -05:00
+date: 2019-07-15 08:00:00 -04:00
 author: John Sullivan
 layout: item
 primary_image: "/uploads/LostLoveSong.jpg"

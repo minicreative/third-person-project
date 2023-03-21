@@ -1,6 +1,7 @@
 ---
 title: Joshua Halsey Grave Marker Project
-description: The organization of a monument for Joshua Halsey at the only known burial location of an 1898 victim.
+description: The organization of a monument for Joshua Halsey at the only known burial
+  location of an 1898 victim.
 layout: item
 primary_image: "/uploads/HalseyGraveMarker.jpg"
 primary_image_position: center
@@ -9,7 +10,8 @@ press:
   publication: The New Yorker
   date: October 11, 2021
   url: https://www.newyorker.com/magazine/2021/10/11/searching-for-the-descendants-of-racial-terrorism
-- title: 123 years later, a North Carolina Black man killed in a massacre receives a funeral
+- title: 123 years later, a North Carolina Black man killed in a massacre receives
+    a funeral
   publication: CNN
   date: November 8, 2021
   url: https://www.cnn.com/2021/11/07/us/wilmington-north-carolina-massacre-funeral-joshua-halsey/index.html
@@ -25,11 +27,13 @@ press:
   publication: New York Post
   date: November 8, 2021
   url: https://nypost.com/2021/11/08/funeral-held-for-black-man-murdered-123-years-ago/
-- title: A North Carolina city begins to reckon with the massacre in its white supremacist past
+- title: A North Carolina city begins to reckon with the massacre in its white supremacist
+    past
   publication: NPR
   date: November 10, 2021
   url: https://www.npr.org/2021/11/10/1053562371/1898-wilmington-coup-massacre
-- title: "Rev. William Barber: 123 Years After Wilmington Massacre by White Supremacists, Voting Rights Fight Continues"
+- title: 'Rev. William Barber: 123 Years After Wilmington Massacre by White Supremacists,
+    Voting Rights Fight Continues'
   publication: Democracy Now
   date: November 15, 2021
   url: https://www.democracynow.org/2021/11/15/joshua_halsey_wilmington_massacre_william_barber
@@ -41,11 +45,13 @@ press:
   publication: Spectrum News
   date: November 5, 2021
   url: https://spectrumlocalnews.com/nc/charlotte/news/2021/11/05/uncovering-1898-massacre-graves
-- title: "Bloodied Soil, Holy Ground: Descendants of 1898 Wilmington Coup Victims Gather to Mourn and Remember"
+- title: 'Bloodied Soil, Holy Ground: Descendants of 1898 Wilmington Coup Victims
+    Gather to Mourn and Remember'
   publication: WHQR
   date: November 8, 2021
   url: https://www.whqr.org/local/2021-11-08/ancestors-of-1898-coup-victims-gather-to-mourn-and-remember
-- title: Great grandchildren of 1898 victim react to discovery of Joshua Halsey’s gravesite
+- title: Great grandchildren of 1898 victim react to discovery of Joshua Halsey’s
+    gravesite
   publication: WECT
   date: October 13, 2021
   url: https://www.wect.com/2021/10/13/great-grandchildren-1898-victim-react-discovery-joshua-halseys-gravesite/
@@ -57,7 +63,8 @@ press:
   publication: WECT
   date: February 22, 2019
   url: https://www.wect.com/2019/02/22/ny-times-magazine-writer-teaches-youth-about-wilmingtons-racial-background/
-- title: "'Listen to the blood': Funeral Commemorates Victim of Wilmington Massacre 123 years later" 
+- title: "'Listen to the blood': Funeral Commemorates Victim of Wilmington Massacre
+    123 years later"
   publication: The Star News
   date: November 6, 2021
   url: https://www.starnewsonline.com/story/news/2021/11/06/funeral-commemorates-joshua-halsey-1898-massacre-black-murder-racism-white-supremacist/6302208001/
