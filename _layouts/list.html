@@ -1,8 +1,10 @@
 {% include header.html %}
 
+    {% if page.content != "" %}
     <div class="content container">
         {{ page.content | markdownify }}
     </div>
+    {% endif %}
 
     <div class="list columns {{ page.collection }} container">
         {% if page.collection == "archives" or page.collection == "findings" %}

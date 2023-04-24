@@ -76,15 +76,15 @@ body {
 }
 h1 {
 	font-size:44px;
-	@include breakpoint(s) {font-size:38px;}
+	@include breakpoint(s) {font-size:30px;}
 }
 h2 {
 	font-size:32px;
-	@include breakpoint(s) {font-size:28px;}
+	@include breakpoint(s) {font-size:24px;}
 }
 h3 {
 	font-size:22px;
-	@include breakpoint(s) {font-size:18px;}
+	@include breakpoint(s) {font-size:20px;}
 }
 h4 {
     font-size:18px; font-weight:normal;
@@ -209,7 +209,7 @@ p a {
 }
 #nav-toggle {
 	display:none;
-	position:absolute; right:0px; top:50%; margin-top:-16px; 
+	position:absolute; right:0px; top:50%; margin-top:-16px;
 	width:32px; height:32px; font-size:32px; line-height:1;
 	@include breakpoint(m) {display:block;}
 	@include breakpoint(xs) {right:20px;}

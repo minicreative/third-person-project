@@ -1,6 +1,7 @@
 
 // On Page Load
 $(document).ready(function() {
+	setupMobileNav()
     setupSlider()
     setColumnWidth()
 })
