@@ -13,7 +13,11 @@
     <!-- PDF Embed -->
     {% if page.file != nil and page.file != '' %}
     <div class="section container">
-        <iframe src="{{ page.file }}" class="file-embed"></iframe>
+        <div class="file-embed">
+            <object data="{{ page.file }}" type="application/pdf">
+                <a href="{{ page.file }}" target="_blank" class="object-unsupported">Download PDF</a>
+            </object>
+        </div>
     </div>
     {% endif %}
 

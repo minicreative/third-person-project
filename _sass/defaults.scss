@@ -24,6 +24,7 @@ html, body {margin:0px; padding:0px; width:100%; min-height:100vh;}
 h1, h2, h3, h4 {margin:0px; color:inherit; font-family:inherit;}
 div {box-sizing:border-box;}
 input, textarea {width:100%; box-sizing:border-box; font-size:16px;}
+input {-webkit-appearance:none; -moz-appearance:none; appearance:none;}
 .end {margin-right:0px;}
 img {border:0; max-width:100%;}
 a {color:inherit; text-decoration:none;}

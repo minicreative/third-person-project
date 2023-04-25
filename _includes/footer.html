@@ -3,7 +3,7 @@
 		{% for section in site.footer_sections %}
 			<div class="footer-section {{ section.class }}">
 				{% if section.header %}<h3>{{ section.header }}</h3>{% endif %}
-				{{ section.text | markdownify }}
+				{{ section.html }}
 			</div>
 		{% endfor %}
 	</div>

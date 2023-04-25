@@ -29,15 +29,17 @@
 	</head>
 	<body class="{{ page.layout }}{% if page.collection %}_{{ page.collection }}{% endif %}">
 
+		<div class="header-circle-container">
 		{% if page.layout == "item" and page.collection == "archives" or page.collection == "findings" %}
 			{% for p in site.pages %}{% if p.collection == page.collection %}{% assign circle_item = p %}{% endif %}{% endfor %}
 		{% else %}
 			{% assign circle_item = page %}
 		{% endif %}
 		{% include circle.html %}
+		</div>
 
 		<div class="header container">
-			<img src="{{ site.logo_image }}" class="logo" />
+			<a href="/"><img src="{{ site.logo_image }}" class="logo" /></a>
 			<div id="nav-underlay"></div>
 			<div id="nav-toggle" class="fa fas fa-bars"></div>
 			<div class="navigation"><ul>

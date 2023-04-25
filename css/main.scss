@@ -27,13 +27,15 @@ $section_pad_: 50px;
     box-shadow:0px 0px 5px rgba(0,0,0,0.3);
 }
 
-body {overflow-x:hidden;}
-
 // Reusuable Circle Styles =========================================================
 
+.header-circle-container {
+    position:relative; width:100%; height:1000px; margin-bottom:-1000px; overflow-x:hidden; z-index:-1;
+}
+
 .circle {
-    position:absolute; content:''; height:$circleSize; width:$circleSize; left:50%; margin-left:0 - ($circleSize/2); 
-    top:0px; margin-top:0 - $circleSize + $circleRevealSmall; border-radius:50%; 
+    position:absolute; content:''; height:$circleSize; width:$circleSize; 
+    left:50%; top:0px; margin-left:0 - ($circleSize/2); margin-top:0 - $circleSize + $circleRevealSmall; border-radius:50%; 
     background-size:cover; background-color:black; background-position:center center;
     z-index:0; overflow:hidden;
 
@@ -80,7 +82,9 @@ body {overflow-x:hidden;}
 .section {@include section_row;}
 .file-embed {
     border:0px; width:100%; height:calc(100vh - 60px); min-height:400px;
+    object {width:100%; height:100%;}
 }
+.object-unsupported {border:2px solid #ccc; @include padding;}
 
 // Site Styles ============================================================
 
@@ -99,7 +103,7 @@ body {overflow-x:hidden;}
         @include breakpoint(m) {
             text-align:left;
             li {
-                display:block; line-height:36px; font-size:20px; margin:0px; 
+                display:block; line-height:2; font-size:24px; margin:0px; 
                 text-shadow:none; color:black;
                 &:hover {text-shadow:none;}
             }
@@ -230,20 +234,22 @@ body {overflow-x:hidden;}
         background:#F2CD5C; margin-top:0px; z-index:0;
     }
     .footer-section {
-        position:relative; padding:40px 0px; text-align:center; z-index:1; border-bottom:1px solid white;
+        position:relative; padding:40px $padding_; text-align:center; z-index:1; border-bottom:1px solid white;
         a {border-bottom:1px solid #222;}
         p:first-of-type {margin-top:0px;}
         &.newsletter {
-            padding:60px 0px;
+            padding:60px $padding_;
+            @include breakpoint(s) {
+                input {max-width:200px;}
+            }
         }
         &.donate {
-            h3, p {display:inline-block; vertical-align:middle; margin:0px; margin-block-end:0px; line-height:40px; height:40px;}
-            img {height:40px;}
-            a {margin-left:100px; border:0px;}
+            h3, a {display:inline-block; vertical-align:middle;}
+            a {margin-left:40px; border:0px;}
             @include breakpoint(s) {
-                p {display:block; text-align:center;}
-                img {display:inline-block; height:36px; margin-top:8px;}
-                a {margin-left:0px;}
+                h3 {display:block;}
+                a {margin:10px 0px 0px;}
+                img {height:30px;}
             }
         }
     }
@@ -258,8 +264,10 @@ body {overflow-x:hidden;}
 
 // Page Styles =============================================================
 .home {
-    @include breakpoint(s) {
-
+    .page-header {
+        @include breakpoint(s) {
+            h2 {font-size:22px;}
+        }
     }
 }
 .home-findings{
@@ -275,7 +283,7 @@ body {overflow-x:hidden;}
         .circle-item {width:110%; margin-left:-5%; padding-top:110%; @include basic_shadow;}
     }
     @include breakpoint(s) {
-        .column .circle-item {margin-left:10%; width:80%; padding-top:80%;}
+        .column .circle-item {margin-left:5%; width:90%; padding-top:90%;}
     }
 }
 .home-about {
