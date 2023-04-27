@@ -25,9 +25,7 @@ features:
   primary_image: "/uploads/DailyRecordClipping.jpg"
   link: "/archives"
 about_header: Learn more about Third Person Project
-about_content: Our work began with attempting to undo an act of historical erasure.
-  By recruiting students from multiple schools to work as research assistants, we
-  led a class to uncover and preserve lost or forgotten copies of the The Wilmington
+about_content: We led a class to uncover and preserve lost or forgotten copies of the The Wilmington
   Daily Record, the African-American newspaper destroyed at the onset of the 1898
   Wilmington Massacre. Our students located multiple copies, transcribed, and digitized
   them. The voices that the mob sought to silence are readable today by anyone with
