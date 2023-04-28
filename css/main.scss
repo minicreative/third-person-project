@@ -296,7 +296,7 @@ $section_pad_: 50px;
     @include section_row; text-align:center;
 }
 .item_archives {
-    text-align:center;
+    .section {text-align:center;}
 }
 .press {
     .column {

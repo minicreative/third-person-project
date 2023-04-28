@@ -1,6 +1,6 @@
 {% include header.html %}
 
-    <div class="content container">
+    <div class="section container content">
         <h2>{{ page.title }}</h2>
 
         {% if page.collection != "projects" %}
@@ -25,7 +25,7 @@
 
     <!-- Transcript (Archives) -->
     {% if page.transcript_text != '' %}
-    <div class="content container">
+    <div class="section container content">
         {{ page.transcript_text | markdownify }}
     </div>
     {% endif%}
