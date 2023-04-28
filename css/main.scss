@@ -82,9 +82,15 @@ $section_pad_: 50px;
 .section {@include section_row;}
 .file-embed {
     border:0px; width:100%; height:calc(100vh - 60px); min-height:400px;
-    object {width:100%; height:100%;}
+    object {display:block; width:100%; height:100%;}
+    @include breakpoint(s) {display:none;}
 }
-.object-unsupported {border:2px solid #ccc; @include padding;}
+.file-download {
+    display:block; @include row; margin-left:auto; margin-right:auto; 
+    padding:20px 30px; max-width:240px; border:2px solid #ccc;
+    i {margin-right:20px;}
+}
+
 
 // Site Styles ============================================================
 

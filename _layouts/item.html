@@ -14,10 +14,12 @@
     {% if page.file != nil and page.file != '' %}
     <div class="section container">
         <div class="file-embed">
-            <object data="{{ page.file }}" type="application/pdf">
-                <a href="{{ page.file }}" target="_blank" class="object-unsupported">Download PDF</a>
-            </object>
+            <object data="{{ page.file }}" type="application/pdf"></object>
         </div>
+        <a href="{{ page.file }}" target="_blank" class="file-download">
+            <i class="fa fa-file-pdf-o"></i>
+            Download PDF
+        </a>
     </div>
     {% endif %}
 
