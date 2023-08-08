@@ -1,0 +1,19 @@
+{
+  "name": "third-person-project-server",
+  "version": "1.0.0",
+  "description": "API for Third Person Project website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minicreative/third-person-project.git"
+  },
+  "author": "Tomas Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minicreative/third-person-project/issues"
+  },
+  "homepage": "https://github.com/minicreative/third-person-project#readme"
+}

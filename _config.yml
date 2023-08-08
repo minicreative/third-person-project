@@ -1,6 +1,8 @@
 ---
 title: Third Person Project
 timezone: America/New_York
+exclude:
+- "server/"
 collections:
   archives:
     title: Archives
