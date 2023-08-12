@@ -1,0 +1,12 @@
+on: [push]
+jobs:
+  build-publish:
+    name: Build & Publish
+    uses: minicreative/build-publish-jekyll/.github/workflows/build-publish.yml@main
+    with:
+      docker_name: ${{ vars.docker_name }}
+      kube_deployment: ${{ vars.kube_deployment }}
+    secrets:
+      docker_username: ${{ secrets.docker_username }}
+      docker_password: ${{ secrets.docker_password }}
+      kube_config: ${{ secrets.kube_config }}
