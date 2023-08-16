@@ -31,7 +31,7 @@ async function start () {
 	await api.setup(server)
 
 	// Listen on port
-	server.listen(process.env.tpp_port, () => console.log(`money-tracker listening on port ${process.env.tpp_port}...`))
+	server.listen(process.env.tpp_port, () => console.log(`third-person-project-api listening on port ${process.env.tpp_port}...`))
 }
 
 start()
