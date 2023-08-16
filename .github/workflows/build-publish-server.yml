@@ -46,7 +46,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: ${{ vars.docker_name }}:${{ github.sha }}, ${{ vars.docker_name }}:latest
+        tags: ${{ inputs.docker_name }}:${{ github.sha }}, ${{ inputs.docker_name }}:latest
   publish:
     needs: build
     runs-on: ubuntu-latest
@@ -59,4 +59,4 @@ jobs:
         base64-kube-config: ${{ secrets.kube_config }}
     - uses: actions/checkout@v3
     - name: Update Kubernetes deployment
-      run: kubectl set image "deployment/${{ vars.kube_deployment }}" "main=${{ vars.docker_name }}:${{ github.sha }}"
+      run: kubectl set image "deployment/${{ inputs.kube_deployment }}" "main=${{ inputs.docker_name }}:${{ github.sha }}"
