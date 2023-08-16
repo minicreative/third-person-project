@@ -4,7 +4,8 @@
   "description": "API for Third Person Project website",
   "main": "index.ts",
   "scripts": {
-    "dev": "nodemon --watch api index.js"
+    "dev": "nodemon --watch api index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",

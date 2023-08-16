@@ -1,3 +1,5 @@
+name: Build & Publish Server
+
 on:
   workflow_call:
     inputs:
@@ -21,7 +23,40 @@ on:
         required: true
 
 jobs:
-  test:
-    runs-on: "ubuntu-latest"
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
     steps:
-    - run: "echo 'Build and publish server!'"
+    - uses: actions/checkout@v3
+    - name: Set up Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+    - name: Install dependencies
+      run: npm install
+    - name: Login to Docker
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.docker_username }}
+        password: ${{ secrets.docker_password }}
+    - name: Build and Push the Image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: ${{ vars.docker_name }}:${{ github.sha }}, ${{ vars.docker_name }}:latest
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+    - uses: tale/kubectl-action@v1
+      with:
+        base64-kube-config: ${{ secrets.kube_config }}
+    - uses: actions/checkout@v3
+    - name: Update Kubernetes deployment
+      run: kubectl set image "deployment/${{ vars.kube_deployment }}" "main=${{ vars.docker_name }}:${{ github.sha }}"
