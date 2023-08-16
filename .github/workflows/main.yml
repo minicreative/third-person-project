@@ -1,12 +1,25 @@
 on: [push]
 jobs:
-  build-publish:
-    name: Build & Publish
+  build-publish-jekyll:
+    name: Build & Publish Jekyll
+    if: "!contains(github.event.head_commit.message, '[server]')"
     uses: minicreative/build-publish-jekyll/.github/workflows/build-publish.yml@main
     with:
-      docker_name: ${{ vars.docker_name }}
-      kube_deployment: ${{ vars.kube_deployment }}
+      docker_name: ${{ vars.website_docker_name }}
+      kube_deployment: ${{ vars.website_kube_deployment }}
     secrets:
       docker_username: ${{ secrets.docker_username }}
       docker_password: ${{ secrets.docker_password }}
       kube_config: ${{ secrets.kube_config }}
+  build-server:
+    name: Build Server
+    if: "contains(github.event.head_commit.message, '[server]')"
+    uses: "./.github/workflows/build-publish-server.yml"
+    with:
+      docker_name: ${{ vars.server_docker_name }}
+      kube_deployment: ${{ vars.server_kube_deployment }}
+    secrets:
+      docker_username: ${{ secrets.docker_username }}
+      docker_password: ${{ secrets.docker_password }}
+      kube_config: ${{ secrets.kube_config }}
+

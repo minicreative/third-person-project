@@ -1,0 +1,27 @@
+on:
+  workflow_call:
+    inputs:
+      docker_name:
+        description: The full name of your DockerHub repository, e.g. "my-docker-name/my-repo-name"
+        required: true
+        type: string
+      kube_deployment:
+        description: The name of your Kubernetes Deployment resource to update with your latest image tag
+        required: true
+        type: string
+    secrets:
+      docker_username:
+        description: Your DockerHub username
+        required: true
+      docker_password:
+        description: A Dockerhub Access Token with permissions to upload your container to Dockerhub
+        required: true
+      kube_config:
+        description: A base64 encded string of your Kubernetes cluster's config file
+        required: true
+
+jobs:
+  test:
+    runs-on: "ubuntu-latest"
+    steps:
+    - run: "echo 'Build and publish server!'"
