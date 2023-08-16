@@ -24,6 +24,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -44,10 +45,11 @@ jobs:
     - name: Build and Push the Image
       uses: docker/build-push-action@v4
       with:
-        context: .
+        context: ./server
         push: true
         tags: ${{ inputs.docker_name }}:${{ github.sha }}, ${{ inputs.docker_name }}:latest
   publish:
+    name: Publish
     needs: build
     runs-on: ubuntu-latest
     defaults:
