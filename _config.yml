@@ -54,6 +54,11 @@ sass:
   sass_dir: _sass
 logo_image: "/uploads/ThirdPersonProjectLogo.png"
 primary_image: "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
+messages:
+  view_transcript: View annotated transcript
+  view_file: View scanned archive
+  no_transcript: This transcript is not yet available.
+  no_file: The scan of this archive is not yet available.
 footer_sections:
 - class: newsletter
   header: Get updates from Third Person Project

@@ -27,6 +27,10 @@ $section_pad_: 50px;
     box-shadow:0px 0px 5px rgba(0,0,0,0.3);
 }
 
+@mixin narrow {
+    max-width:840px;
+}
+
 // Reusuable Circle Styles =========================================================
 
 .header-circle-container {
@@ -64,7 +68,6 @@ $section_pad_: 50px;
 }
 
 // Reusable Styles
-
 .block-title {
     border-left:3px solid #222; margin-bottom:20px;
     span {
@@ -86,9 +89,18 @@ $section_pad_: 50px;
     @include breakpoint(s) {display:none;}
 }
 .file-download {
-    display:block; @include row; margin-left:auto; margin-right:auto; 
+    display:block; @include row; margin-left:auto; margin-right:auto; text-align:center;
     padding:20px 30px; max-width:240px; border:2px solid #ccc;
     i {margin-right:20px;}
+}
+details {
+    padding:30px 0px; border-bottom:1px solid #ccc; font-size:20px;
+    
+    &[open] summary {margin-bottom:30px;}
+    summary i {display:inline-block; margin:0px 15px;}
+    
+    &:first-of-type {padding-top:0px;}
+    &:last-of-type {border-bottom:0px; padding-bottom:0px;}
 }
 
 
@@ -139,8 +151,11 @@ $section_pad_: 50px;
     }
 }
 
+.content-area {
+    @include section_row; @include narrow;
+}
+
 .content {
-    max-width:840px; @include section_row;
     a {
         border-bottom:2px solid #ccc;
         &:hover {border-bottom:2px solid #222;}
@@ -296,7 +311,7 @@ $section_pad_: 50px;
     @include section_row; text-align:center;
 }
 .item_archives {
-    .section {text-align:center;}
+    .content-area {text-align:center;}
 }
 .press {
     .column {
@@ -307,4 +322,8 @@ $section_pad_: 50px;
             &:after {position:absolute; right:30px; content:"\2192";}
         }
     }
+}
+.transcript {
+    background:#efefef; @include padding;
+    .content {@include narrow; margin-left:auto; margin-right:auto;}
 }
