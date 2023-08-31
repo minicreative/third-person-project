@@ -45,7 +45,7 @@
 			<div class="navigation"><ul>
 				{% assign sorted_pages = site.pages | sort:"order" %}
 				{% for page in sorted_pages | sort:"order" %}
-					{% if page.url != "/css/main.css" %}
+					{% if page.url != "/css/main.css" and page.layout != "admin" %}
 						<li><a href="{{ page.url }}">{{ page.title }}</a></li>
 					{% endif %}
 				{% endfor %}
