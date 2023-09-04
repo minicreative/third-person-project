@@ -1,7 +1,53 @@
 {% include header.html %}
 
-    <div class="content-area container">
-        {{ page.content | markdownify}}
-    </div>
+    <!-- Unauthorized -->
+    <template x-data x-if="!$store.auth.loggedIn"><div>
+        <div class="section container content-area content">
+            {{ page.content | markdownify }}
+        </div>
+
+        <div class="section container">
+            <div class="columns">
+                <div class="column half login" x-data="login()">
+                    <h2>Login</h2>
+                    <form @submit.prevent="submit()">
+                        <span>Email</span>
+                        <input type="email" x-model="email" />
+                        <span>Password</span>
+                        <input type="password" x-model="password" />
+                        <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                <div class="column half signup" x-data="signup()">
+                    <h2>Create an account</h2>
+                    <form @submit.prevent="submit()">
+                        <span>Name</span>
+                        <input type="text" x-model="name" />
+                        <span>Email</span>
+                        <input type="email" x-model="email" />
+                        <span>Password</span>
+                        <input type="password" x-model="password" />
+                        <span>Confirm password</span>
+                        <input type="password" x-model="password_confirm" />
+                        <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+                        <button type="submit">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div></template>
+
+    <!-- Authorized -->
+    <template x-data x-if="$store.auth.loggedIn"><div>
+        <div class="section container admin-auth">
+    
+            <div class="section container content-area content">
+                <h1>Welcome, <span x-text="$store.auth.user.name"></span></h1>
+                <div x-on:click="$store.auth.logout()">Log Out</div>
+            </div>
+    
+        </div>
+    </div></template>
 
 {% include footer.html %}

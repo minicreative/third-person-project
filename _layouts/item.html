@@ -23,7 +23,7 @@
                 {{ site.messages.no_transcript }}
             {% endif %}
         </details>
-        <details>
+        <details open>
             <summary><i class="fa fa-file-pdf-o"></i> {{ site.messages.view_file }}</summary>
             {% if page.file != nil and page.file != '' %}
                 {% include file-embed.html %}

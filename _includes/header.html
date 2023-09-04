@@ -19,6 +19,10 @@
 		<script src="https://unpkg.com/jquery@3/dist/jquery.min.js"></script>
 		<script src="/js/main.js"></script>
 
+		<!-- App (Alpine) Includes -->
+		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<script src="/js/alpine/admin.js"></script>
+
 		{% if page.primary_images %}
 		<!-- RoyalSlider plugin-->
 		<link rel="stylesheet" href="/plugins/royalslider/royalslider.css">
@@ -42,14 +46,19 @@
 			<a href="/"><img src="{{ site.logo_image }}" class="logo" /></a>
 			<div id="nav-underlay"></div>
 			<div id="nav-toggle" class="fa fas fa-bars"></div>
-			<div class="navigation"><ul>
-				{% assign sorted_pages = site.pages | sort:"order" %}
-				{% for page in sorted_pages | sort:"order" %}
-					{% if page.url != "/css/main.css" and page.layout != "admin" %}
-						<li><a href="{{ page.url }}">{{ page.title }}</a></li>
-					{% endif %}
-				{% endfor %}
-			</ul></div>
+			<div class="navigation">
+				<ul>
+					{% assign sorted_pages = site.pages | sort:"order" %}
+					{% for page in sorted_pages | sort:"order" %}
+						{% if page.url != "/css/main.css" and page.layout != "admin" %}
+							<li><a href="{{ page.url }}">{{ page.title }}</a></li>
+						{% endif %}
+					{% endfor %}
+					<template x-data x-if="$store.auth.loggedIn">
+						<li class="admin-nav"><a href="/annotate">Annotations Dashboard</a></li>
+					</template>
+				</ul>
+			</div>
 		</div>
 
 		<div class="page-header container {% if page.primary_images %} slideshow{% endif %}">

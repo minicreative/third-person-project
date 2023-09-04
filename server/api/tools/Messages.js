@@ -46,7 +46,6 @@ module.exports = {
 		'passwordLetter': " is missing a letter",
 		'passwordNumber': " is missing a number",
 		'isInvalid': " is invalid",
-		'sortKey': " is not a valid sort key",
 	},
 
 	/**
@@ -58,8 +57,5 @@ module.exports = {
 		'emailAlreadyUsed': "An account with this email already exists",
 		'emailNotFound': "Email not recognized",
 		'passwordIncorrect': "Incorrect password",
-		'categoryNotFound': "Category not found in the database",
-		'parentCategoryNotFound': "Parent category not found in the database",
-		'invalidParentCategory': "A category's parent cannot be itself"
 	}
 };

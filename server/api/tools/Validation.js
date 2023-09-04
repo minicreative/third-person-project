@@ -82,14 +82,6 @@ function isInvalidPassword (input) {
 	return null;
 };
 
-function isInvalidSort (input) {
-	if (
-		input == "asc" ||
-		input == "desc"
-	) return null;
-	return Messages.fieldErrors.sortKey;
-};
-
 // Exports =====================================================================
 
 /**

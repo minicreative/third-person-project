@@ -1,4 +1,5 @@
 const BodyParser = require('body-parser')
+const Cors = require('cors')
 const Express = require('express')
 
 const Database = require('./tools/Database')
@@ -19,15 +20,10 @@ module.exports = {
 		router.use(BodyParser.json({
 			limit: '20mb'
 		}))
+		router.use(Cors())
 
-		// Middleware: Set headers
-		router.use((req, res, next) => {
-			res.setHeader('Access-Control-Allow-Origin', '*');
-			res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, POST, GET');
-			res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-type,Authorization');
-			res.setHeader('Access-Control-Allow-Credentials', true);
-			next();
-		});
+		// Import individual route collections
+		require('./routes/User')(router)
 
 		// Set root route, configure router
 		router.get('/', (req, res) => {

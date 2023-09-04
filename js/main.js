@@ -16,6 +16,15 @@ $(window).resize(function () {
 	setColumnWidth()
 })
 
+// // On Scroll
+// $(window).on('scroll', function() {
+
+// })
+
+// function setupStickyNav() {
+// 	$("#annotation-toolbar").first()
+// }
+
 function setupSlider() {
     if ($(".slider").length > 0) {
         $(".slider").royalSlider({

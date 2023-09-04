@@ -86,6 +86,7 @@ module.exports = {
 		return Mongoose.connect(`mongodb://${auth}@${process.env.tpp_mongo_host}/${process.env.tpp_mongo_name}`, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			useCreateIndex: true
 		}).then(() => {
 			process.stdout.write(' done!\n')
 		}).catch(err => {
