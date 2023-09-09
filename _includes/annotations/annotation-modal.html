@@ -1,0 +1,14 @@
+<template x-data x-if="$store.annotation.showModal">
+    <div id="annotation-modal-container">
+        <div id="annotation-modal-overlay" x-on:click="$store.annotation.close()"></div>
+        <div class="annotation-modal">
+            <h4 x-text="$store.annotation.heading"></h4>
+            <div class="title" x-text="$store.annotation.text"></div>
+            <textarea id="annotation-editor" x-model="$store.annotation.body"></textarea>
+            <button class="save-button" x-on:click="$store.annotation.save()">Save</button>
+            <button x-on:click="$store.annotation.close()">Cancel</button>
+        </div>
+    </div>
+</template>
+
+

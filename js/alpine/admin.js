@@ -1,48 +1,24 @@
-document.addEventListener('alpine:init', () => {
-    Alpine.store('auth', {
-        loggedIn: false,
-        token: null,
-        user: {},
 
-        init() {
-            const token = localStorage.getItem("token")
-            const user = localStorage.getItem("user")
-            const loggedIn = token !== null
-            
-            this.loggedIn = loggedIn
-            if (loggedIn) {
-                this.token = token
-                this.user = JSON.parse(user)
-            } else {
-                this.token = null
-                this.user = null
-            }
-        },
-        login(data) {
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("user", JSON.stringify(data.user))
-            this.init()
-        },
-        logout() {
-            localStorage.removeItem("token")
-            localStorage.removeItem("user")
-            this.init()
-        }
-    })
-})
-
+// Login
+// Handles the login form in the admin template
 function login() {
     return {
+
         email: "",
         password: "",
+        buttonText: "Log in",
         errorMessage: "",
+        response: {},
+
         init() {
             this.email = ""
             this.password = ""
-            this.response = null
+            this.buttonText = "Log in",
             this.errorMessage = ""
+            this.response = {}
         },
         submit() {
+            this.buttonText = "Loading..."
             fetch("http://localhost:3003/user.login", {
                 method: "POST",
                 headers: {
@@ -54,28 +30,42 @@ function login() {
                 })
             })
             .then(response => {
+                this.response = response
                 return response.json()
             })
             .then(data => {
-                Alpine.store('auth').login(data)
+                this.buttonText = "Log in"
+                if (!this.response.ok) this.errorMessage = data.message
+                else {
+                    Alpine.store('auth').login(data)
+                    this.init()
+                }
             })
         }
     }
 }
 
+// Signup
+// Handles the signup form in the admin template
 function signup() {
     return {
+
+        // Form models 
         name: "",
         email: "",
         password: "",
         password_confirm: "",
+        buttonText: "Sign up",
         errorMessage: "",
+        response: {},
+
         init() {
             this.name = ""
             this.email = ""
             this.password = ""
             this.password_confirm = ""
-            this.response = null
+            this.response = {}
+            this.buttonText = "Sign up"
             this.errorMessage = ""
         },
         submit() {
@@ -100,6 +90,7 @@ function signup() {
                 return response.json()
             })
             .then(data => {
+                this.buttonText = "Sign up"
                 if (!this.response.ok) this.errorMessage = data.message
                 else {
                     Alpine.store('auth').login(data)

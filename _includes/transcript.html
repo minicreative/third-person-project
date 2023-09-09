@@ -1,10 +1,11 @@
 <div class="transcript">
     <template x-data x-if="$store.auth.loggedIn">
         <div class="annotation-toolbar">
-            <li>
-                <i class="fa fa-plus"></i>Add new annotation
-            </li>
+            <li @click="addAnnotation"><i class="fa fa-plus"></i>Add new annotation</li>
         </div>
     </template>
-    <div class="content">{{ page.content | markdownify }}</div>
+    <div class="content">
+        {% include annotations/annotation-note.html %}
+        {{ page.content | markdownify }}
+    </div>
 </div>

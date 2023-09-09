@@ -1,9 +1,12 @@
 
+let stickyToolbar, stickyToolbarOffset
+
 // On Page Load
 $(document).ready(function() {
 	setupMobileNav()
     setupSlider()
     setColumnWidth()
+	setupStickyNav()
 })
 
 // On Stricter Page Load
@@ -16,14 +19,27 @@ $(window).resize(function () {
 	setColumnWidth()
 })
 
-// // On Scroll
-// $(window).on('scroll', function() {
+// On Scroll
+$(window).on('scroll', function() {
+	handleStickyNav()
+})
 
-// })
+function setupStickyNav() {
+	stickyToolbar = $(".annotation-toolbar").first()
+	stickyToolbarOffset = stickyToolbar.offset()
+}
 
-// function setupStickyNav() {
-// 	$("#annotation-toolbar").first()
-// }
+function handleStickyNav() {
+	if (stickyToolbar === undefined) return
+	let detail = stickyToolbar.parents().find("details").first()
+	if ($(window).scrollTop() >= stickyToolbarOffset.top) {
+		if (detail.attr("open") !== undefined) {
+			stickyToolbar.addClass("sticky")
+		}
+	} else {
+		stickyToolbar.removeClass("sticky")
+	}
+}
 
 function setupSlider() {
     if ($(".slider").length > 0) {

@@ -21,7 +21,14 @@
 
 		<!-- App (Alpine) Includes -->
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<script src="/js/alpine/main.js"></script>
+		{% if page.layout == "admin" %}
 		<script src="/js/alpine/admin.js"></script>
+		{% endif %}
+		{% if page.layout == "admin" or page.collection == "archives" %}
+		<script src="https://unpkg.com/tinymce@6/tinymce.min.js"></script>
+		<script src="/js/alpine/annotation.js"></script>
+		{% endif %}
 
 		{% if page.primary_images %}
 		<!-- RoyalSlider plugin-->
@@ -32,6 +39,10 @@
 
 	</head>
 	<body class="{{ page.layout }}{% if page.collection %}_{{ page.collection }}{% endif %}">
+
+		{% if page.layout == "admin" or page.collection == "archives" %}
+		{% include annotations/annotation-modal.html %}
+		{% endif %}
 
 		<div class="header-circle-container">
 		{% if page.layout == "item" and page.collection == "archives" or page.collection == "findings" %}

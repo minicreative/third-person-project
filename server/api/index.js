@@ -24,6 +24,7 @@ module.exports = {
 
 		// Import individual route collections
 		require('./routes/User')(router)
+		require('./routes/Annotation')(router)
 
 		// Set root route, configure router
 		router.get('/', (req, res) => {
