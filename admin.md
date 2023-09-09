@@ -1,6 +1,6 @@
 ---
 title: Annotate the Daily Record
-permalink: "/annotate"
+permalink: "/annotate/"
 layout: admin
 ---
 
