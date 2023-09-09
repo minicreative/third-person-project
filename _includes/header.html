@@ -19,15 +19,18 @@
 		<script src="https://unpkg.com/jquery@3/dist/jquery.min.js"></script>
 		<script src="/js/main.js"></script>
 
-		<!-- App (Alpine) Includes -->
+		<!-- Annotation App (Alpine) Includes -->
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-		<script src="/js/alpine/main.js"></script>
+		<script src="/js/annotations/main.js"></script>
 		{% if page.layout == "admin" %}
-		<script src="/js/alpine/admin.js"></script>
+		<script src="/js/annotations/admin.js"></script>
 		{% endif %}
-		{% if page.layout == "admin" or page.collection == "archives" %}
+		{% if page.layout == "item" and page.collection == "archives" %}
+		<script src="/js/annotations/transcript.js"></script>
+		{% endif %}
+		{% if page.layout == "admin" or (page.layout == "item" and page.collection == "archives") %}
 		<script src="https://unpkg.com/tinymce@6/tinymce.min.js"></script>
-		<script src="/js/alpine/annotation.js"></script>
+		<script src="/js/annotations/annotation.js"></script>
 		{% endif %}
 
 		{% if page.primary_images %}
@@ -40,7 +43,7 @@
 	</head>
 	<body class="{{ page.layout }}{% if page.collection %}_{{ page.collection }}{% endif %}">
 
-		{% if page.layout == "admin" or page.collection == "archives" %}
+		{% if page.layout == "admin" or (page.layout == "item" and page.collection == "archives") %}
 		{% include annotations/annotation-modal.html %}
 		{% endif %}
 

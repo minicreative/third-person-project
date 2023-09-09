@@ -8,37 +8,32 @@ function login() {
         password: "",
         buttonText: "Log in",
         errorMessage: "",
-        response: {},
 
         init() {
             this.email = ""
             this.password = ""
             this.buttonText = "Log in",
             this.errorMessage = ""
-            this.response = {}
         },
         submit() {
+            this.errorMessage = ""
             this.buttonText = "Loading..."
-            fetch("http://localhost:3003/user.login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+
+            fetchAPI({
+                path: "user.login",
+                body: {
                     email: this.email,
                     password: this.password
-                })
-            })
-            .then(response => {
-                this.response = response
-                return response.json()
-            })
-            .then(data => {
-                this.buttonText = "Log in"
-                if (!this.response.ok) this.errorMessage = data.message
-                else {
+                },
+                success: (data) => {
                     Alpine.store('auth').login(data)
                     this.init()
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message;
+                },
+                final: () => {
+                    this.buttonText = "Log in"
                 }
             })
         }
@@ -57,44 +52,39 @@ function signup() {
         password_confirm: "",
         buttonText: "Sign up",
         errorMessage: "",
-        response: {},
 
         init() {
             this.name = ""
             this.email = ""
             this.password = ""
             this.password_confirm = ""
-            this.response = {}
             this.buttonText = "Sign up"
             this.errorMessage = ""
         },
         submit() {
+
+            // Client-side validations
             if (this.password !== this.password_confirm) {
                 this.errorMessage = "The passwords do not match"
                 return
             }
 
-            fetch("http://localhost:3003/user.create", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
+            fetchAPI({
+                path: "user.create",
+                body: {
                     name: this.name,
                     email: this.email,
                     password: this.password
-                })
-            })
-            .then(response => {
-                this.response = response
-                return response.json()
-            })
-            .then(data => {
-                this.buttonText = "Sign up"
-                if (!this.response.ok) this.errorMessage = data.message
-                else {
+                },
+                success: (data) => {
                     Alpine.store('auth').login(data)
                     this.init()
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message;
+                },
+                final: () => {
+                    this.buttonText = "Log in"
                 }
             })
         }

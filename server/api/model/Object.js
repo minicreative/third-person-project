@@ -24,13 +24,6 @@ function ObjectProperties (schema) {
         'lastModified': {
             'type': Number,
             'index': true
-        },
-
-        // Erased: a boolean value to allow objects to be erased and still referenced
-        'erased': {
-			'type': Boolean,
-            'default': false,
-            'index': true
         }
 
     });

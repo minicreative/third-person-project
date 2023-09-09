@@ -3,7 +3,6 @@ on: [push]
 jobs:
   build-publish-jekyll:
     name: Build & Publish Jekyll
-    if: "!contains(github.event.head_commit.message, '[server]')"
     uses: minicreative/build-publish-jekyll/.github/workflows/build-publish.yml@main
     with:
       docker_name: ${{ vars.website_docker_name }}

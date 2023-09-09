@@ -336,6 +336,8 @@ details {
     .content {
         @include narrow; margin-left:auto; margin-right:auto; padding:$section_pad_ $padding;
         @include breakpoint(s) {padding:$padding $padding_;}
+
+        span {background:#F2CD5C; cursor:pointer;}
     }
 }
 
@@ -375,6 +377,7 @@ button {
     .title {margin-bottom:20px; font-size:24px; font-weight:bold;}
     .tox-tinymce {border-radius:0px;}
     .save-button {background:#F2CD5C;}
+    .error {margin-top:20px;}
 }
 .annotation-toolbar {
     background:#F2CD5C;

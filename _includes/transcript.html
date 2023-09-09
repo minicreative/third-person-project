@@ -6,6 +6,8 @@
     </template>
     <div class="content">
         {% include annotations/annotation-note.html %}
-        {{ page.content | markdownify }}
+        <div id="transcript">
+            {{ page.content | markdownify }}
+        </div>
     </div>
 </div>

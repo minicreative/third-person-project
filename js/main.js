@@ -1,3 +1,7 @@
+let API_BASE = "https://third-person-project-api.minicreative.net/"
+if (location.href.includes("localhost")) {
+	API_BASE = "http://localhost:3003/"
+}
 
 let stickyToolbar, stickyToolbarOffset
 
@@ -30,7 +34,7 @@ function setupStickyNav() {
 }
 
 function handleStickyNav() {
-	if (stickyToolbar === undefined) return
+	if (stickyToolbar === undefined || stickyToolbar.length < 1) return
 	let detail = stickyToolbar.parents().find("details").first()
 	if ($(window).scrollTop() >= stickyToolbarOffset.top) {
 		if (detail.attr("open") !== undefined) {

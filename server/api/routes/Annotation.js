@@ -11,6 +11,81 @@ const Annotation = require('./../model/Annotation')
 module.exports = router => {
 
 	/**
+	 * @api {POST} /annotation.get Get
+	 * @apiName Get
+	 * @apiGroup Annotation
+	 * @apiDescription Get an annotation by GUID
+	 * 
+	 * @apiParam {String} guid Annotation GUID
+	 *
+	 * @apiSuccess {Object} annotation Annotation object
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/annotation.get', (req, res, next) => {
+		req.handled = true;
+
+		// Validate query parameters
+		var validations = [
+			Validation.string('GUID', req.body.guid)
+		];
+		let err = Validation.catchErrors(validations)
+		if (err) return next(err)
+
+		Database.findOne({
+			'model': Annotation,
+			'query': {
+				'guid': req.body.guid
+			}
+		}, (err, annotation) => {
+			if (err) return next(err)
+			if (!annotation) return next(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+			Secretary.addToResponse(res, "annotation", annotation);
+			next()
+		})
+	})
+
+	/**
+	 * @api {POST} /annotation.list List
+	 * @apiName List
+	 * @apiGroup Annotation
+	 * @apiDescription Lists annotations
+	 * 
+	 * @apiParam {String} [context] Annotation context
+	 * @apiParam {String} [user] User GUID
+	 *
+	 * @apiSuccess {Array} annotations Annotation object array
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/annotation.list', (req, res, next) => {
+		req.handled = true;
+
+		// Validate query parameters
+		var validations = [];
+		if (req.body.context) validations.push(Validation.string('Context', req.body.context))
+		if (req.body.user) validations.push(Validation.string('User', req.body.user))
+		let err = Validation.catchErrors(validations)
+		if (err) return next(err)
+
+		// Setup query
+		const query = {}
+		if (req.body.context) query.context = req.body.context
+		if (req.body.user) query.user = req.body.user
+		const pageOptions = {
+			model: Annotation,
+			pageSize: 100,
+			query: query,
+		};
+
+		// Page query
+		Database.page(pageOptions, (err, annotations) => {
+			Secretary.addToResponse(res, "annotations", annotations);
+			next(err)
+		})
+	})
+
+	/**
 	 * @api {POST} /annotation.create Create
 	 * @apiName Create
 	 * @apiGroup Annotation
