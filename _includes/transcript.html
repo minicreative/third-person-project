@@ -1,9 +1,5 @@
 <div class="transcript">
-    <template x-data x-if="$store.auth.loggedIn">
-        <div class="annotation-toolbar">
-            <li @click="addAnnotation"><i class="fa fa-plus"></i>Add new annotation</li>
-        </div>
-    </template>
+    {% include annotations/annotation-toolbar.html %}
     <div class="content">
         {% include annotations/annotation-note.html %}
         <div id="transcript">

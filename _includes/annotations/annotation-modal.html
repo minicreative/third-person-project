@@ -3,11 +3,26 @@
         <div id="annotation-modal-overlay" x-on:click="$store.annotation.close()"></div>
         <div class="annotation-modal">
 
+             <!-- Buttons -->
+             <div class="buttons">
+                <!-- Save button (for editor) -->
+                <button x-show="$store.annotation.editor" class="save-button" x-on:click="$store.annotation.save()" x-text="$store.annotation.saveButtonText"></button>
+                <!-- Cancel button (for editor) -->
+                <button x-show="$store.annotation.editor" x-on:click="$store.annotation.cancel()">Cancel</button>
+                <!-- Edit button (for viewer, if applicable) -->
+                <button x-show="!$store.annotation.editor" x-on:click="$store.annotation.edit()">Edit</button>
+                <!-- Close button (for viewer) -->
+                <button x-show="!$store.annotation.editor" x-on:click="$store.annotation.close()">Close</button>
+            </div>
+
             <!-- Heading -->
             <h4 x-text="$store.annotation.heading"></h4>
 
             <!-- Annotated text-->
             <div class="title" x-text="$store.annotation.text"></div>
+
+            <!-- Author -->
+            <div class="author">Annotated by <span x-text="$store.annotation.author"></span></div>
 
             <!-- Body (for viewer) -->
             <div x-cloak x-show="!$store.annotation.editor" x-html="$store.annotation.body" class="content"></div>
@@ -15,16 +30,16 @@
             <!-- TinyMCE textarea (for editor)-->
             <textarea x-show="$store.annotation.editor" id="annotation-editor" x-model="$store.annotation.body"></textarea>
 
-            <!-- Error message-->
-            <template x-if="$store.annotation.errorMessage">
-                <div class="error" x-text="$store.annotation.errorMessage"></div>
-            </template>
+            <!-- Attribution field (for editor)-->
+            <form x-cloak x-show="$store.annotation.editor">
+                <span>Author</span>
+                <input x-model="$store.annotation.attribution"></input>
+                <span class="instructions">If left blank, author will appear as posting user's name</span>
+            </form>
 
-            <!-- Save button (for editor) -->
-            <button x-show="$store.annotation.editor" class="save-button" x-on:click="$store.annotation.save()" x-text="$store.annotation.buttonText"></button>
-            
-            <!-- Close button (for editor) -->
-            <button x-show="$store.annotation.editor" x-on:click="$store.annotation.close()">Cancel</button>
+            <!-- Error message-->
+            <div x-show="$store.annotation.errorMessage" class="error" x-text="$store.annotation.errorMessage"></div>
+
         </div>
     </div>
 </template>

@@ -194,7 +194,7 @@ module.exports = router => {
 					}
 				}, (err, annotation) => {
 					if (!annotation) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
-					else callback(err, token, annotation)
+					else callback(err, annotation)
 				})
 			},
 

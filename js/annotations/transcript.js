@@ -41,9 +41,9 @@ function addAnnotationListeners() {
     const annotations = transcript.find("span")
     annotations.each(function() {
         $(this).on('click', function () {
-            Alpine.store('annotation').openViewer({
-                text: $(this).text(),
-                guid: $(this).attr("guid")
+            Alpine.store('annotation').openModal({
+                guid: $(this).attr("guid"),
+                text: $(this).text()
             })
         })
     })

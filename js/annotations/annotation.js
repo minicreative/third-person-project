@@ -44,7 +44,7 @@ function addAnnotation(e) {
     transcriptArea.on("mouseup", function(e) {
         let selection = window.getSelection().toString()
         if (selection.length > 0) {
-            Alpine.store('annotation').openEditor({
+            Alpine.store('annotation').openModal({
                 text: selection,
                 context: $("#page-slug").text()
             })
@@ -52,7 +52,7 @@ function addAnnotation(e) {
         endAnnotation()
     })
 }
-
+ 
 // Alpine Store: Annotation
 // State and functionality for creating & editing an annotation
 document.addEventListener('alpine:init', () => {
@@ -61,35 +61,66 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('annotation', {
         
         editor: false,
+        guid: "",
         text: "",
         body: "",
         context: "",
         heading: "",
-        buttonText: "Save",
+        attribution: "",
+        saveButtonText: "Save",
         errorMessage: "",
         showModal: false,
 
         init() {
-            this.errorMessge = ""
+            this.guid = ""
+            this.errorMessage = ""
             this.body = ""
+            this.author = ""
         },
-        openEditor({ text, body, context, edit }) {
+        openModal({ guid, text, context }) {
             this.init()
-            this.editor = true
 
             // Populate modal
             this.text = text
             this.context = context
-            if (edit) {
-                this.heading = "Edit annotation"
+
+            // Handle existing annotation
+            if (guid) {
+                this.guid = guid
+                this.heading = "Annotation"
+
+                // Fetch annotation
+                if (this.body)
+                this.body = "Loading annotation..."
+                fetchAPI({
+                    path: "annotation.get",
+                    body: {
+                        guid: guid
+                    },
+                    success: ({ annotation }) => {
+                        this.populate(annotation)
+                    },
+                    failure: (data) => {
+                        this.body = ""
+                        this.errorMessage = data.message
+                    }
+                })
             }
-            else this.heading = "Create a new annotation"
-            this.errorMessage = ""
+
+            // Handle new annotation
+            else {
+                this.heading = "Create a new annotation"
+                this.initializeEditor()
+            }
 
             // Open modal
             this.showModal = true
 
-            // Initialize TinyMCE
+        },
+
+        // Helper functions
+        initializeEditor (body) {
+            this.editor = true
             setTimeout(() => {
                 tinymce.init({
                     selector: '#annotation-editor',
@@ -98,63 +129,67 @@ document.addEventListener('alpine:init', () => {
                     plugins: 'link',
                     toolbar: 'h2 h3 | bold italic underline | link | undo redo',
                     init_instance_callback: () => {
-                        if (edit) {
+                        if (body) {
                             tinymce.get("annotation-editor").setContent(body)
                         }
                     }
                 })
             }, 20)
         },
-        openViewer({ text, guid }) {
-            this.init()
-            this.editor = false;
-
-            // Populate modal
+        removeEditor() {
+            this.editor = false
             this.heading = "Annotation"
-            this.text = text
+            tinymce.remove("#annotation-editor")
+        },
+        populate(annotation) {
+            this.body = annotation.body
+            this.author = annotation.attribution ? annotation.attribution : annotation.userName
+        },
 
-            // Open modal
-            this.showModal = true;
-
-            // Fetch annotation
-            this.body = "Loading annotation..."
-            fetchAPI({
-                path: "annotation.get",
-                body: {
-                    guid: guid
-                },
-                success: ({ annotation }) => {
-                    this.body = annotation.body
-                },
-                failure: (data) => {
-                    this.body = ""
-                    this.errorMessage = data.message
-                }
-            })
+        // Actions
+        edit() {
+            this.heading = "Edit annotation"
+            this.initializeEditor(this.body)
         },
         close() {
             this.showModal = false
             tinymce.remove("#annotation-editor")
         },
+        cancel() {
+            if (this.guid) {
+                this.errorMessage = ""
+                this.removeEditor()
+            }
+            else this.close()
+        },
         save() {
-            this.buttonText = "Loading..."
+            this.saveButtonText = "Loading..."
             this.errorMessage = ""
+
+            let path = "annotation.create"
+            if (this.guid) path = "annotation.edit"
+
+            let body = {
+                text: this.text,
+                body: tinymce.get("annotation-editor").getContent()
+            }
+            if (this.attribution) body.attribution = this.attribution // TODO: Only set attribution in body if user is able to see field
+            if (this.context) body.context = this.context
+            if (this.guid) body.guid = this.guid
+
             fetchAPI({
-                path: "annotation.create",
-                body: {
-                    context: this.context,
-                    text: this.text,
-                    body: tinymce.get("annotation-editor").getContent()
-                },
+                path,
+                body,
                 success: ({ annotation }) => {
-                    addAnnotationsToTranscript([annotation])
-                    this.close()
+                    if (!this.guid) addAnnotationsToTranscript([annotation])
+                    this.populate(annotation)
+                    this.removeEditor()
                 },
                 failure: (data) => {
                     this.errorMessage = data.message
                 },
                 final: () => {
-                    this.buttonText = "Save"
+                    this.saveButtonText = "Save"
                 }
             })
         }
