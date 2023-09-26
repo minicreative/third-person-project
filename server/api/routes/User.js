@@ -12,6 +12,39 @@ const User = require('./../model/User')
 module.exports = router => {
 
 	/**
+	 * @api {POST} /user.list List
+	 * @apiName List
+	 * @apiGroup User
+	 * @apiDescription Lists users
+	 *
+	 * @apiSuccess {Array} users User object array
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.list', (req, res, next) => {
+		req.handled = true;
+
+		// Validate query parameters
+		var validations = [];
+		let err = Validation.catchErrors(validations)
+		if (err) return next(err)
+
+		// Setup query
+		const query = {}
+		const pageOptions = {
+			model: User,
+			pageSize: 100,
+			query: query,
+		};
+
+		// Page query
+		Database.page(pageOptions, (err, users) => {
+			Secretary.addToResponse(res, "users", users);
+			next(err)
+		})
+	})
+
+	/**
 	 * @api {POST} /user.get Get
 	 * @apiName Get
 	 * @apiGroup User
@@ -105,6 +138,7 @@ module.exports = router => {
 					'name': req.body.name,
 					'email': req.body.email,
 					'password': password,
+					'role': "annotator"
 				}, (err, user) => {
 					if (user) Secretary.addToResponse(res, "user", user)
 					callback(err, user);

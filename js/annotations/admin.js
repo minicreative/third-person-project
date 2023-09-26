@@ -90,3 +90,27 @@ function signup() {
         }
     }
 }
+
+function userList() {
+    return {
+        loading: false,
+        errorMessage: "",
+        users: [],
+        init() {
+            this.loading = true
+            fetchAPI({
+                path: "user.list",
+                body: {},
+                success: (data) => {
+                    this.users = data.users
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message
+                },
+                final: () => {
+                    this.loading = false
+                }
+            })
+        }
+    }
+}

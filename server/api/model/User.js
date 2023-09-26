@@ -25,6 +25,11 @@ function UserProperties (schema) {
 			'index': true,
 			'required': true
 		},
+		'role': {
+			'type': 'String',
+			'index': true,
+			'required': true,
+		}
     });
 };
 
@@ -38,9 +43,10 @@ function UserStaticMethods (schema) {
 	 * @param {String} params.name Name of user
 	 * @param {String} params.email User email
 	 * @param {String} params.password Hashed password for user
+	 * @param {String} params.role Role for user
 	 * @param {function(err, update)} callback Callback function
 	 */
-	schema.statics.create = function ({name, email, password}, callback) {
+	schema.statics.create = function ({name, email, password, role}, callback) {
 
 		// Save reference to model
 		var User = this;
@@ -58,27 +64,22 @@ function UserStaticMethods (schema) {
 			// Write new user to the database
 			function (GUID, callback) {
 
-				// Setup query with GUID
-				var query = {
-					'guid': GUID
-				};
-
-				// Setup database update
-				var update = {
-					'$set': {
-						'guid': GUID,
-						'name': name,
-						'email': email,
-						'password': password,
-						'dateCreated': Dates.now(),
-					}
-				};
-
 				// Make database update
 				Database.update({
 					'model': User,
-					'query': query,
-					'update': update,
+					'query': {
+						'guid': GUID
+					},
+					'update': {
+						'$set': {
+							'guid': GUID,
+							'name': name,
+							'email': email,
+							'password': password,
+							'role': role,
+							'dateCreated': Dates.now(),
+						}
+					},
 				}, function (err, user) {
 					callback(err, user);
 				});

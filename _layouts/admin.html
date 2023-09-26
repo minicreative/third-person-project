@@ -28,6 +28,7 @@
                         <input type="email" x-model="email" />
                         <span>Password</span>
                         <input type="password" x-model="password" />
+                        <span class="instructions">Your password must be at least 8 characters long and include both letters and numbers.</span>
                         <span>Confirm password</span>
                         <input type="password" x-model="password_confirm" />
                         <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
@@ -40,14 +41,39 @@
 
     <!-- Authorized -->
     <template x-data x-if="$store.auth.loggedIn"><div>
+
         <div class="section container admin-auth">
-    
-            <div class="section container content-area content">
-                <h1>Welcome, <span x-text="$store.auth.user.name"></span></h1>
-                <div x-on:click="$store.auth.logout()">Log Out</div>
+            <button class="logout" x-on:click="$store.auth.logout()">Log Out</button>
+            <h2>Welcome, <span x-text="$store.auth.user.name"></span></h2>
+
+            <div class="admin-table">
+                <h3>Annotations</h3>
             </div>
-    
+
+            <template x-if="$store.auth.user.role == 'administrator'">
+                <div class="admin-table">
+                    <h3>Users</h3>
+                    <table x-data="userList()" cellspacing="0" cellpadding="0">
+                        <thead>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th># of annotations</th>
+                        </thead>
+                        <tbody>
+                            <template x-for="user in users" :key="user.guid"><tr>
+                                <td x-text="user.name"></td>
+                                <td x-text="user.email"></td>
+                                <td x-text="user.role"></td>
+                                <td></td>
+                            </tr></template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+
         </div>
+
     </div></template>
 
 {% include footer.html %}
