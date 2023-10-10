@@ -1,4 +1,4 @@
-/** @namespace api/model/Context */
+/** @namespace api/model/Annotation */
 
 // Initialize dependencies
 const Mongoose = require('mongoose');
