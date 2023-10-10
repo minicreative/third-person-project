@@ -1,12 +1,12 @@
 <template x-data x-if="$store.annotation.showModal">
-    <div id="annotation-modal-container">
-        <div id="annotation-modal-overlay" x-on:click="$store.annotation.close()"></div>
-        <div class="annotation-modal">
+    <div class="modal-container">
+        <div class="modal-overlay" x-on:click="$store.annotation.close()"></div>
+        <div class="modal">
 
              <!-- Buttons -->
              <div class="buttons">
                 <!-- Save button (for editor) -->
-                <button x-show="$store.annotation.editor" class="save-button" x-on:click="$store.annotation.save()" x-text="$store.annotation.saveButtonText"></button>
+                <button x-show="$store.annotation.editor" class="highlight-button" x-on:click="$store.annotation.save()" x-text="$store.annotation.saveButtonText"></button>
                 <!-- Cancel button (for editor) -->
                 <button x-show="$store.annotation.editor" x-on:click="$store.annotation.cancel()">Cancel</button>
                 <!-- Edit button (for viewer, if applicable) -->
@@ -22,7 +22,9 @@
             <div class="title" x-text="$store.annotation.text"></div>
 
             <!-- Author -->
-            <div class="author">Annotated by <span x-text="$store.annotation.author"></span></div>
+            <div x-cloak x-show="!$store.annotation.editor" class="author">
+                Annotated by <span x-text="$store.annotation.author"></span>
+            </div>
 
             <!-- Body (for viewer) -->
             <div x-cloak x-show="!$store.annotation.editor" x-html="$store.annotation.body" class="content"></div>

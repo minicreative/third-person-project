@@ -7,9 +7,7 @@ const privateKeys = [
 	"_id",
 	"__v",
 	"password",
-	"plaidTokens",
-	"binanceKey",
-	"binanceSecret"
+	"events"
 ];
 
 function createError(code, message) {

@@ -1,0 +1,48 @@
+<template x-if="modal.show">
+    <div class="modal-container">
+        <div class="modal-overlay" x-on:click="close()"></div>
+        <div class="modal">
+            <div class="buttons">
+                <button class="highlight-button" x-on:click="save()" x-text="modal.buttonText"></button>
+                <button x-on:click="close()">Close</button>
+            </div>
+            <h4>Edit user</h4>
+            <div x-cloak x-show="modal.loading">Loading...</div>
+            <div x-cloak x-show="!modal.loading">
+                <div class="title" x-text="modal.user.name"></div>
+                <div class="values">
+                    <div class="value">
+                        <h4>User since</h4>
+                        <span x-text="modal.user.formattedDateCreated"></span>
+                    </div>
+                    <div class="value">
+                        <h4>Email</h4>
+                        <span x-text="modal.user.email"></span>
+                    </div>
+                    <div class="value">
+                        <h4># of annotations</h4>
+                        <span x-text="modal.user.annotationCount"></span>
+                    </div>
+                    <div class="value">
+                        <h4>Last Edit</h4>
+                        <span x-text="modal.user.adminEvent"></span>
+                    </div>
+                </div>
+                <form>
+                    <span>Role</span>
+                    <select x-model="modal.user.role">
+                        <option value="annotator">Annotator</option>
+                        <option value="editor">Editor</option>
+                        <option value="administrator">Administrator</option>
+                    </select>
+                    <span class="instructions">
+                        Annotators can propose new annotations and edits to their existing annotations.<br />
+                        Editors can edit all annotations and mark them as published or unpublished.<br />
+                        Administrators can promote annotators to editors.
+                    </span>
+                </form>
+                <div x-show="modal.errorMessage" class="error" x-text="modal.errorMessage"></div>
+            </div>
+        </div>
+    </div>
+</template>

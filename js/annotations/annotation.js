@@ -153,7 +153,7 @@ document.addEventListener('alpine:init', () => {
         },
         close() {
             this.showModal = false
-            tinymce.remove("#annotation-editor")
+            this.removeEditor()
         },
         cancel() {
             if (this.guid) {

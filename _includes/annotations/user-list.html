@@ -1,0 +1,29 @@
+<template x-if="$store.auth.user.role == 'administrator'">
+    <div class="admin-table" x-data="userList()">
+        <h3>Users</h3>
+        {% include annotations/user-modal.html %}
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th># of annotations</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <template x-for="user in users" :key="user.guid"><tr>
+                    <td x-text="user.name"></td>
+                    <td x-text="user.email"></td>
+                    <td x-text="user.role" class="capitalize"></td>
+                    <td x-text="user.annotationCount"></td>
+                    <td class="buttons">
+                        <div class="fa fa-pencil-square-o" x-on:click="edit(user.guid)"></div>
+                    </td>
+                </tr></template>
+            </tbody>
+        </table>
+        <template x-if="errorMessage != ''">
+            <span x-text="errorMessage"></span>
+        </template>
+    </div>
+</template>

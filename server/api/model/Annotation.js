@@ -5,7 +5,6 @@ const Mongoose = require('mongoose');
 const Async = require('async');
 const Database = require('./../tools/Database');
 const Dates = require('./../tools/Dates');
-const User = require('./User')
 
 // Annotation Properties: configures properties for database object
 function AnnotationProperties (schema) {
@@ -186,7 +185,7 @@ function AnnotationInstanceMethods (schema) {
 			// Attach user metadata
 			function (callback) {
 				Database.findOne({
-					'model': User,
+					'model': Mongoose.model('User'),
 					'query': {
 						'guid': thisObject.user,
 					}

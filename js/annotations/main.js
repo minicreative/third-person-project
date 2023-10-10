@@ -28,14 +28,15 @@ document.addEventListener('alpine:init', () => {
             localStorage.setItem("user", JSON.stringify(data.user))
             this.init()
         },
-        logout() {
+        logout(redirect) {
             localStorage.removeItem("token")
             localStorage.removeItem("user")
             this.init()
             
-            // Refresh columns after logout
-            setTimeout(setColumnWidth, 20)
-        }
+            // Redirect OR refresh columns after logout
+            if (redirect) setTimeout(() => {window.location.href = "/annotate?expired=true"}, 20)
+            else setTimeout(setColumnWidth, 20)
+        },
     })
 
     // Error store
@@ -68,13 +69,27 @@ async function fetchAPI({ path, body, success, failure, final }) {
         })
         const data = await response.json()
 
-        if (response.ok) success(data)
-        else failure(data)
+        // Handle OK response
+        if (response.ok) {
+            success(data)
+        } 
+        
+        // Handle handled errors
+        else {
+            if (response.status === 401) return Alpine.store('auth').logout(true)
+            failure(data)
+        }
+
+        // Run final if applicable
         if (final) final()
     } catch (error) {
+
+        // Handle unhandled errors
         failure({
             message: "An unknown error occured"
         })
+
+        // Run final if applicable
         if (final) final()
     }
 }

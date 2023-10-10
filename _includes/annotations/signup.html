@@ -1,0 +1,16 @@
+<div x-data="signup()">
+    <h2>Create an account</h2>
+    <form @submit.prevent="submit()">
+        <span>Name</span>
+        <input type="text" x-model="name" />
+        <span>Email</span>
+        <input type="email" x-model="email" />
+        <span>Password</span>
+        <input type="password" x-model="password" />
+        <span class="instructions">Your password must be at least 8 characters long and include both letters and numbers.</span>
+        <span>Confirm password</span>
+        <input type="password" x-model="password_confirm" />
+        <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+        <button type="submit" x-text="buttonText"></button>
+    </form>
+</div>

@@ -5,6 +5,7 @@ const Mongoose = require('mongoose');
 const Async = require('async');
 const Database = require('./../tools/Database');
 const Dates = require('./../tools/Dates');
+const Moment = require('moment');
 
 // User Properties: configures properties for database object
 function UserProperties (schema) {
@@ -29,6 +30,11 @@ function UserProperties (schema) {
 			'type': 'String',
 			'index': true,
 			'required': true,
+		},
+		'adminEventsString': {
+			'type': 'String',
+			'index': false,
+			'required': false,
 		}
     });
 };
@@ -95,38 +101,116 @@ function UserStaticMethods (schema) {
 function UserInstanceMethods (schema) {
 
 	/**
+	 * Formats an existing user for the client
+	 * @memberof api/model/User
+	 * @param {function(err, user)} callback Callback function
+	 */
+	schema.methods.format = function (callback) {
+
+		// Initialize formatted object
+		var thisObject = this.toObject();
+
+		// Format date
+		thisObject.formattedDateCreated = Moment(thisObject.dateCreated*1000).format('MMM Do, YYYY')
+
+		Async.waterfall([
+
+			// Attach annotation metadata
+			function (callback) {
+				Database.find({
+					'model': Mongoose.model('Annotation'),
+					'query': {
+						'user': thisObject.guid,
+					}
+				}, function (err, annotations) {
+					if (!err && annotations) {
+						thisObject.annotationCount = annotations.length
+					} else {
+						thisObject.annotationCount = 0
+					}
+					callback();
+				});
+			},
+
+			// Attach admin event metadata
+			function (callback) {
+
+				// Only process if there are admin events
+				if (!thisObject.adminEventsString || thisObject.adminEventsString === "") 
+					return callback()
+
+				// Add formatted admin event to object
+				let adminEvents = JSON.parse(thisObject.adminEventsString)
+				if (!adminEvents) return callback()
+				let adminEvent = adminEvents[0]
+				let adminEventDate = Moment(parseInt(adminEvent.date*1000, 10)).format('MM/DD/YY hh:mma')
+				let adminEventRole = adminEvent.role.charAt(0).toUpperCase() + adminEvent.role.slice(1)
+				Database.findOne({
+					'model': Mongoose.model('User'),
+					'query': {
+						'guid': adminEvent.user,
+					},
+				}, function(err, user) {
+					if (!err && user) {
+						thisObject.adminEvent = 
+							`Role set to ${adminEventRole} by ${user.name} on ${adminEventDate}`
+					} else {
+						thisObject.adminEvent = 
+							`Role set to ${adminEventRole} by unknown user on ${adminEventDate}`
+					}
+					callback()
+				})
+			}
+
+		], function (err) {
+			callback(err, thisObject);
+		})
+	};
+
+	/**
 	 * Updates an existing user
 	 * @memberof api/model/User
 	 * @param {Object} params
 	 * @param {String} [params.name] Name of user
+	 * @param {String} [params.role] Role of user
 	 * @param {function(err, user)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		name
+		name, role, editingUser
 	}, callback) {
 
 		// Save reference to model
 		var User = this;
 
-		// Setup query with GUID
-		var query = {
-			'guid': this.guid,
-		};
+		let set = {}
 
-		// Setup database update
-		var set = {
-			'lastModified': Dates.now(),
-		};
-		if (name) set.name = name;
-		var update = {
-			'$set': set
-		};
+		// Setup administrative event
+		if (editingUser && role) {
+			let adminEventsString = this.adminEventsString
+			let adminEvents;
+			if (!adminEventsString || adminEventsString === "") adminEvents = []
+			else adminEvents = JSON.parse(adminEventsString)
+			adminEvents.unshift({
+				'date': Dates.now(),
+				'user': editingUser,
+				'role': role
+			})
+			set.adminEventsString = JSON.stringify(adminEvents)
+			set.role = role
+		}
+
+		// Basic edits
+		if (name) set.name = name
 
 		// Make database update
 		Database.update({
 			'model': User.constructor,
-			'query': query,
-			'update': update,
+			'query': {
+				'guid': this.guid,
+			},
+			'update': {
+				'$set': set
+			},
 		}, function (err, user) {
 			callback(err, user);
 		});

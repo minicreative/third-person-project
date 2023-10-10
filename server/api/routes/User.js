@@ -25,23 +25,42 @@ module.exports = router => {
 		req.handled = true;
 
 		// Validate query parameters
-		var validations = [];
+		var validations = [
+			Validation.pageSize('Page size', req.body.pageSize, 20)
+		];
 		let err = Validation.catchErrors(validations)
 		if (err) return next(err)
 
-		// Setup query
-		const query = {}
-		const pageOptions = {
-			model: User,
-			pageSize: 100,
-			query: query,
-		};
+		// Synchronously perform the following tasks...
+		Async.waterfall([
 
-		// Page query
-		Database.page(pageOptions, (err, users) => {
-			Secretary.addToResponse(res, "users", users);
-			next(err)
-		})
+			// Authenticate user
+			callback => {
+				Authentication.authenticateAdministrator(req, function (err) {
+					callback(err);
+				});
+			},
+
+			// Find and return user from token
+			callback => {
+
+				// Setup query
+				const query = {}
+				const pageOptions = {
+					model: User,
+					pageSize: req.body.pageSize,
+					query: query,
+				};
+
+				// Page query
+				Database.page(pageOptions, (err, users) => {
+					if (err) return callback(err)
+					Secretary.addToResponse(res, "users", users);
+					callback()
+				})
+			}
+
+		], err => next(err));
 	})
 
 	/**
@@ -85,6 +104,57 @@ module.exports = router => {
 
 		], err => next(err));
 	})
+
+	/**
+	 * @api {POST} /user.getGUID Get by GUID
+	 * @apiName Get by GUID
+	 * @apiGroup User
+	 * @apiDescription Get a user using a GUID
+	 *
+	 * @apiParam {String} guid User's GUID
+	 *
+	 * @apiSuccess {Object} user User object
+	 *
+	 * @apiUse Error
+	 */
+		router.post('/user.getGUID', (req, res, next) => {
+			req.handled = true;
+	
+			// Synchronously perform the following tasks...
+			Async.waterfall([
+	
+				// Authenticate user
+				callback => {
+					Authentication.authenticateAdministrator(req, function (err) {
+						callback(err);
+					});
+				},
+
+				// Validate parameters
+				callback => {
+					var validations = [
+						Validation.string('GUID', req.body.guid)
+					];
+					callback(Validation.catchErrors(validations))
+				},
+	
+				// Find and return user from token
+				callback => {
+					Database.findOne({
+						'model': User,
+						'query': {
+							'guid': req.body.guid,
+						},
+					}, (err, user) => {
+						if (err) return callback(err)
+						if (!user) return callback(Secretary.conflictError(Messages.conflictErrors.objectNotFound));
+						Secretary.addToResponse(res, 'user', user);
+						callback()
+					});
+				}
+	
+			], err => next(err));
+		})
 
 	/**
 	 * @api {POST} /user.create Create
@@ -156,7 +226,7 @@ module.exports = router => {
 		], err => next(err));
 	})
 
-		/**
+	/**
 	 * @api {POST} /user.edit Edit
 	 * @apiName Edit
 	 * @apiGroup User
@@ -207,6 +277,67 @@ module.exports = router => {
 			(user, callback) => {
 				user.edit({
 					'name': req.body.name,
+				}, (err, user) => {
+					if (user) Secretary.addToResponse(res, "user", user)
+					callback(err, user);
+				});
+			},
+
+		], err => next(err));
+	})
+
+	/**
+	 * @api {POST} /user.editGUID Edit by GUID
+	 * @apiName Edit by GUID
+	 * @apiGroup User
+	 * @apiDescription Edits a user based on provided GUID
+	 *
+	 * @apiParam {String} guid User's GUID
+	 * @apiParam {String} role User's role
+	 * 
+	 * @apiSuccess {Object} user User object
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.editGUID', (req, res, next) => {
+		req.handled = true;
+
+		// Validate all fields
+		let validations = [
+			Validation.string('GUID', req.body.guid),
+			Validation.string('Role', req.body.role)
+		];
+		var err = Validation.catchErrors(validations);
+		if (err) return next(err);
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Authenticate user
+			callback => {
+				Authentication.authenticateAdministrator(req, function (err, token) {
+					callback(err, token);
+				});
+			},
+
+			// Get user for GUID
+			(token, callback) => {
+				Database.findOne({
+					'model': User,
+					'query': {
+						'guid': req.body.guid
+					}
+				}, (err, user) => {
+					if (!user) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					else callback(err, token, user)
+				})
+			},
+
+			// Edit user, add to reply
+			(token, user, callback) => {
+				user.edit({
+					'editingUser': token.user,
+					'role': req.body.role,
 				}, (err, user) => {
 					if (user) Secretary.addToResponse(res, "user", user)
 					callback(err, user);

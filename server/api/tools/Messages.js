@@ -23,7 +23,9 @@ module.exports = {
 		'invalidToken': "Invalid token",
 		'missingToken': "Missing authorization token",
 		'unauthorized': "Unauthorized",
+		'userRoleChanged': "User role changed, authorization no longer valid, please sign in again",
 		'noAccess': "Unauthorized to access object",
+		'notAdmin': "Only an administrator can view or edit users besides themselves",
 	},
 
 	/**

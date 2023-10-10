@@ -1,0 +1,31 @@
+<div class="admin-table" x-data="annotationList()">
+    <h3 x-text="heading"></h3>
+    <template x-if="annotations.length == 0">
+        <span class="empty-message">You haven't created any annotations.</span>
+    </template>
+    <template x-if="annotations.length > 0">
+        <table cellspacing="0" cellpadding="0">
+            <thead>
+                <th>Annotated Text</th>
+                <th>Issue</th>
+                <th>Created by</th>
+                <th>Status</th>
+                <th></th>
+            </thead>
+            <tbody>
+                <template x-for="annotation in annotations" :key="annotation.guid"><tr>
+                    <td x-text="annotation.text"></td>
+                    <td x-text="annotation.context"></td>
+                    <td x-text="annotation.userName" class=""></td>
+                    <td x-text=""></td>
+                    <td class="buttons">
+                        <div class="fa fa-pencil-square-o" x-on:click=""></div>
+                    </td>
+                </tr></template>
+            </tbody>
+        </table>
+    </template>
+    <template x-if="errorMessage != ''">
+        <span class="error-message" x-text="errorMessage"></span>
+    </template>
+</div>

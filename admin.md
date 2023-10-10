@@ -2,8 +2,10 @@
 title: Annotate the Daily Record
 permalink: "/annotate/"
 layout: admin
+welcome_text: |-
+  To upload a new annotation, visit the Daily Record issue you'd like to annotate in our [Archive](/archives). Expand the issue transcript and click 'Add new annotation' to get started.
+expired_text: |-
+  ### Your session has expired. Please log in again to continue.
 ---
 
-Here's a sample description of this project. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tortor lacus, fermentum vel mi sed, hendrerit aliquam dui. Nulla facilisi. Praesent nec convallis lorem. Morbi semper mattis turpis sed ultrices. Maecenas sed mi maximus, finibus purus nec, aliquet nunc. Mauris placerat justo et metus ultrices, ac accumsan nibh volutpat. Quisque eget enim magna. Sed mattis rutrum eros, at varius diam porta non. Sed lacus ipsum, tristique id fermentum a, elementum vitae diam. 
-
-Log in or sign up to create or edit annotations of the archived Daily Record. 
+### Interested in annotating archived issues of Wilmington's Daily Record? Log in or create an account here to get started.

@@ -1,0 +1,11 @@
+<div x-data="login()">
+    <h2>Login</h2>
+    <form @submit.prevent="submit()">
+        <span>Email</span>
+        <input type="email" x-model="email" />
+        <span>Password</span>
+        <input type="password" x-model="password" />
+        <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+        <button type="submit" x-text="buttonText"></button>
+    </form>
+</div>
