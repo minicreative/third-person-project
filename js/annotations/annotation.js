@@ -52,6 +52,17 @@ function addAnnotation(e) {
         endAnnotation()
     })
 }
+
+// Remove Annotation from Page: removes an annotation from the DOM
+function removeAnnotationFromPage(guid) {
+    let annotation = $(`#${guid}`)
+    if (annotation.get(0).tagName === "SPAN") {
+        let html = annotation.html()
+        annotation.get(0).replaceWith(html)
+    } else if (annotation.get(0).tagName === "TR") {
+        annotation.get(0).remove()
+    }
+}
  
 // Alpine Store: Annotation
 // State and functionality for creating & editing an annotation
@@ -61,13 +72,17 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('annotation', {
         
         editor: false,
+        loadingEditor: false,
+        canEdit: false,
         guid: "",
         text: "",
         body: "",
         context: "",
         heading: "",
         attribution: "",
+        status: "",
         saveButtonText: "Save",
+        deleteButtonText: "Delete",
         errorMessage: "",
         showModal: false,
 
@@ -76,6 +91,7 @@ document.addEventListener('alpine:init', () => {
             this.errorMessage = ""
             this.body = ""
             this.author = ""
+            this.status = ""
         },
         openModal({ guid, text, context }) {
             this.init()
@@ -90,8 +106,7 @@ document.addEventListener('alpine:init', () => {
                 this.heading = "Annotation"
 
                 // Fetch annotation
-                if (this.body)
-                this.body = "Loading annotation..."
+                this.body = "<p>Loading annotation...</p>"
                 fetchAPI({
                     path: "annotation.get",
                     body: {
@@ -121,6 +136,8 @@ document.addEventListener('alpine:init', () => {
         // Helper functions
         initializeEditor (body) {
             this.editor = true
+            this.loadingEditor = true
+            let annotationModal = this
             setTimeout(() => {
                 tinymce.init({
                     selector: '#annotation-editor',
@@ -129,9 +146,8 @@ document.addEventListener('alpine:init', () => {
                     plugins: 'link',
                     toolbar: 'h2 h3 | bold italic underline | link | undo redo',
                     init_instance_callback: () => {
-                        if (body) {
-                            tinymce.get("annotation-editor").setContent(body)
-                        }
+                        annotationModal.loadingEditor = false
+                        if (body) tinymce.get("annotation-editor").setContent(body)
                     }
                 })
             }, 20)
@@ -142,14 +158,48 @@ document.addEventListener('alpine:init', () => {
             tinymce.remove("#annotation-editor")
         },
         populate(annotation) {
+
+            // Setup static fields
+            this.guid = annotation.guid
             this.body = annotation.body
             this.author = annotation.attribution ? annotation.attribution : annotation.userName
+            this.status = annotation.status
+            
+            // Setup canEdit boolean
+            let user = Alpine.store('auth').user
+            if (!user) {
+                this.canEdit = false
+            } else if (user.role === "annotator") {
+                if (annotation.user === user.guid) this.canEdit = true
+                else this.canEdit = false
+            } else {
+                this.canEdit = true
+            }
         },
 
         // Actions
         edit() {
             this.heading = "Edit annotation"
             this.initializeEditor(this.body)
+        },
+        delete() {
+            this.deleteButtonText = "Deleting..."
+            fetchAPI({
+                path: "annotation.delete",
+                body: {
+                    guid: this.guid,
+                },
+                success: () => {
+                    removeAnnotationFromPage(this.guid)
+                    this.close()
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message
+                },
+                final: () => {
+                    this.deleteButtonText = "Delete"
+                }
+            })
         },
         close() {
             this.showModal = false
@@ -166,6 +216,8 @@ document.addEventListener('alpine:init', () => {
             this.saveButtonText = "Loading..."
             this.errorMessage = ""
 
+            let user = Alpine.store('auth').user
+
             let path = "annotation.create"
             if (this.guid) path = "annotation.edit"
 
@@ -173,9 +225,12 @@ document.addEventListener('alpine:init', () => {
                 text: this.text,
                 body: tinymce.get("annotation-editor").getContent()
             }
-            if (this.attribution) body.attribution = this.attribution // TODO: Only set attribution in body if user is able to see field
             if (this.context) body.context = this.context
             if (this.guid) body.guid = this.guid
+            if (user.role === "editor" || user.role === "administrator") {
+                if (this.attribution) body.attribution = this.attribution
+                if (this.status) body.status = this.status
+            }
 
             fetchAPI({
                 path,

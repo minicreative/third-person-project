@@ -31,6 +31,11 @@ $section_pad_: 50px;
     max-width:840px;
 }
 
+@keyframes spin {
+    from {transform:rotate(0deg)}
+    to {transform:rotate(360deg)}
+}
+
 // Reusuable Circle Styles =========================================================
 
 .header-circle-container {
@@ -379,13 +384,19 @@ button {
         font-family:'Helvetica', 'Arial', sans-serif; text-transform:uppercase; font-weight:normal; font-size:12px;
     }
     .title {margin-top:10px; margin-bottom:8px; font-size:24px; font-weight:bold;}
-    .author {margin-top:8px; font-size:16px;}
+    .subtitle {margin-top:8px; font-size:16px;}
     .tox-tinymce {border-radius:0px; margin-top:20px;}
     .highlight-button {background:#F2CD5C;}
     .error {margin-top:20px;}
     .buttons {
         float:right; text-align:right;
         button {margin:0px; margin-left:20px;}
+    }
+    .fa-spinner {
+        animation-name: spin;
+        animation-duration: 1000ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear; 
     }
 }
 

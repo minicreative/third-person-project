@@ -4,11 +4,15 @@ $("#transcript").ready(function() {
 })
 
 function listAnnotations() {
+    let body = {
+        context: $("#page-slug").text()
+    }
+    // Only show published annotations if no one is logged in
+    if (!Alpine.store('auth').loggedIn) body.status = "published"
+
     fetchAPI({
         path: "annotation.list",
-        body: {
-            context: $("#page-slug").text()
-        },
+        body: body,
         success: ({ annotations }) => {
             addAnnotationsToTranscript(annotations)
         },
@@ -25,7 +29,7 @@ function addAnnotationsToTranscript(annotations) {
 
     // Iterate through annotations, add markup
     for (let annotation of annotations) {
-        let annotatedHtml = `<span guid='${annotation.guid}'>${annotation.text}</span>`
+        let annotatedHtml = `<span id='${annotation.guid}'>${annotation.text}</span>`
         transcriptContent = transcriptContent.replaceAll(annotation.text, annotatedHtml)
     }
 
@@ -42,7 +46,7 @@ function addAnnotationListeners() {
     annotations.each(function() {
         $(this).on('click', function () {
             Alpine.store('annotation').openModal({
-                guid: $(this).attr("guid"),
+                guid: $(this).attr("id"),
                 text: $(this).text()
             })
         })

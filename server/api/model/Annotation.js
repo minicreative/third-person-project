@@ -5,6 +5,7 @@ const Mongoose = require('mongoose');
 const Async = require('async');
 const Database = require('./../tools/Database');
 const Dates = require('./../tools/Dates');
+const Messages = require('../tools/Messages');
 
 // Annotation Properties: configures properties for database object
 function AnnotationProperties (schema) {
@@ -29,6 +30,12 @@ function AnnotationProperties (schema) {
             'index': true,
             'required': true
         },
+		'status': {
+			'type': String,
+			'enum': Messages.statuses,
+			'index': true,
+			'required': true
+		},
         'attribution': {
             'type': String,
             'index': false,
@@ -48,11 +55,12 @@ function AnnotationStaticMethods (schema) {
 	 * @param {String} params.context Context of annotation
 	 * @param {String} params.text Annotated text
 	 * @param {String} params.body Annotation body
-     * @param {String} params.attribution Attribution
+	 * @param {String} params.status Annotation status
+	 * @param {String} [params.attribution] Annotation attribution
 	 * @param {function(err, annotation)} callback Callback function
 	 */
 	schema.statics.create = function ({
-        user, context, text, body, attribution
+        user, context, text, body, attribution, status
     }, callback) {
 
 		// Save reference to model
@@ -70,31 +78,24 @@ function AnnotationStaticMethods (schema) {
 
 			// Write new annotation to the database
 			function (GUID, callback) {
-
-				// Setup query with GUID
-				var query = {
-					'guid': GUID
-				};
-
-				// Setup database update
-                let set = {
-                    'guid': GUID,
-                    'context': context,
-                    'text': text,
-                    'body': body,
-                    'user': user,
-                    'dateCreated': Dates.now(),
-                }
-                if (attribution) set.attribution = attribution
-				var update = {
-					'$set': set
-				};
-
-				// Make database update
+				let set = {
+					'guid': GUID,
+					'context': context,
+					'text': text,
+					'body': body,
+					'user': user,
+					'status': status,
+					'dateCreated': Dates.now(),
+				}
+				if (attribution) set.attribution = attribution
 				Database.update({
 					'model': Annotation,
-					'query': query,
-					'update': update,
+					'query': {
+						'guid': GUID
+					},
+					'update': {
+						'$set': set
+					},
 				}, function (err, annotation) {
 					callback(err, annotation);
 				});
@@ -116,20 +117,16 @@ function AnnotationInstanceMethods (schema) {
 	 * @param {String} [params.context] Context of annotation
      * @param {String} [params.text] Annotated text
      * @param {String} [params.body] Annotation body
-     * @param {String} [params.attribution] Attribution
+     * @param {String} [params.attribution] Annotation attribution
+	 * @param {String} [params.status] Annotation status
 	 * @param {function(err, annotation)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		context, text, body, attribution
+		context, text, body, attribution, status
 	}, callback) {
 
 		// Save reference to model
 		var Annotation = this;
-
-		// Setup query with GUID
-		var query = {
-			'guid': this.guid,
-		};
 
 		// Setup database update
 		var set = {
@@ -139,15 +136,17 @@ function AnnotationInstanceMethods (schema) {
         if (text) set.text = text;
         if (body) set.body = body;
         if (attribution) set.attribution = attribution;
-		var update = {
-			'$set': set
-		};
+		if (status) set.status = status;
 
 		// Make database update
 		Database.update({
 			'model': Annotation.constructor,
-			'query': query,
-			'update': update,
+			'query': {
+				'guid': this.guid,
+			},
+			'update': {
+				'$set': set
+			},
 		}, function (err, annotation) {
 			callback(err, annotation);
 		});

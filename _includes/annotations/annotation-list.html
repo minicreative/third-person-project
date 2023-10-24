@@ -8,18 +8,18 @@
             <thead>
                 <th>Annotated Text</th>
                 <th>Issue</th>
-                <th>Created by</th>
+                <th>Author</th>
                 <th>Status</th>
                 <th></th>
             </thead>
             <tbody>
-                <template x-for="annotation in annotations" :key="annotation.guid"><tr>
+                <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
                     <td x-text="annotation.text"></td>
                     <td x-text="annotation.context"></td>
-                    <td x-text="annotation.userName" class=""></td>
-                    <td x-text=""></td>
+                    <td x-text="annotation.attribution ? annotation.attribution : annotation.userName"></td>
+                    <td x-text="annotation.status" class="capitalize"></td>
                     <td class="buttons">
-                        <div class="fa fa-pencil-square-o" x-on:click=""></div>
+                        <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>
                     </td>
                 </tr></template>
             </tbody>

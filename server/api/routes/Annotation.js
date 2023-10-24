@@ -65,6 +65,7 @@ module.exports = router => {
 		var validations = [];
 		if (req.body.context) validations.push(Validation.string('Context', req.body.context))
 		if (req.body.user) validations.push(Validation.string('User', req.body.user))
+		if (req.body.status) validations.push(Validation.status('Status', req.body.status)) // TODO: Allow for array of statuses
 		let err = Validation.catchErrors(validations)
 		if (err) return next(err)
 
@@ -72,6 +73,7 @@ module.exports = router => {
 		const query = {}
 		if (req.body.context) query.context = req.body.context
 		if (req.body.user) query.user = req.body.user
+		if (req.body.status) query.status = req.body.status
 		const pageOptions = {
 			model: Annotation,
 			pageSize: 100,
@@ -94,6 +96,8 @@ module.exports = router => {
 	 * @apiParam {String} context Annotation context
 	 * @apiParam {String} text Annotated text
      * @apiParam {String} body Annotation body
+	 * @apiParam {String} [attribution] Attribution
+	 * @apiParam {String} [status] Annotation status
 	 *
 	 * @apiSuccess {Object} annotation Annotation object
 	 *
@@ -121,7 +125,17 @@ module.exports = router => {
                     Validation.string('Context', req.body.context)
                 ];
                 if (req.body.attribution) validations.push(Validation.string('Attribution', req.body.attribution))
+				if (req.body.status) validations.push(Validation.status('Status', req.body.status))
 				callback(Validation.catchErrors(validations), token)
+			},
+
+			// Authorize based on user token
+			(token, callback) => {
+				let err
+				if (token.role === Messages.ANNOTATOR && req.body.status) {
+					err = Secretary.authorizationError(Messages.authErrors.annotatorStatusCreate)
+				}
+				callback(err, token)
 			},
 
 			// Create a new annotation, add to reply
@@ -131,10 +145,10 @@ module.exports = router => {
 					'context': req.body.context,
 					'text': req.body.text,
 					'body': req.body.body,
+					'status': req.body.status ? req.body.status : Messages.DRAFT,
 				};
                 if (req.body.attribution) vars.attribution = req.body.attribution
 				Annotation.create(vars, (err, annotation) => {
-                    console.log(annotation)
 					Secretary.addToResponse(res, "annotation", annotation)
 					callback(err);
 				});
@@ -181,11 +195,11 @@ module.exports = router => {
 				if (req.body.text) validations.push(Validation.string('Text', req.body.text))
 				if (req.body.body) validations.push(Validation.string('Body', req.body.body))
                 if (req.body.attribution) validations.push(Validation.string('Attribution', req.body.attribution))
+				if (req.body.status) validations.push(Validation.status('Status', req.body.status))
 				callback(Validation.catchErrors(validations), token)
 			},
 
 			// Find annotation to edit
-            // TODO: Validate that user can edit this annotation (either owns or admin)
 			(token, callback) => {
 				Database.findOne({
 					'model': Annotation,
@@ -194,19 +208,102 @@ module.exports = router => {
 					}
 				}, (err, annotation) => {
 					if (!annotation) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
-					else callback(err, annotation)
+					else callback(err, token, annotation)
 				})
 			},
 
+			// Authorize based on user token
+			(token, annotation, callback) => {
+				let err
+				if (token.role === Messages.ANNOTATOR) {
+					if (token.user !== annotation.user)
+						err = Secretary.authorizationError(Messages.authErrors.annotatorEdit)
+					if (req.body.status) 
+						err = Secretary.authorizationError(Messages.authErrors.annotatorStatusEdit)
+				}
+				callback(err, token, annotation)
+			},
+
 			// Edit annotation, add to reply
-			(annotation, callback) => {
+			(token, annotation, callback) => {
                 let vars = {}
                 if (req.body.context) vars.context = req.body.context
                 if (req.body.text) vars.text = req.body.text
                 if (req.body.body) vars.body = req.body.body
                 if (req.body.attribution) vars.attribution = req.body.attribution;
+				if (token.role === Messages.ANNOTATOR) {
+					vars.status = Messages.EDITED
+				} else if (req.body.status) {
+					vars.status = req.body.status
+				}
 				annotation.edit(vars, (err, annotation) => {
 					Secretary.addToResponse(res, "annotation", annotation)
+					callback(err);
+				});
+			}
+			
+		], err => next(err));
+	})
+
+	/**
+	 * @api {POST} /annotation.delete Delete
+	 * @apiName Delete
+	 * @apiGroup Annotation
+	 * @apiDescription Deletes an existing annotation
+	 *
+     * @apiParam {String} guid Annotation GUID
+	 *
+	 * @apiUse Authorization
+	 * @apiUse Error
+	 */
+	router.post('/annotation.delete', (req, res, next) => {
+		req.handled = true;
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Authenticate user
+			callback => {
+				Authentication.authenticateUser(req, function (err, token) {
+					callback(err, token);
+				});
+			},
+
+			// Validate parameters
+			(token, callback) => {
+				var validations = [
+					Validation.string('GUID', req.body.guid)
+				];
+				callback(Validation.catchErrors(validations), token)
+			},
+
+			// Find annotation to delete
+			(token, callback) => {
+				Database.findOne({
+					'model': Annotation,
+					'query': {
+						'guid': req.body.guid
+					}
+				}, (err, annotation) => {
+					if (!annotation) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					else callback(err, token, annotation)
+				})
+			},
+
+			// Authorize based on user token
+			(token, annotation, callback) => {
+				let err
+				if (token.role === Messages.ANNOTATOR) {
+					if (token.user !== annotation.user)
+						err = Secretary.authorizationError(Messages.authErrors.annotatorDelete)
+				}
+				callback(err, annotation)
+			},
+
+			// Delete annotation
+			(annotation, callback) => {
+				annotation.delete((err) => {
+					Secretary.successResponse(res, "Annotation deleted")
 					callback(err);
 				});
 			}

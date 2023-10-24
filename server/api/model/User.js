@@ -6,6 +6,7 @@ const Async = require('async');
 const Database = require('./../tools/Database');
 const Dates = require('./../tools/Dates');
 const Moment = require('moment');
+const Messages = require('../tools/Messages');
 
 // User Properties: configures properties for database object
 function UserProperties (schema) {
@@ -28,6 +29,7 @@ function UserProperties (schema) {
 		},
 		'role': {
 			'type': 'String',
+			'enum': Messages.roles,
 			'index': true,
 			'required': true,
 		},

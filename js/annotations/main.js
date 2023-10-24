@@ -37,6 +37,9 @@ document.addEventListener('alpine:init', () => {
             if (redirect) setTimeout(() => {window.location.href = "/annotate?expired=true"}, 20)
             else setTimeout(setColumnWidth, 20)
         },
+        isEditor() {
+            return this.user.role === "editor" || this.user.role === "administrator"
+        }
     })
 
     // Error store
@@ -83,6 +86,7 @@ async function fetchAPI({ path, body, success, failure, final }) {
         // Run final if applicable
         if (final) final()
     } catch (error) {
+        console.log(error)
 
         // Handle unhandled errors
         failure({

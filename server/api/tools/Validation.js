@@ -82,6 +82,12 @@ function isInvalidPassword (input) {
 	return null;
 };
 
+function isInvalidStatus (input) {
+	if (!Messages.statuses.includes(input))
+		return " is not valid"
+	return null;
+}
+
 // Exports =====================================================================
 
 /**
@@ -142,7 +148,7 @@ module.exports.string = function (name, input) {
  * Returns error with array input
  * @memberof api/tools/Validation
  * @param {String} name Name of field
- * @param {String} input Field input
+ * @param {Array} input Field input
  * @return {Object} Error message (or null)
  */
 module.exports.array = function (name, input) {
@@ -155,7 +161,7 @@ module.exports.array = function (name, input) {
  * Returns error with number input
  * @memberof api/tools/Validation
  * @param {String} name Name of field
- * @param {String} input Field input
+ * @param {Number} input Field input
  * @return {Object} Error message (or null)
  */
 module.exports.number = function (name, input) {
@@ -176,5 +182,19 @@ module.exports.pageSize = function (name, input, maxPageSize) {
 	return getNamedErrorFromArray([
 		isInvalidNumber(input),
 		isInvalidSize(input, 1, maxPageSize),
+	], name);
+};
+
+/**
+ * Returns error with status input
+ * @memberof api/tools/Validation
+ * @param {String} name Name of field
+ * @param {String} input Field input
+ * @return {Object} Error message (or null)
+ */
+module.exports.status = function (name, input) {
+	return getNamedErrorFromArray([
+		isInvalidString(input),
+		isInvalidStatus(input),
 	], name);
 };

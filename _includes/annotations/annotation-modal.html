@@ -10,7 +10,9 @@
                 <!-- Cancel button (for editor) -->
                 <button x-show="$store.annotation.editor" x-on:click="$store.annotation.cancel()">Cancel</button>
                 <!-- Edit button (for viewer, if applicable) -->
-                <button x-show="!$store.annotation.editor" x-on:click="$store.annotation.edit()">Edit</button>
+                <button x-show="!$store.annotation.editor && $store.annotation.canEdit" x-on:click="$store.annotation.edit()">Edit</button>
+                <!-- Delete button (for viewer, if applicable) -->
+                <button x-show="!$store.annotation.editor && $store.annotation.canEdit" x-on:click="$store.annotation.delete()" x-text="$store.annotation.deleteButtonText"></button>
                 <!-- Close button (for viewer) -->
                 <button x-show="!$store.annotation.editor" x-on:click="$store.annotation.close()">Close</button>
             </div>
@@ -22,21 +24,43 @@
             <div class="title" x-text="$store.annotation.text"></div>
 
             <!-- Author -->
-            <div x-cloak x-show="!$store.annotation.editor" class="author">
+            <div x-cloak x-show="!$store.annotation.editor" class="subtitle">
                 Annotated by <span x-text="$store.annotation.author"></span>
+            </div>
+
+            <!-- Status (for users) -->
+            <div x-cloak x-show="$store.annotation.status && $store.auth.loggedIn" class="subtitle">
+                Status: <span class="capitalize" x-text="$store.annotation.status"></span>
             </div>
 
             <!-- Body (for viewer) -->
             <div x-cloak x-show="!$store.annotation.editor" x-html="$store.annotation.body" class="content"></div>
 
             <!-- TinyMCE textarea (for editor)-->
+            <div x-cloak x-show="$store.annotation.loadingEditor">
+                <i class="fa fa-spinner"></i> Loading editor...
+            </div>
             <textarea x-show="$store.annotation.editor" id="annotation-editor" x-model="$store.annotation.body"></textarea>
 
-            <!-- Attribution field (for editor)-->
-            <form x-cloak x-show="$store.annotation.editor">
+            <!-- Additional fields (for admin editor)-->
+            <form x-cloak x-show="$store.annotation.editor && $store.auth.isEditor()">
                 <span>Author</span>
                 <input x-model="$store.annotation.attribution"></input>
                 <span class="instructions">If left blank, author will appear as posting user's name</span>
+
+                <span>Status</span>
+                <select x-model="$store.annotation.status">
+                    <option value="draft">Draft</option>
+                    <option value="edited">Edited</option>
+                    <option value="reviewed">Reviewed</option>
+                    <option value="published">Published</option>
+                </select>
+                <span class="instructions">
+                    When an annotator uploads a new annotation, its status is set to "Draft".<br />
+                    When an annotator edits an exisiting annotation, its status is set to "Edited".<br />
+                    An editor can mark any annotation as "Draft", "Edited", "Reviewed" or "Published".<br />
+                    Only "Published" annotations are visible to website visitors.
+                </span>
             </form>
 
             <!-- Error message-->

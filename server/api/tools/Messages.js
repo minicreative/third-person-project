@@ -1,7 +1,33 @@
 /** @namespace api/tools/Messages */
 // Messages.js: holds messages
 
+const DRAFT = 'draft'
+const EDITED = 'edited'
+const REVIEWED = 'reviewed'
+const PUBLISHED = 'published'
+const ANNOTATOR = 'annotator'
+const EDITOR = 'editor'
+const ADMINISTRATOR = 'administrator'
+
 module.exports = {
+
+	DRAFT: DRAFT,
+	EDITED: EDITED,
+	REVIEWED: REVIEWED,
+	PUBLISHED: PUBLISHED,
+	ANNOTATOR: ANNOTATOR,
+	EDITOR: EDITOR,
+	ADMINISTRATOR: ADMINISTRATOR,
+
+	/** Status Enumerations
+	 * @memberof api/tools/Messages
+	 */
+	'statuses': [DRAFT, EDITED, REVIEWED, PUBLISHED],
+
+	/** Role Enumerations
+	 * @memberof api/tools/Messages
+	 */
+	'roles': [ANNOTATOR, EDITOR, ADMINISTRATOR],
 
 	/**
 	 * HTTP Response Codes
@@ -11,7 +37,8 @@ module.exports = {
 		'success': 200,
 		'serverError': 500,
 		'requestError': 400,
-		'unauthorizedError': 401,
+		'unauthenticatedError': 401,
+		'unauthorizedError': 403,
 		'conflictError': 409
 	},
 
@@ -21,11 +48,15 @@ module.exports = {
 	 */
 	'authErrors': {
 		'invalidToken': "Invalid token",
-		'missingToken': "Missing authorization token",
+		'missingToken': "Missing authentication token",
+		'unauthentication': "Unauthenticated",
+		'userRoleChanged': "User role changed, authentication no longer valid, please sign in again",
 		'unauthorized': "Unauthorized",
-		'userRoleChanged': "User role changed, authorization no longer valid, please sign in again",
-		'noAccess': "Unauthorized to access object",
 		'notAdmin': "Only an administrator can view or edit users besides themselves",
+		'annotatorStatusCreate': "An annotator cannot provide a status for a new annotation",
+		'annotatorStatusEdit': "An annotator cannot edit an annotation's status",
+		'annotatorEdit': "An annotator cannot edit another user's annotation",
+		'annotatorDelete': "An annotator cannot delete another user's annotation",
 	},
 
 	/**

@@ -46,6 +46,16 @@ module.exports = {
 	},
 
 	/**
+	 * Creates an error config object for a authentication error
+	 * @memberof api/tools/Secretary
+	 * @param {String} message
+	 * @return {Object} Error object {code, message, handledError: true}
+	 */
+	authenticationError: message => {
+		return createError(Messages.codes.unauthenicatedError, message);
+	},
+
+	/**
 	 * Creates an error config object for a authorization error
 	 * @memberof api/tools/Secretary
 	 * @param {String} message
@@ -81,6 +91,18 @@ module.exports = {
 		} else {
 			if (!response.toFormat) response.toFormat = {};
 			response.toFormat[key] = value;
+		}
+	},
+
+	/**
+	 * Creates a basic success response with a message
+	 * @memberof api/tools/Secretary
+	 * @param {Object} response Express response object
+	 * @param {String} message Message
+	 */
+	successResponse: (response, message) => { 
+		response.body = {
+			message: message,
 		}
 	},
 

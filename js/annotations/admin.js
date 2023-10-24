@@ -101,6 +101,8 @@ function signup() {
     }
 }
 
+// User List
+// Handles the user list in the admin template
 function userList() {
     return {
 
@@ -186,6 +188,8 @@ function userList() {
     }
 }
 
+// Annotation list
+// Handles the annotation list in the admin template
 function annotationList() {
     return {
 
@@ -219,6 +223,13 @@ function annotationList() {
                 final: () => {
                     this.loading = false
                 }
+            })
+        },
+        edit(annotation) {
+            Alpine.store('annotation').openModal({
+                guid: annotation.guid,
+                text: annotation.text,
+                editor: true,
             })
         }
     }

@@ -23,10 +23,10 @@
                         <h4># of annotations</h4>
                         <span x-text="modal.user.annotationCount"></span>
                     </div>
-                    <div class="value">
+                    <template x-if="modal.user.adminEvent"><div class="value">
                         <h4>Last Edit</h4>
                         <span x-text="modal.user.adminEvent"></span>
-                    </div>
+                    </div></template>
                 </div>
                 <form>
                     <span>Role</span>

@@ -42,7 +42,7 @@ module.exports = {
 	 */
 	authenticateUser(request, callback) {
 		const token = getTokenFromRequest(request);
-		if (!token) return callback(Secretary.authorizationError(Messages.authErrors.missingToken));
+		if (!token) return callback(Secretary.authenticationError(Messages.authErrors.missingToken));
 		const pureToken = token.replace('Bearer ', '');
 		Token.verify(pureToken, process.env.tpp_secret, function (err, decodedToken) {
 			if (!err && decodedToken) {
@@ -54,14 +54,14 @@ module.exports = {
 						if (user.role === decodedToken.role) {
 							callback(null, decodedToken)
 						} else {
-							callback(Secretary.authorizationError(Messages.authErrors.userRoleChanged))
+							callback(Secretary.authenticationError(Messages.authErrors.userRoleChanged))
 						}
 					} else {
-						callback(Secretary.authorizationError(Messages.authErrors.unauthorized));
+						callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
 					}
 				})
 			} else {
-				callback(Secretary.authorizationError(Messages.authErrors.unauthorized));
+				callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
 			}
 		});
 	},
@@ -79,5 +79,5 @@ module.exports = {
 				return callback(Secretary.authorizationError(Messages.authErrors.notAdmin))
 			callback(null, decodedToken)
 		})
-	},
+	}
 }
