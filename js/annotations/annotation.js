@@ -92,9 +92,13 @@ document.addEventListener('alpine:init', () => {
             this.body = ""
             this.author = ""
             this.status = ""
+            this.scope = null
         },
-        openModal({ guid, text, context }) {
+        openModal({ guid, text, context, scope }) {
             this.init()
+
+            // Populate scope
+            if (scope) this.scope = scope
 
             // Populate modal
             this.text = text
@@ -237,6 +241,7 @@ document.addEventListener('alpine:init', () => {
                 body,
                 success: ({ annotation }) => {
                     if (!this.guid) addAnnotationsToTranscript([annotation])
+                    if (this.scope) this.scope.populate(annotation)
                     this.populate(annotation)
                     this.removeEditor()
                 },

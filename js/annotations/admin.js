@@ -229,8 +229,16 @@ function annotationList() {
             Alpine.store('annotation').openModal({
                 guid: annotation.guid,
                 text: annotation.text,
-                editor: true,
+                scope: this,
             })
-        }
+        },
+        populate: function (annotation) {
+            for (let i in this.annotations) {
+                if (this.annotations[i].guid == annotation.guid) {
+                    this.annotations[i] = annotation
+                    break
+                }
+            }
+        },
     }
 }
