@@ -230,7 +230,7 @@ module.exports = router => {
                 if (req.body.context) vars.context = req.body.context
                 if (req.body.text) vars.text = req.body.text
                 if (req.body.body) vars.body = req.body.body
-                if (req.body.attribution) vars.attribution = req.body.attribution;
+                if (req.body.attribution === "" || req.body.attribution) vars.attribution = req.body.attribution;
 				if (token.role === Messages.ANNOTATOR) {
 					vars.status = Messages.EDITED
 				} else if (req.body.status) {

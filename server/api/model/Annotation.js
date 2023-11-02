@@ -135,7 +135,7 @@ function AnnotationInstanceMethods (schema) {
 		if (context) set.context = context;
         if (text) set.text = text;
         if (body) set.body = body;
-        if (attribution) set.attribution = attribution;
+        if (attribution === "" || attribution) set.attribution = attribution;
 		if (status) set.status = status;
 
 		// Make database update

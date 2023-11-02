@@ -166,6 +166,7 @@ document.addEventListener('alpine:init', () => {
             // Setup static fields
             this.guid = annotation.guid
             this.body = annotation.body
+            this.attribution = annotation.attribution
             this.author = annotation.attribution ? annotation.attribution : annotation.userName
             this.status = annotation.status
             
@@ -232,8 +233,8 @@ document.addEventListener('alpine:init', () => {
             if (this.context) body.context = this.context
             if (this.guid) body.guid = this.guid
             if (user.role === "editor" || user.role === "administrator") {
-                if (this.attribution) body.attribution = this.attribution
-                if (this.status) body.status = this.status
+                body.attribution = this.attribution
+                body.status = this.status
             }
 
             fetchAPI({
