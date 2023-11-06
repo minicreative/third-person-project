@@ -36,6 +36,13 @@ $section_pad_: 50px;
     to {transform:rotate(360deg)}
 }
 
+@mixin spin {
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+}
+
 // Reusuable Circle Styles =========================================================
 
 .header-circle-container {
@@ -392,12 +399,7 @@ button {
         float:right; text-align:right;
         button {margin:0px; margin-left:20px;}
     }
-    .fa-spinner {
-        animation-name: spin;
-        animation-duration: 1000ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear; 
-    }
+    .fa-spinner {@include spin;}
 }
 
 #page-slug {display:none;}
@@ -425,6 +427,8 @@ button {
         text-align:right;
         div {cursor:pointer; margin-left:12px;}
     }
+    input {border:0px; padding:6px; width:100%;}
+    .fa-spinner {@include spin;}
 }
 .annotation-toolbar {
     background:#F2CD5C;

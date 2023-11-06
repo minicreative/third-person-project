@@ -197,6 +197,13 @@ function annotationList() {
         loading: false,
         errorMessage: "",
         annotations: [],
+        filterModel: {
+            text: "",
+            status: "",
+            author: "",
+            context: "",
+        },
+        filterEmpty: false,
 
         init() {
             const user = Alpine.store('auth').user
@@ -216,6 +223,31 @@ function annotationList() {
                 success: (data) => {
                     this.errorMessage = ""
                     this.annotations = data.annotations
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message
+                },
+                final: () => {
+                    this.loading = false
+                }
+            })
+        },
+        filter() {
+            const user = Alpine.store('auth').user
+            this.loading = true
+
+            let body = this.filterModel
+            if (user.role == "annotator") body.user = user.guid
+            fetchAPI({
+                path: "annotation.list",
+                body: body,
+                success: (data) => {
+                    this.errorMessage = ""
+                    this.annotations = data.annotations
+
+                    // Handle empty filter query
+                    if (data.annotations.length < 1) this.filterEmpty = true;
+                    else this.filterEmpty = false;
                 },
                 failure: (data) => {
                     this.errorMessage = data.message

@@ -1,9 +1,12 @@
 <div class="admin-table" x-data="annotationList()">
     <h3 x-text="heading"></h3>
-    <template x-if="annotations.length == 0">
+    <template x-if="loading">
+        <i class="fa fa-spinner"></i>
+    </template>
+    <template x-if="!filterEmpty && annotations.length == 0">
         <span class="empty-message">You haven't created any annotations.</span>
     </template>
-    <template x-if="annotations.length > 0">
+    <template x-if="filterEmpty || annotations.length > 0">
         <table cellspacing="0" cellpadding="0">
             <thead>
                 <th>Annotated Text</th>
@@ -13,6 +16,28 @@
                 <th></th>
             </thead>
             <tbody>
+                <tr class="filter">
+                    <td><input type="text" x-model="filterModel.text" /></td>
+                    <td><input type="text" x-model="filterModel.context" /></td>
+                    <td>
+                        <input x-show="$store.auth.user.role != 'annotator'" x-cloak type="text" x-model="filterModel.author" />
+                    </td>
+                    <td>
+                        <select x-model="filterModel.status">
+                            <option value="">All</option>
+                            <option value="draft">Draft</option>
+                            <option value="edited">Edited</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="published">Published</option>
+                        </select>
+                    </td>
+                    <td class="buttons">
+                        <div class="fa fa-search" x-on:click="filter()"></button>
+                    </td>
+                </tr>
+                <template x-if="filterEmpty">
+                    <tr><td>Your filter returned no results.</td></tr>
+                </template>
                 <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
                     <td x-text="annotation.text"></td>
                     <td x-text="annotation.context"></td>
