@@ -7,6 +7,19 @@ const Mongoose = require('mongoose')
 module.exports = {
 
 	/**
+	 * Returns a MongoDB query object to match documents using text
+	 * @memberof api/tools/Database
+	 * @param {String} term Term
+	 * @return {Object} $text filter object
+	 */
+	text: (term) => {
+		return {
+			'$regex': term,
+			'$options': "i"
+		}
+	},
+
+	/**
 	 * Finds a single object in the database using model
 	 * @memberof api/tools/Database
 	 * @param {Object} params
