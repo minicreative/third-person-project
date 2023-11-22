@@ -17,13 +17,20 @@
             </thead>
             <tbody>
                 <tr class="filter">
-                    <td><input type="text" x-model="filterModel.text" /></td>
-                    <td><input type="text" x-model="filterModel.context" /></td>
                     <td>
-                        <input x-show="$store.auth.user.role != 'annotator'" x-cloak type="text" x-model="filterModel.author" />
+                        <input type="text" x-model="filterModel.text" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <select x-model="filterModel.status">
+                        <input type="text" x-model="filterModel.context" x-on:keypress="watchKeypress(event)" />
+                    </td>
+                    <td>
+                        <input type="text" 
+                            x-show="$store.auth.user.role != 'annotator'" x-cloak 
+                            x-model="filterModel.author" 
+                            x-on:keypress="watchKeypress(event)" />
+                    </td>
+                    <td>
+                        <select x-model="filterModel.status" x-on:change="filter()">
                             <option value="">All</option>
                             <option value="draft">Draft</option>
                             <option value="edited">Edited</option>
@@ -32,7 +39,7 @@
                         </select>
                     </td>
                     <td class="buttons">
-                        <div class="fa fa-search" x-on:click="filter()"></button>
+                        <button type="submit" class="fa fa-search" x-on:click="filter()"></button>
                     </td>
                 </tr>
                 <template x-if="filterEmpty">

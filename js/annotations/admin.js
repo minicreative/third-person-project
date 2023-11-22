@@ -257,6 +257,9 @@ function annotationList() {
                 }
             })
         },
+        watchKeypress(event) {
+            if (event.keyCode === 13) this.filter()
+        },
         edit(annotation) {
             Alpine.store('annotation').openModal({
                 guid: annotation.guid,

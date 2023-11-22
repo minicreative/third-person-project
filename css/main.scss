@@ -426,6 +426,7 @@ button {
     .buttons {
         text-align:right;
         div {cursor:pointer; margin-left:12px;}
+        button.fa {background:none; padding:0px; color:inherit;}
     }
     input {border:0px; padding:6px; width:100%;}
     .fa-spinner {@include spin;}
