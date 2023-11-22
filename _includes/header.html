@@ -40,6 +40,15 @@
 		<script src="/plugins/royalslider/jquery.royalslider.min.js"></script>
 		{% endif %}
 
+		<!-- Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-C9LWJKQB8D"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-C9LWJKQB8D');
+		</script>
+
 	</head>
 	<body class="{{ page.layout }}{% if page.collection %}_{{ page.collection }}{% endif %}">
 

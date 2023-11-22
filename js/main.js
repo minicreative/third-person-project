@@ -1,4 +1,4 @@
-let API_BASE = "https://third-person-project-api.minicreative.net/"
+let API_BASE = "https://api.thirdpersonproject.org/"
 if (location.href.includes("localhost")) {
 	API_BASE = "http://localhost:3003/"
 }
