@@ -7,6 +7,7 @@ const Messages = require('./../tools/Messages')
 const Authentication = require('./../tools/Authentication')
 
 const Annotation = require('./../model/Annotation')
+const User = require('../model/User')
 
 module.exports = router => {
 
@@ -61,30 +62,76 @@ module.exports = router => {
 	router.post('/annotation.list', (req, res, next) => {
 		req.handled = true;
 
-		// Validate query parameters
-		var validations = [];
-		if (req.body.context) validations.push(Validation.string('Context', req.body.context))
-		if (req.body.user) validations.push(Validation.string('User', req.body.user))
-		if (req.body.status) validations.push(Validation.status('Status', req.body.status)) // TODO: Allow for array of statuses
-		let err = Validation.catchErrors(validations)
-		if (err) return next(err)
+		// Synchronously perform the following tasks...
+		Async.waterfall([
 
-		// Setup query
-		const query = {}
-		if (req.body.context) query.context = req.body.context
-		if (req.body.user) query.user = req.body.user
-		if (req.body.status) query.status = req.body.status
-		const pageOptions = {
-			model: Annotation,
-			pageSize: 100,
-			query: query,
-		};
+			// Validate parameters
+			(callback) => {
+				var validations = [];
+				if (req.body.text) validations.push(Validation.string('Text', req.body.text))
+				if (req.body.context) validations.push(Validation.string('Context', req.body.context))
+				if (req.body.author) validations.push(Validation.string('Author', req.body.author))
+				if (req.body.status) validations.push(Validation.status('Status', req.body.status)) // TODO: Allow for array of statuses
+				callback(Validation.catchErrors(validations))
+			},
 
-		// Page query
-		Database.page(pageOptions, (err, annotations) => {
-			Secretary.addToResponse(res, "annotations", annotations);
-			next(err)
-		})
+			// Query users by name if author filter present
+			(callback) => {
+				if (req.body.author) {
+					Database.find({
+						model: User,
+						query: {
+							name: Database.text(req.body.author),
+						},
+					}, (err, users) => {
+						if (err) return callback(null, [])
+						callback(null, users)
+					})
+				} else callback(null, [])
+			},
+
+			// Assemble query & page objects
+			(users, callback) => {
+
+				// Setup query
+				const query = {}
+
+				// Add text queries
+				if (req.body.text) query.text = Database.text(req.body.text)
+				if (req.body.context) query.context = Database.text(req.body.context)
+
+				// Add status query
+				if (req.body.status) query.status = req.body.status // TODO: Allow for array of statuses
+
+				// Add author query (using $or)
+				if (req.body.author) {
+					let userGUIDs = []
+					for (let user of users) {
+						userGUIDs.push(user.guid)
+					}
+					query["$or"] = [
+						{ user: { "$in": userGUIDs } },
+						{ attribution: Database.text(req.body.author) },
+					]
+				}
+				
+				// Setup page options
+				const pageOptions = {
+					model: Annotation,
+					pageSize: 100,
+					query: query,
+				};
+
+				// Page query
+				Database.page(pageOptions, (err, annotations) => {
+					Secretary.addToResponse(res, "annotations", annotations);
+					callback(err)
+				})
+			}
+
+		], err => next(err));
+
+		
 	})
 
 	/**

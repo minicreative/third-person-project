@@ -36,6 +36,13 @@ $section_pad_: 50px;
     to {transform:rotate(360deg)}
 }
 
+@mixin spin {
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear; 
+}
+
 // Reusuable Circle Styles =========================================================
 
 .header-circle-container {
@@ -392,12 +399,7 @@ button {
         float:right; text-align:right;
         button {margin:0px; margin-left:20px;}
     }
-    .fa-spinner {
-        animation-name: spin;
-        animation-duration: 1000ms;
-        animation-iteration-count: infinite;
-        animation-timing-function: linear; 
-    }
+    .fa-spinner {@include spin;}
 }
 
 #page-slug {display:none;}
@@ -419,12 +421,19 @@ button {
     table {width:100%; margin-top:10px; background:#666; color:white;}
     thead {background:#333;}
     th {padding:8px 12px; text-align:left;}
-    td {padding:10px 12px; border-bottom:1px solid #444;}
+    td {padding:10px 12px; font-size:18px; border-bottom:1px solid #444;}
+    tr.filter td {background-color:#777;}
     tr:last-child td {border-bottom:0px;}
     .buttons {
         text-align:right;
         div {cursor:pointer; margin-left:12px;}
+        button.fa {background:none; padding:0px; color:inherit;}
     }
+    select {font-family:inherit; font-size:inherit;}
+    input {border:0px; background:none; padding:0px; width:100%; 
+        color:white; font-family:inherit; font-size:inherit;}
+    input::placeholder {font-style:italic; color:#ccc;}
+    .fa-spinner {@include spin;}
 }
 .annotation-toolbar {
     background:#F2CD5C;
