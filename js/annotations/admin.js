@@ -109,6 +109,12 @@ function userList() {
         loading: false,
         errorMessage: "",
         users: [],
+        filterModel: {
+            name: "",
+            email: "",
+            role: "",
+        },
+        filterEmpty: false,
         
         modal: {
             show: false,
@@ -136,6 +142,32 @@ function userList() {
                     this.loading = false
                 }
             })
+        },
+        filter() {
+            this.loading = true
+
+            let body = this.filterModel
+            fetchAPI({
+                path: "user.list",
+                body: body,
+                success: (data) => {
+                    this.errorMessage = ""
+                    this.users = data.users
+
+                    // Handle empty filter query
+                    if (data.users.length < 1) this.filterEmpty = true;
+                    else this.filterEmpty = false;
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message
+                },
+                final: () => {
+                    this.loading = false
+                }
+            })
+        },
+        watchKeypress(event) {
+            if (event.keyCode === 13) this.filter()
         },
         edit(guid) {
             this.modal.show = true

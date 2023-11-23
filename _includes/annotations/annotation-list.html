@@ -18,13 +18,15 @@
             <tbody>
                 <tr class="filter">
                     <td>
-                        <input type="text" x-model="filterModel.text" x-on:keypress="watchKeypress(event)" />
+                        <input type="text" placeholder="Filter by text..."
+                            x-model="filterModel.text" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <input type="text" x-model="filterModel.context" x-on:keypress="watchKeypress(event)" />
+                        <input type="text" placeholder="Filter by issue date..."
+                            x-model="filterModel.context" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <input type="text" 
+                        <input type="text" placeholder="Filter by author..."
                             x-show="$store.auth.user.role != 'annotator'" x-cloak 
                             x-model="filterModel.author" 
                             x-on:keypress="watchKeypress(event)" />
@@ -48,7 +50,7 @@
                 <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
                     <td x-text="annotation.text"></td>
                     <td x-text="annotation.context"></td>
-                    <td x-text="annotation.attribution ? annotation.attribution : annotation.userName"></td>
+                    <td x-text="annotation.attribution ? `${annotation.attribution} (${annotation.userName})` : annotation.userName"></td>
                     <td x-text="annotation.status" class="capitalize"></td>
                     <td class="buttons">
                         <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>

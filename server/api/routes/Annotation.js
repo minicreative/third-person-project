@@ -78,15 +78,12 @@ module.exports = router => {
 			// Query users by name if author filter present
 			(callback) => {
 				if (req.body.author) {
-					let query = {
-						name: Database.text(req.body.author),
-					}
-					console.log(query)
 					Database.find({
 						model: User,
-						query: query,
+						query: {
+							name: Database.text(req.body.author),
+						},
 					}, (err, users) => {
-						console.log(users)
 						if (err) return callback(null, [])
 						callback(null, users)
 					})

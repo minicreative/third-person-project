@@ -16,6 +16,10 @@ module.exports = router => {
 	 * @apiName List
 	 * @apiGroup User
 	 * @apiDescription Lists users
+	 * 
+	 * @apiParam {String} name String to filter by name
+	 * @apiParam {String} email String to filter by email
+	 * @apiParam {String} role Valid string to filter by role
 	 *
 	 * @apiSuccess {Array} users User object array
 	 *
@@ -23,13 +27,6 @@ module.exports = router => {
 	 */
 	router.post('/user.list', (req, res, next) => {
 		req.handled = true;
-
-		// Validate query parameters
-		var validations = [
-			Validation.pageSize('Page size', req.body.pageSize, 20)
-		];
-		let err = Validation.catchErrors(validations)
-		if (err) return next(err)
 
 		// Synchronously perform the following tasks...
 		Async.waterfall([
@@ -41,14 +38,28 @@ module.exports = router => {
 				});
 			},
 
-			// Find and return user from token
+			// Validate parameters
+			(callback) => {
+				var validations = [];
+				if (req.body.name) validations.push(Validation.string('Name', req.body.name))
+				if (req.body.email) validations.push(Validation.string('Email', req.body.email))
+				if (req.body.role) validations.push(Validation.role('Role', req.body.role)) // TODO: Allow for array of roles
+				callback(Validation.catchErrors(validations))
+			},
+
+			// Setup query and page database
 			callback => {
 
 				// Setup query
 				const query = {}
+
+				if (req.body.name) query.name = Database.text(req.body.name)
+				if (req.body.email) query.email = Database.text(req.body.email)
+				if (req.body.role) query.role = req.body.role
+
 				const pageOptions = {
 					model: User,
-					pageSize: req.body.pageSize,
+					pageSize: 100,
 					query: query,
 				};
 
