@@ -1,7 +1,6 @@
 ---
 title: Home
 permalink: "/"
-position: 0
 order: 1
 primary_images:
 - "/uploads/Wilmington%20NC%20-%20Bird_s%20Eye%20View%20c.%201900,%20New%20Hanover%20County%20LibraryJPG.jpg"
