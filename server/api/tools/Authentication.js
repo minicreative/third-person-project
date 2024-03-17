@@ -61,7 +61,11 @@ module.exports = {
 					}
 				})
 			} else {
-				callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
+				if (err.expiredAt) {
+					callback(Secretary.authenticationError(Messages.authErrors.expired));
+				} else {
+					callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
+				}
 			}
 		});
 	},

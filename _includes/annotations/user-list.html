@@ -1,10 +1,10 @@
 <template x-if="$store.auth.user.role == 'administrator'">
     <div class="admin-table" x-data="userList()">
+        <template x-if="loading">
+            <i class="fa fa-spinner table-loading"></i>
+        </template>
         <h3>Users</h3>
         {% include annotations/user-modal.html %}
-        <template x-if="loading">
-            <i class="fa fa-spinner"></i>
-        </template>
         <table cellspacing="0" cellpadding="0">
             <thead>
                 <th>Name</th>
@@ -33,7 +33,9 @@
                     </td>
                     <td></td>
                     <td class="buttons">
-                        <button type="submit" class="fa fa-search" x-on:click="filter()"></button>
+                        <button type="submit" x-on:click="filter()">
+                            <i class="fa" :class="filterLoading ? 'fa-spinner' : 'fa-search'"></i>
+                        </button>
                     </td>
                 </tr>
                 <template x-if="filterEmpty">

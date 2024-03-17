@@ -1,9 +1,9 @@
 <div class="admin-table" x-data="annotationList()">
-    <h3 x-text="heading"></h3>
     <template x-if="loading">
-        <i class="fa fa-spinner"></i>
+        <i class="fa fa-spinner table-loading"></i>
     </template>
-    <template x-if="!filterEmpty && annotations.length == 0">
+    <h3 x-text="heading"></h3>
+    <template x-if="!filterEmpty && annotations.length == 0 && !loading">
         <span class="empty-message">You haven't created any annotations.</span>
     </template>
     <template x-if="filterEmpty || annotations.length > 0">
@@ -41,7 +41,9 @@
                         </select>
                     </td>
                     <td class="buttons">
-                        <button type="submit" class="fa fa-search" x-on:click="filter()"></button>
+                        <button type="submit" x-on:click="filter()">
+                            <i class="fa" :class="filterLoading ? 'fa-spinner' : 'fa-search'"></i>
+                        </button>
                     </td>
                 </tr>
                 <template x-if="filterEmpty">

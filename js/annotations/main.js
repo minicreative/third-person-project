@@ -79,7 +79,9 @@ async function fetchAPI({ path, body, success, failure, final }) {
         
         // Handle handled errors
         else {
-            if (response.status === 401) return Alpine.store('auth').logout(true)
+            if (response.status === 401) {
+                return Alpine.store('auth').logout(true)
+            }
             failure(data)
         }
 

@@ -51,6 +51,7 @@ module.exports = {
 		'missingToken': "Missing authentication token",
 		'unauthentication': "Unauthenticated",
 		'userRoleChanged': "User role changed, authentication no longer valid, please sign in again",
+		'expired': "Authentication expired, please sign in again",
 		'unauthorized': "Unauthorized",
 		'notAdmin': "Only an administrator can view or edit users besides themselves",
 		'annotatorStatusCreate': "An annotator cannot provide a status for a new annotation",

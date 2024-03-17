@@ -422,7 +422,6 @@ button {
     thead {background:#333;}
     th {padding:8px 12px; text-align:left;}
     td {padding:10px 12px; font-size:18px; border-bottom:1px solid #444;}
-    tr.filter td {background-color:#777;}
     tr:last-child td {border-bottom:0px;}
     .buttons {
         text-align:right;
@@ -433,10 +432,15 @@ button {
     input {border:0px; background:none; padding:0px; width:100%; 
         color:white; font-family:inherit; font-size:inherit;}
     input::placeholder {font-style:italic; color:#ccc;}
+    .table-loading {float:left; line-height:30px; margin-right:12px;}
     .fa-spinner {@include spin;}
+    tr.filter {
+        .buttons button {padding:2px 5px; border-radius:2px; background:#F2CD5C; color:#333;}
+        td {background-color:#777;}
+    }
 }
 .annotation-toolbar {
-    background:#F2CD5C;
+    background:#524e42;
     &.sticky {position:fixed; top:0px;}
     li {
         display:inline-block; list-style-type:none; padding:10px 20px; cursor:pointer;

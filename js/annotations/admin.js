@@ -107,6 +107,7 @@ function userList() {
     return {
 
         loading: false,
+        filterLoading: false,
         errorMessage: "",
         users: [],
         filterModel: {
@@ -144,7 +145,7 @@ function userList() {
             })
         },
         filter() {
-            this.loading = true
+            this.filterLoading = true
 
             let body = this.filterModel
             fetchAPI({
@@ -162,7 +163,7 @@ function userList() {
                     this.errorMessage = data.message
                 },
                 final: () => {
-                    this.loading = false
+                    this.filterLoading = false
                 }
             })
         },
@@ -227,6 +228,7 @@ function annotationList() {
 
         heading: "",
         loading: false,
+        filterLoading: false,
         errorMessage: "",
         annotations: [],
         filterModel: {
@@ -266,7 +268,7 @@ function annotationList() {
         },
         filter() {
             const user = Alpine.store('auth').user
-            this.loading = true
+            this.filterLoading = true
 
             let body = this.filterModel
             if (user.role == "annotator") body.user = user.guid
@@ -285,7 +287,7 @@ function annotationList() {
                     this.errorMessage = data.message
                 },
                 final: () => {
-                    this.loading = false
+                    this.filterLoading = false
                 }
             })
         },

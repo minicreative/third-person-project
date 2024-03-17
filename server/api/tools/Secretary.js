@@ -52,7 +52,7 @@ module.exports = {
 	 * @return {Object} Error object {code, message, handledError: true}
 	 */
 	authenticationError: message => {
-		return createError(Messages.codes.unauthenicatedError, message);
+		return createError(Messages.codes.unauthenticatedError, message);
 	},
 
 	/**
