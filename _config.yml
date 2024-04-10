@@ -22,33 +22,6 @@ collections:
   uploads:
     title: Uploads
     output: true
-defaults:
-- scope:
-    path: ''
-    type: pages
-  values:
-    layout: page
-    primary_image: ''
-- scope:
-    path: ''
-    type: archives
-  values:
-    layout: item
-    primary_image: ''
-    file: ''
-    transcript_text: ''
-- scope:
-    path: ''
-    type: findings
-  values:
-    layout: item
-    primary_image: ''
-    author: ''
-- scope:
-    path: ''
-    type: projects
-  values:
-    layout: item
 sass:
   style: compressed
   sass_dir: _sass

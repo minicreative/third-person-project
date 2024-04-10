@@ -2,6 +2,7 @@ backend:
   name: github
   repo: minicreative/third-person-project
   branch: main
+  base_url: https://github-auth.tomasroy.com/
 editor:
   preview: false
 media_folder: "_uploads"
