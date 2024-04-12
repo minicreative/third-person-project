@@ -18,19 +18,19 @@
     {% if page.collection == "archives" %}
     <div class="section container">
         <details>
-            <summary><i class="fa fa-file-text-o"></i> {{ site.messages.view_transcript }}</summary>
+            <summary><i class="fa fa-file-text-o"></i> {{ site.data.settings.messages.view_transcript }}</summary>
             {% if page.content.size > 1 %}
                 {% include transcript.html %}
             {% else %}
-                {{ site.messages.no_transcript }}
+                {{ site.data.settings.messages.no_transcript }}
             {% endif %}
         </details>
         <details open>
-            <summary><i class="fa fa-file-pdf-o"></i> {{ site.messages.view_file }}</summary>
+            <summary><i class="fa fa-file-pdf-o"></i> {{ site.data.settings.messages.view_file }}</summary>
             {% if page.file != nil and page.file != '' %}
                 {% include file-embed.html %}
             {% else %}
-                {{ site.messages.no_file }}
+                {{ site.data.settings.messages.no_file }}
             {% endif %}
         </details>
     </div>

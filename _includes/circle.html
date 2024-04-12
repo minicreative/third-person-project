@@ -11,7 +11,7 @@
             <div class="bg" style="background-image:url('{{ circle_item.primary_image }}');
                 {% if circle_item.primary_image_position != nil %}background-position:{{ circle_item.primary_image_position }} center;{% endif %}"></div>
         {% else %}
-            <div class="bg" style="background-image:url('{{ site.primary_image }}');"></div>
+            <div class="bg" style="background-image:url('{{ site.data.settings.primary_image }}');"></div>
         {% endif %}
     {% endif %}
 </div>

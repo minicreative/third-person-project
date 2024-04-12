@@ -10,29 +10,88 @@ public_folder: "uploads"
 collections:
   - name: "page"
     label: "Pages"
-    label_singular: "Page"
-    folder: "/"
     create: false
-    slug: "{{slug}}"
-    fields:
-      - label: "Layout"
-        name: "layout"
-        widget: "hidden"
-        default: "page"
-      - label: "Title"
-        name: "title"
-        widget: "string"
-      - label: "URL"
-        name: "permalink"
-        widget: "string"
-      - label: "Collection"
-        name: "collection"
-        widget: "string"
-        hint: "Collection to list on page (e.g. findings, archives). Leave blank if no list is needed"
-      - label: "Content"
-        name: "body"
-        widget: "markdown"
-        hint: "Displayed above list of items"
+    sortable_fields: ['title', 'order']
+    files: 
+      - file: "index.md"
+        label: "Home"
+        name: "home"
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - label: "Header Background Slideshow"
+            name: "primary_images"
+            widget: "image"
+            allow_multiple: true
+          - label: "Header Text"
+            name: "header_text"
+            widget: "text"
+          - label: "Features Header"
+            name: "features_header"
+            widget: "string"
+          - label: "Features"
+            name: "features"
+            widget: "list"
+            fields:
+              - {label: Title, name: title, widget: string}
+              - {label: Description, name: description, widget: markdown}
+              - {label: Link, name: link, widget: string}
+          - label: "About Header"
+            name: "about_header"
+            widget: string
+          - label: "About Content"
+            name: "about_content"
+            widget: text
+          - label: "About Link"
+            name: "about_link"
+            widget: "string"
+          - label: "About Link URL"
+            name: "about_link_url"
+            widget: "string"
+      - file: "projects.md"
+        label: Projects
+        name: projects
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - {label: Collection, name: collection, widget: string}
+          - {label: Content, name: body, widget: markdown, hint: "Displayed above list of items"}
+      - file: "archives.md"
+        label: Archives
+        name: archives
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - {label: Collection, name: collection, widget: string}
+          - {label: Content, name: body, widget: markdown, hint: "Displayed above list of items"}
+      - file: "findings.md"
+        label: Findings
+        name: findings
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - {label: Collection, name: collection, widget: string}
+          - {label: Content, name: body, widget: markdown, hint: "Displayed above list of items"}
+      - file: "about.md"
+        label: About
+        name: about
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - {label: Content, name: body, widget: markdown}
+      - file: "get-involved.md"
+        label: Get Involved
+        name: get-involved
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: URL, name: permalink, widget: string}
+          - {label: Order, name: order, widget: number}
+          - {label: Content, name: body, widget: markdown}
   - name: "findings"
     label: "Findings"
     label_singular: "Finding"
@@ -50,6 +109,7 @@ collections:
       - label: "Published"
         name: "date"
         widget: "datetime"
+        date_format: "YYYY-MM-DD"
       - label: "Author"
         name: "author"
         widget: "string"
@@ -100,8 +160,8 @@ collections:
             name: "url"
             widget: "string"
   - name: "archives"
-    label: "Archived Items"
-    label_singular: "Item"
+    label: "Archives"
+    label_singular: "Archive Item"
     folder: "_archives"
     create: true
     slug: "{{slug}}"
@@ -119,7 +179,7 @@ collections:
     - label: "Published"
       name: "date"
       widget: "datetime"
-      format: "MM/DD/YYYY"
+      date_format: "YYYY-MM-DD"
     - label: "Primary Image"
       name: "primary_image"
       widget: "image"
@@ -127,3 +187,49 @@ collections:
     - label: "Transcript"
       name: "body"
       widget: "markdown"
+  - name: "config"
+    label: "Site Configuration"
+    files:
+      - file: "_data/settings.yml"
+        label: "Settings"
+        name: "settings"
+        fields:
+          - label: "Logo"
+            name: "logo_image"
+            widget: image
+          - label: "Default Header Image"
+            name: "primary_image"
+            widget: image
+          - label: "Messages"
+            name: "messages"
+            widget: object
+            fields:
+              - label: "View transcript message"
+                name: "view_transcript"
+                widget: string
+              - label: "View file message"
+                name: "view_file"
+                widget: string
+              - label: "No transcript message"
+                name: "no_transcript"
+                widget: string
+              - label: "No file message"
+                name: "no_file"
+                widget: string
+          - label: "Footer Sections"
+            name: "footer_sections"
+            widget: "list"
+            allow_add: false
+            fields:
+              - label: "CSS Class"
+                name: "class"
+                widget: "string"
+              - label: "Header"
+                name: "header"
+                widget: "string"
+              - label: "HTML"
+                name: "html"
+                widget: "string"
+
+          
+    
