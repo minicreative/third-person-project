@@ -28,16 +28,25 @@ function UserProperties (schema) {
 			'required': true
 		},
 		'role': {
-			'type': 'String',
+			'type': String,
 			'enum': Messages.roles,
 			'index': true,
 			'required': true,
 		},
-		'adminEventsString': {
-			'type': 'String',
-			'index': false,
-			'required': false,
-		}
+		'events': [{
+			'date': {
+				'type': Number,
+				'required': true,
+			},
+			'user': {
+				'type': String,
+				'required': true,
+			},
+			'role': {
+				'type': String,
+				'required': true,
+			}
+		}],
     });
 };
 
@@ -134,31 +143,30 @@ function UserInstanceMethods (schema) {
 				});
 			},
 
-			// Attach admin event metadata
+			// Attach event metadata
 			function (callback) {
 
-				// Only process if there are admin events
-				if (!thisObject.adminEventsString || thisObject.adminEventsString === "") 
+				// Only process if there are events
+				if (!thisObject.events || thisObject.events.length == 0) 
 					return callback()
 
 				// Add formatted admin event to object
-				let adminEvents = JSON.parse(thisObject.adminEventsString)
-				if (!adminEvents) return callback()
-				let adminEvent = adminEvents[0]
-				let adminEventDate = Moment(parseInt(adminEvent.date*1000, 10)).format('MM/DD/YY hh:mma')
-				let adminEventRole = adminEvent.role.charAt(0).toUpperCase() + adminEvent.role.slice(1)
+				let event = thisObject.events[0]
+				let eventDate = Moment(parseInt(event.date*1000, 10)).format('M/D/YY') + ' at ' +
+					Moment(parseInt(event.date*1000, 10)).format('h:mma')
+				let eventRole = event.role.charAt(0).toUpperCase() + event.role.slice(1)
 				Database.findOne({
 					'model': Mongoose.model('User'),
 					'query': {
-						'guid': adminEvent.user,
+						'guid': event.user,
 					},
 				}, function(err, user) {
 					if (!err && user) {
 						thisObject.adminEvent = 
-							`Role set to ${adminEventRole} by ${user.name} on ${adminEventDate}`
+							`Role set to ${eventRole} by ${user.name} on ${eventDate}`
 					} else {
 						thisObject.adminEvent = 
-							`Role set to ${adminEventRole} by unknown user on ${adminEventDate}`
+							`Role set to ${eventRole} by unknown user on ${eventDate}`
 					}
 					callback()
 				})
@@ -188,16 +196,13 @@ function UserInstanceMethods (schema) {
 
 		// Setup administrative event
 		if (editingUser && role) {
-			let adminEventsString = this.adminEventsString
-			let adminEvents;
-			if (!adminEventsString || adminEventsString === "") adminEvents = []
-			else adminEvents = JSON.parse(adminEventsString)
-			adminEvents.unshift({
+			let events = this.events
+			events.unshift({
 				'date': Dates.now(),
 				'user': editingUser,
 				'role': role
 			})
-			set.adminEventsString = JSON.stringify(adminEvents)
+			set.events = events
 			set.role = role
 		}
 

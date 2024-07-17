@@ -68,10 +68,16 @@ module.exports = router => {
 			// Validate parameters
 			(callback) => {
 				var validations = [];
+
+				// 'user' paramter used to filter annotations for "annotator" role
+				if (req.body.user) validations.push(Validation.string('User', req.body.user))
+
+				// Filter parameters
 				if (req.body.text) validations.push(Validation.string('Text', req.body.text))
 				if (req.body.context) validations.push(Validation.string('Context', req.body.context))
 				if (req.body.author) validations.push(Validation.string('Author', req.body.author))
 				if (req.body.status) validations.push(Validation.status('Status', req.body.status)) // TODO: Allow for array of statuses
+
 				callback(Validation.catchErrors(validations))
 			},
 
@@ -83,15 +89,15 @@ module.exports = router => {
 						query: {
 							name: Database.text(req.body.author),
 						},
-					}, (err, users) => {
+					}, (err, authorUsers) => {
 						if (err) return callback(null, [])
-						callback(null, users)
+						callback(null, authorUsers)
 					})
 				} else callback(null, [])
 			},
 
 			// Assemble query & page objects
-			(users, callback) => {
+			(authorUsers, callback) => {
 
 				// Setup query
 				const query = {}
@@ -104,15 +110,24 @@ module.exports = router => {
 				if (req.body.status) query.status = req.body.status // TODO: Allow for array of statuses
 
 				// Add author query (using $or)
-				if (req.body.author) {
+				if (req.body.author || req.body.user) {
+
+					// Initialize array of users
 					let userGUIDs = []
-					for (let user of users) {
+
+					// Add 'user' if provided
+					if (req.body.user) userGUIDs.push(req.body.user)
+					
+					// Push all users from name-based query
+					for (let user of authorUsers) {
 						userGUIDs.push(user.guid)
 					}
-					query["$or"] = [
-						{ user: { "$in": userGUIDs } },
-						{ attribution: Database.text(req.body.author) },
-					]
+
+					// Setup OR query
+					let or = []
+					if (userGUIDs.length > 0) or.push({ user: { "$in": userGUIDs } })
+					if (req.body.author) or.push({ attribution: Database.text(req.body.author) })
+					query["$or"] = or
 				}
 				
 				// Setup page options
