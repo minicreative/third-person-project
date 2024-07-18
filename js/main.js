@@ -3,14 +3,11 @@ if (location.href.includes("localhost")) {
 	API_BASE = "http://localhost:3003/"
 }
 
-let stickyToolbar, stickyToolbarOffset
-
 // On Page Load
 $(document).ready(function() {
 	setupMobileNav()
     setupSlider()
     setColumnWidth()
-	setupStickyNav()
 })
 
 // On Stricter Page Load
@@ -28,18 +25,27 @@ $(window).on('scroll', function() {
 	handleStickyNav()
 })
 
-function setupStickyNav() {
-	stickyToolbar = $(".annotation-toolbar").first()
-	stickyToolbarOffset = stickyToolbar.offset()
-}
-
+let stickyToolbarPosition
 function handleStickyNav() {
+
+	// Initialize toolbar
+	let stickyToolbar = $(".annotation-toolbar").first()
+
+	// Exit function if toolbar not found
 	if (stickyToolbar === undefined || stickyToolbar.length < 1) return
+
+	// Exit function if transcript <detail> is not open
 	let detail = stickyToolbar.parents().find("details").first()
-	if ($(window).scrollTop() >= stickyToolbarOffset.top) {
-		if (detail.attr("open") !== undefined) {
-			stickyToolbar.addClass("sticky")
-		}
+	if (detail.attr("open") === undefined) {
+		return
+	}
+
+	// Save initial (un-stuck) position of toolbar once transcript detail is open
+	if (!stickyToolbarPosition) stickyToolbarPosition = stickyToolbar.position()
+
+	// Add or remove sticky class based on scroll
+	if ($(window).scrollTop() >= stickyToolbarPosition.top) {
+		stickyToolbar.addClass("sticky")
 	} else {
 		stickyToolbar.removeClass("sticky")
 	}
