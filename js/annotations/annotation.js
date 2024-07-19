@@ -121,7 +121,10 @@ document.addEventListener('alpine:init', () => {
                     },
                     failure: (data) => {
                         this.body = ""
-                        this.errorMessage = data.message
+                        Alpine.store('messages').post({
+                            type: 'error',
+                            text: data.message,
+                        })
                     }
                 })
             }
@@ -197,9 +200,17 @@ document.addEventListener('alpine:init', () => {
                 success: () => {
                     removeAnnotationFromPage(this.guid)
                     this.close()
+
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "Annotation deleted!"
+                    })
                 },
                 failure: (data) => {
-                    this.errorMessage = data.message
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message,
+                    })
                 },
                 final: () => {
                     this.deleteButtonText = "Delete"
@@ -245,9 +256,19 @@ document.addEventListener('alpine:init', () => {
                     if (this.scope) this.scope.populate(annotation)
                     this.populate(annotation)
                     this.removeEditor()
+
+                    let messageText = "Annotation created!"
+                    if (path == "annotation.edit") messageText = "Annotation updated!"
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: messageText
+                    })
                 },
                 failure: (data) => {
-                    this.errorMessage = data.message
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message,
+                    })
                 },
                 final: () => {
                     this.saveButtonText = "Save"

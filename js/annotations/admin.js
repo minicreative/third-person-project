@@ -182,7 +182,10 @@ function userList() {
                     this.modal.user = data.user
                 },
                 failure: (data) => {
-                    this.modal.errorMessage = data.message
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message
+                    })
                 },
                 final: () => {
                     this.modal.loading = false
@@ -206,9 +209,17 @@ function userList() {
                         }
                     }
                     this.modal.show = false
+
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "User updated!"
+                    })
                 },
                 failure: (data) => {
-                    this.modal.errorMessage = data.message
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message
+                    })
                 },
                 final: () => {
                     this.modal.buttonText = "Save"

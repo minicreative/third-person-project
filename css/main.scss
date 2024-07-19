@@ -413,6 +413,19 @@ button {
     &.show {display:block;}
 }
 
+.admin-messages {
+    position:fixed; bottom:0px; right:0px; max-width:400px; padding:20px; z-index:10000;
+    li {
+        position:relative; list-style:none; padding:8px 12px; margin-top:20px; 
+        background:#F4989C; @include basic_shadow();
+        font-family:'Arial', sans-serif; font-size:14px; color:white;
+        &.error {background:#cc0000;}
+       .close {
+            display:block; float:right; margin-left:6px; cursor:pointer; color:white;
+        }
+    }
+}
+
 .admin-auth {
     .logout {float:right; margin-top:0px;}
 }
@@ -437,6 +450,10 @@ button {
     tr.filter {
         .buttons button {padding:2px 5px; border-radius:2px; background:#F2CD5C; color:#333;}
         td {background-color:#777;}
+    }
+
+    .error-message {
+        margin-top:8px; padding:12px; border:2px solid #cc0000; color:#cc0000; text-align:center;
     }
 }
 .annotation-toolbar {

@@ -3,9 +3,12 @@
         <i class="fa fa-spinner table-loading"></i>
     </template>
     <h3 x-text="heading"></h3>
-    <template x-if="!filterEmpty && annotations.length == 0 && !loading">
-        <span class="empty-message">You haven't created any annotations.</span>
+
+    <!-- Error message -->
+    <template x-if="errorMessage != '' && !loading">
+        <div class="error-message" x-text="errorMessage"></div>
     </template>
+
     <template x-if="filterEmpty || annotations.length > 0">
         <table cellspacing="0" cellpadding="0">
             <thead>
@@ -61,7 +64,9 @@
             </tbody>
         </table>
     </template>
-    <template x-if="errorMessage != ''">
-        <span class="error-message" x-text="errorMessage"></span>
+
+    <!-- Empty message -->
+    <template x-if="!filterEmpty && annotations.length == 0 && !loading && errorMessage == ''">
+        <span class="empty-message">You haven't created any annotations.</span>
     </template>
 </div>

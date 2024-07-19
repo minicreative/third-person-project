@@ -42,13 +42,27 @@ document.addEventListener('alpine:init', () => {
         }
     })
 
-    // Error store
-    // Handles error messages
-    Alpine.store('error', {
-        errors: [],
+    // Messages store
+    // Handles error and success messages
+    Alpine.store('messages', {
+        messages: [],
         post(message) {
-            this.errors.push(message)
+            message.id = Date.now()
+            this.messages.push(message)
+
+            // Remove all messages after 4 seconds
+            setTimeout(() => {
+                this.drop(message)
+            }, 4000)
         },
+        drop(message) {
+            for (i in this.messages) {
+                if (message.id === this.messages[i].id) {
+                    this.messages.splice(i, 1)
+                    break
+                }
+            }
+        }
     })
 })
 
@@ -91,8 +105,8 @@ async function fetchAPI({ path, body, success, failure, final }) {
         console.log(error)
 
         // Handle unhandled errors
-        failure({
-            message: "An unknown error occured"
+        failure({ 
+            message: "An error occurred: we are unable to access the server at this time. Please try again."
         })
 
         // Run final if applicable

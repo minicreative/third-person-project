@@ -5,6 +5,11 @@
         </template>
         <h3>Users</h3>
         {% include annotations/user-modal.html %}
+
+        <template x-if="errorMessage != '' && !loading">
+            <div class="error-message" x-text="errorMessage"></div>
+        </template>
+
         <table cellspacing="0" cellpadding="0">
             <thead>
                 <th>Name</th>
@@ -52,8 +57,5 @@
                 </tr></template>
             </tbody>
         </table>
-        <template x-if="errorMessage != ''">
-            <span x-text="errorMessage"></span>
-        </template>
     </div>
 </template>

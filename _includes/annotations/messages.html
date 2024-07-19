@@ -1,0 +1,10 @@
+<div class="admin-messages" x-data="$store.messages">
+    <template x-if="messages.length > 0">
+        <template x-for="message in messages" :key="message.id">
+            <li :class="message.type">
+                <span x-on:click="drop(message)" class="fa fa-times close"></span>
+                <span x-text="message.text"></span>
+            </li>
+        </template>
+    </template>
+</div>
