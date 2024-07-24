@@ -107,17 +107,17 @@ function signup() {
 // Handles the user list in the admin template
 function userList() {
     return {
-
         loading: false,
-        filterLoading: false,
         errorMessage: "",
         users: [],
-        filterModel: {
+        query: {
+            pageSize: PAGE_SIZE,
             name: "",
             email: "",
             role: "",
         },
-        filterEmpty: false,
+        page: 0,
+        nextPage: false,
         
         modal: {
             show: false,
@@ -128,15 +128,40 @@ function userList() {
         },
 
         init() {
+            this.load({})
+        },
+        load({nextPage}) {
             this.loading = true
+            if (!nextPage) this.page = 0;
+
+            // Setup query
+            let body = this.query
+            if (this.page > 0) body.skip = this.page * PAGE_SIZE;
+
             fetchAPI({
                 path: "user.list",
-                body: {
-                    pageSize: 20,
-                },
+                body: body,
                 success: (data) => {
                     this.errorMessage = ""
-                    this.users = data.users
+                    this.page++;
+
+                    // Handle new page vs. fresh query
+                    if (nextPage) {
+                        let allUsers = this.users
+                        for (let user of data.users) {
+                            allUsers.push(user)
+                        }
+                        this.users = allUsers
+                    } else {
+                        this.users = data.users
+                    }
+
+                    // Determine whether to allow more paging
+                    if (data.users.length == PAGE_SIZE) {
+                        this.nextPage = true
+                    } else {
+                        this.nextPage = false
+                    }
                 },
                 failure: (data) => {
                     this.errorMessage = data.message
@@ -146,31 +171,8 @@ function userList() {
                 }
             })
         },
-        filter() {
-            this.filterLoading = true
-
-            let body = this.filterModel
-            fetchAPI({
-                path: "user.list",
-                body: body,
-                success: (data) => {
-                    this.errorMessage = ""
-                    this.users = data.users
-
-                    // Handle empty filter query
-                    if (data.users.length < 1) this.filterEmpty = true;
-                    else this.filterEmpty = false;
-                },
-                failure: (data) => {
-                    this.errorMessage = data.message
-                },
-                final: () => {
-                    this.filterLoading = false
-                }
-            })
-        },
         watchKeypress(event) {
-            if (event.keyCode === 13) this.filter()
+            if (event.keyCode === 13) this.load({filtered: true})
         },
         edit(guid) {
             this.modal.show = true
@@ -238,12 +240,11 @@ function userList() {
 // Handles the annotation list in the admin template
 function annotationList() {
     return {
-
         heading: "",
         loading: false,
         errorMessage: "",
         annotations: [],
-        filterModel: {
+        query: {
             pageSize: PAGE_SIZE,
             text: "",
             status: "",
@@ -268,9 +269,11 @@ function annotationList() {
             this.loading = true
             if (!nextPage) this.page = 0;
 
-            let body = this.filterModel
+            // Setup query
+            let body = this.query
             if (this.page > 0) body.skip = this.page * PAGE_SIZE;
             if (user.role == "annotator") body.user = user.guid
+            
             fetchAPI({
                 path: "annotation.list",
                 body: body,

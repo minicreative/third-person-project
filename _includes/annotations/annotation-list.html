@@ -22,20 +22,20 @@
                 <tr class="filter">
                     <td>
                         <input type="text" placeholder="Filter by text..."
-                            x-model="filterModel.text" x-on:keypress="watchKeypress(event)" />
+                            x-model="query.text" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
                         <input type="text" placeholder="Filter by issue date..."
-                            x-model="filterModel.context" x-on:keypress="watchKeypress(event)" />
+                            x-model="query.context" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
                         <input type="text" placeholder="Filter by author..."
                             x-show="$store.auth.user.role != 'annotator'" x-cloak 
-                            x-model="filterModel.author" 
+                            x-model="query.author" 
                             x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <select x-model="filterModel.status" x-on:change="load({filtered: true})">
+                        <select x-model="query.status" x-on:change="load({filtered: true})">
                             <option value="">All</option>
                             <option value="draft">Draft</option>
                             <option value="edited">Edited</option>

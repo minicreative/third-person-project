@@ -6,6 +6,7 @@
         <h3>Users</h3>
         {% include annotations/user-modal.html %}
 
+        <!-- Error message -->
         <template x-if="errorMessage != '' && !loading">
             <div class="error-message" x-text="errorMessage"></div>
         </template>
@@ -22,14 +23,14 @@
                 <tr class="filter">
                     <td>
                         <input type="text" placeholder="Filter by name..."
-                            x-model="filterModel.name" x-on:keypress="watchKeypress(event)" />
+                            x-model="query.name" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
                         <input type="text" placeholder="Filter by email..."
-                            x-model="filterModel.email" x-on:keypress="watchKeypress(event)" />
+                            x-model="query.email" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <select x-model="filterModel.role" x-on:change="filter()">
+                        <select x-model="query.role" x-on:change="load({})">
                             <option value="">All</option>
                             <option value="annotator">Annotator</option>
                             <option value="editor">Editor</option>
@@ -38,12 +39,12 @@
                     </td>
                     <td></td>
                     <td class="buttons">
-                        <button type="submit" x-on:click="filter()">
-                            <i class="fa" :class="filterLoading ? 'fa-spinner' : 'fa-search'"></i>
+                        <button type="submit" x-on:click="load({})">
+                            <i class="fa" :class="loading ? 'fa-spinner' : 'fa-search'"></i>
                         </button>
                     </td>
                 </tr>
-                <template x-if="filterEmpty">
+                <template x-if="users.length == 0">
                     <tr><td>Your filter returned no results.</td></tr>
                 </template>
                 <template x-for="user in users" :key="user.guid"><tr>
@@ -57,5 +58,11 @@
                 </tr></template>
             </tbody>
         </table>
+
+        <!-- Load more -->
+        <template x-if="nextPage">
+            <div class="load-more" x-on:click="load({nextPage: true})">Load more</div>
+        </template>
+
     </div>
 </template>

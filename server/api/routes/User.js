@@ -41,9 +41,16 @@ module.exports = router => {
 			// Validate parameters
 			(callback) => {
 				var validations = [];
+
+				// Pagination parameters
+				if (req.body.pageSize) validations.push(Validation.pageSize('Page size', req.body.pageSize))
+				if (req.body.skip) validations.push(Validation.number('Skip', req.body.skip))
+
+				// Filter parameters
 				if (req.body.name) validations.push(Validation.string('Name', req.body.name))
 				if (req.body.email) validations.push(Validation.string('Email', req.body.email))
 				if (req.body.role) validations.push(Validation.role('Role', req.body.role)) // TODO: Allow for array of roles
+
 				callback(Validation.catchErrors(validations))
 			},
 
@@ -59,7 +66,8 @@ module.exports = router => {
 
 				const pageOptions = {
 					model: User,
-					pageSize: 100,
+					pageSize: req.body.pageSize ? req.body.pageSize : 20,
+					skip: req.body.skip,
 					query: query,
 				};
 
