@@ -409,7 +409,7 @@ button {
     &.show {display:block;}
 }
 #expired {
-    display:none; color:red; text-align:center; margin-bottom:30px;
+    display:none; color:#cc0000; text-align:center; margin-bottom:30px;
     &.show {display:block;}
 }
 
@@ -417,9 +417,9 @@ button {
     position:fixed; bottom:0px; right:0px; max-width:400px; padding:20px; z-index:10000;
     li {
         position:relative; list-style:none; padding:8px 12px; margin-top:20px; 
-        background:#F4989C; @include basic_shadow();
-        font-family:'Arial', sans-serif; font-size:14px; color:white;
-        &.error {background:#cc0000;}
+        background:#F2CD5C; @include basic_shadow();
+        font-family:'Arial', sans-serif; font-size:14px; color:#333;
+        &.error {background:#cc0000; color:white;}
        .close {
             display:block; float:right; margin-left:6px; cursor:pointer; color:white;
         }
@@ -434,10 +434,10 @@ button {
     table {width:100%; margin-top:10px; background:#666; color:white;}
     thead {background:#333;}
     th {padding:8px 12px; text-align:left;}
-    td {padding:10px 12px; font-size:18px; border-bottom:1px solid #444;}
+    td {padding:10px 12px; font-size:18px; border-bottom:1px solid #444; min-width:100px;}
     tr:last-child td {border-bottom:0px;}
     .buttons {
-        text-align:right;
+        text-align:right; min-width:0px;
         div {cursor:pointer; margin-left:12px;}
         button.fa {background:none; padding:0px; color:inherit;}
     }
@@ -452,6 +452,9 @@ button {
         td {background-color:#777;}
     }
 
+    .load-more {
+        width:100%; padding:12px; background:#ccc; text-align:center; cursor:pointer;
+    }
     .error-message {
         margin-top:8px; padding:12px; border:2px solid #cc0000; color:#cc0000; text-align:center;
     }

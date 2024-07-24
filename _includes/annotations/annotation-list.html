@@ -35,7 +35,7 @@
                             x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <select x-model="filterModel.status" x-on:change="filter()">
+                        <select x-model="filterModel.status" x-on:change="load({filtered: true})">
                             <option value="">All</option>
                             <option value="draft">Draft</option>
                             <option value="edited">Edited</option>
@@ -44,8 +44,8 @@
                         </select>
                     </td>
                     <td class="buttons">
-                        <button type="submit" x-on:click="filter()">
-                            <i class="fa" :class="filterLoading ? 'fa-spinner' : 'fa-search'"></i>
+                        <button type="submit" x-on:click="load({filtered: true})">
+                            <i class="fa" :class="loading ? 'fa-spinner' : 'fa-search'"></i>
                         </button>
                     </td>
                 </tr>
@@ -65,8 +65,13 @@
         </table>
     </template>
 
+    <!-- Load more -->
+    <template x-if="nextPage">
+        <div class="load-more" x-on:click="load({nextPage: true})">Load more</div>
+    </template>
+
     <!-- Empty message -->
-    <template x-if="!filterEmpty && annotations.length == 0 && !loading && errorMessage == ''">
+    <template x-if="!filterEmpty && !loading && errorMessage == '' && annotations.length == 0">
         <span class="empty-message">You haven't created any annotations.</span>
     </template>
 </div>

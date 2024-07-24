@@ -1,4 +1,6 @@
 
+let PAGE_SIZE = 20
+
 // Handle query parameters
 $(document).ready(() => {
     let url = window.location.href;
@@ -239,16 +241,18 @@ function annotationList() {
 
         heading: "",
         loading: false,
-        filterLoading: false,
         errorMessage: "",
         annotations: [],
         filterModel: {
+            pageSize: PAGE_SIZE,
             text: "",
             status: "",
             author: "",
             context: "",
         },
         filterEmpty: false,
+        page: 0,
+        nextPage: false,
 
         init() {
             const user = Alpine.store('auth').user
@@ -256,18 +260,45 @@ function annotationList() {
             if (user.role == "annotator") this.heading = "Your Annotations"
             else this.heading = "Annotations"
 
-            this.loading = true
+            this.load({})
+        },
+        load({filtered, nextPage}) {
+            const user = Alpine.store('auth').user
 
-            let body = {
-                pageSize: 20,
-            }
+            this.loading = true
+            if (!nextPage) this.page = 0;
+
+            let body = this.filterModel
+            if (this.page > 0) body.skip = this.page * PAGE_SIZE;
             if (user.role == "annotator") body.user = user.guid
             fetchAPI({
                 path: "annotation.list",
                 body: body,
                 success: (data) => {
                     this.errorMessage = ""
-                    this.annotations = data.annotations
+                    this.page++;
+
+                    // Handle new page vs. fresh query
+                    if (nextPage) {
+                        let allAnnotations = this.annotations
+                        for (let annotation of data.annotations) {
+                            allAnnotations.push(annotation)
+                        }
+                        this.annotations = allAnnotations
+                    } else {
+                        this.annotations = data.annotations
+                    }
+
+                    // Determine whether to allow more paging
+                    if (data.annotations.length == PAGE_SIZE) {
+                        this.nextPage = true
+                    } else {
+                        this.nextPage = false
+                    }
+
+                    // Handle empty filter query
+                    if (filtered && data.annotations.length < 1) this.filterEmpty = true;
+                    else this.filterEmpty = false;
                 },
                 failure: (data) => {
                     this.errorMessage = data.message
@@ -277,33 +308,8 @@ function annotationList() {
                 }
             })
         },
-        filter() {
-            const user = Alpine.store('auth').user
-            this.filterLoading = true
-
-            let body = this.filterModel
-            if (user.role == "annotator") body.user = user.guid
-            fetchAPI({
-                path: "annotation.list",
-                body: body,
-                success: (data) => {
-                    this.errorMessage = ""
-                    this.annotations = data.annotations
-
-                    // Handle empty filter query
-                    if (data.annotations.length < 1) this.filterEmpty = true;
-                    else this.filterEmpty = false;
-                },
-                failure: (data) => {
-                    this.errorMessage = data.message
-                },
-                final: () => {
-                    this.filterLoading = false
-                }
-            })
-        },
         watchKeypress(event) {
-            if (event.keyCode === 13) this.filter()
+            if (event.keyCode === 13) this.load({filtered: true})
         },
         edit(annotation) {
             Alpine.store('annotation').openModal({
