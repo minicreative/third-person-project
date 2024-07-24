@@ -115,6 +115,7 @@ function userList() {
             name: "",
             email: "",
             role: "",
+            sort: "name",
         },
         page: 0,
         nextPage: false,
@@ -132,6 +133,10 @@ function userList() {
         },
         load({nextPage}) {
             this.loading = true
+            updateSortIcon({
+                listID: 'user-list',
+                sortKey: this.query.sort,
+            })
             if (!nextPage) this.page = 0;
 
             // Setup query
@@ -171,8 +176,20 @@ function userList() {
                 }
             })
         },
+        sort(e) {
+
+            // Get sort context from target
+            let sortname = $(e.target).attr("sortname")
+            let reverse = !$(e.target).hasClass("reversed")
+            
+            // Update query
+            let sortkey = sortname
+            if (reverse) sortkey = "-"+sortname
+            this.query.sort = sortkey
+            this.load({})
+        },
         watchKeypress(event) {
-            if (event.keyCode === 13) this.load({filtered: true})
+            if (event.keyCode === 13) this.load({})
         },
         edit(guid) {
             this.modal.show = true
@@ -250,6 +267,7 @@ function annotationList() {
             status: "",
             author: "",
             context: "",
+            sort: "text",
         },
         filterEmpty: false,
         page: 0,
@@ -267,6 +285,10 @@ function annotationList() {
             const user = Alpine.store('auth').user
 
             this.loading = true
+            updateSortIcon({
+                listID: "annotation-list",
+                sortKey: this.query.sort,
+            })
             if (!nextPage) this.page = 0;
 
             // Setup query
@@ -311,6 +333,18 @@ function annotationList() {
                 }
             })
         },
+        sort(e) {
+
+            // Get sort context from target
+            let sortname = $(e.target).attr("sortname")
+            let reverse = !$(e.target).hasClass("reversed")
+            
+            // Update query
+            let sortkey = sortname
+            if (reverse) sortkey = "-"+sortname
+            this.query.sort = sortkey
+            this.load({ filtered: true })
+        },
         watchKeypress(event) {
             if (event.keyCode === 13) this.load({filtered: true})
         },
@@ -330,4 +364,29 @@ function annotationList() {
             }
         },
     }
+}
+
+function updateSortIcon({listID, sortKey}) {
+    
+    // Parse sort key
+    let sortID;
+    let reverse = false
+    if (sortKey.charAt(0) === "-") {
+        sortID = sortKey.slice(1)
+        reverse = true
+    } else {
+        sortID = sortKey
+    }
+
+	$(`#${listID}`).find("th.sortable").each(function() {
+        let columnSortName = $(this).attr('sortName')
+        if (columnSortName == sortID) {
+            $(this).addClass("sorted")
+            if (reverse) $(this).addClass("reversed")
+            else $(this).removeClass("reversed")
+        } else {
+            $(this).removeClass("sorted")
+            $(this).removeClass("reversed")
+        }
+    })
 }

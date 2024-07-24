@@ -452,6 +452,15 @@ button {
         td {background-color:#777;}
     }
 
+    th.sortable {
+        cursor:pointer;
+        &.sorted:after {
+            display:inline-block; vertical-align:text-bottom; margin-left:10px; font-size:10px; line-height:22px;
+            content:"\25BC";
+        }
+        &.sorted.reversed:after {content:"\25B2";}
+    }
+
     .load-more {
         width:100%; padding:12px; background:#ccc; text-align:center; cursor:pointer;
     }

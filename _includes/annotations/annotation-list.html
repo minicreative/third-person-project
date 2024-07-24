@@ -9,61 +9,59 @@
         <div class="error-message" x-text="errorMessage"></div>
     </template>
 
-    <template x-if="filterEmpty || annotations.length > 0">
-        <table cellspacing="0" cellpadding="0">
-            <thead>
-                <th>Annotated Text</th>
-                <th>Issue</th>
-                <th>Author</th>
-                <th>Status</th>
-                <th></th>
-            </thead>
-            <tbody>
-                <tr class="filter">
-                    <td>
-                        <input type="text" placeholder="Filter by text..."
-                            x-model="query.text" x-on:keypress="watchKeypress(event)" />
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Filter by issue date..."
-                            x-model="query.context" x-on:keypress="watchKeypress(event)" />
-                    </td>
-                    <td>
-                        <input type="text" placeholder="Filter by author..."
-                            x-show="$store.auth.user.role != 'annotator'" x-cloak 
-                            x-model="query.author" 
-                            x-on:keypress="watchKeypress(event)" />
-                    </td>
-                    <td>
-                        <select x-model="query.status" x-on:change="load({filtered: true})">
-                            <option value="">All</option>
-                            <option value="draft">Draft</option>
-                            <option value="edited">Edited</option>
-                            <option value="reviewed">Reviewed</option>
-                            <option value="published">Published</option>
-                        </select>
-                    </td>
-                    <td class="buttons">
-                        <button type="submit" x-on:click="load({filtered: true})">
-                            <i class="fa" :class="loading ? 'fa-spinner' : 'fa-search'"></i>
-                        </button>
-                    </td>
-                </tr>
-                <template x-if="filterEmpty">
-                    <tr><td>Your filter returned no results.</td></tr>
-                </template>
-                <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
-                    <td x-text="annotation.text"></td>
-                    <td x-text="annotation.context"></td>
-                    <td x-text="annotation.attribution ? `${annotation.attribution} (${annotation.userName})` : annotation.userName"></td>
-                    <td x-text="annotation.status" class="capitalize"></td>
-                    <td class="buttons">
-                        <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>
-                    </td>
-                </tr></template>
-            </tbody>
-        </table>
-    </template>
+    <table cellspacing="0" cellpadding="0" x-show="filterEmpty || annotations.length > 0">
+        <thead id="annotation-list">
+            <th class="sortable" sortname="text" @click="sort">Annotated Text</th>
+            <th class="sortable" sortname="context" @click="sort">Issue</th>
+            <th>Author</th>
+            <th class="sortable" sortname="status" @click="sort">Status</th>
+            <th></th>
+        </thead>
+        <tbody>
+            <tr class="filter">
+                <td>
+                    <input type="text" placeholder="Filter by text..."
+                        x-model="query.text" x-on:keypress="watchKeypress(event)" />
+                </td>
+                <td>
+                    <input type="text" placeholder="Filter by issue date..."
+                        x-model="query.context" x-on:keypress="watchKeypress(event)" />
+                </td>
+                <td>
+                    <input type="text" placeholder="Filter by author..."
+                        x-show="$store.auth.user.role != 'annotator'" x-cloak 
+                        x-model="query.author" 
+                        x-on:keypress="watchKeypress(event)" />
+                </td>
+                <td>
+                    <select x-model="query.status" x-on:change="load({filtered: true})">
+                        <option value="">All</option>
+                        <option value="draft">Draft</option>
+                        <option value="edited">Edited</option>
+                        <option value="reviewed">Reviewed</option>
+                        <option value="published">Published</option>
+                    </select>
+                </td>
+                <td class="buttons">
+                    <button type="submit" x-on:click="load({filtered: true})">
+                        <i class="fa" :class="loading ? 'fa-spinner' : 'fa-search'"></i>
+                    </button>
+                </td>
+            </tr>
+            <template x-if="filterEmpty">
+                <tr><td>Your filter returned no results.</td></tr>
+            </template>
+            <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
+                <td x-text="annotation.text"></td>
+                <td x-text="annotation.context"></td>
+                <td x-text="annotation.attribution ? `${annotation.attribution} (${annotation.userName})` : annotation.userName"></td>
+                <td x-text="annotation.status" class="capitalize"></td>
+                <td class="buttons">
+                    <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>
+                </td>
+            </tr></template>
+        </tbody>
+    </table>
 
     <!-- Load more -->
     <template x-if="nextPage">

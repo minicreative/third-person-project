@@ -72,6 +72,7 @@ module.exports = router => {
 				// Pagination parameters
 				if (req.body.pageSize) validations.push(Validation.pageSize('Page size', req.body.pageSize))
 				if (req.body.skip) validations.push(Validation.number('Skip', req.body.skip))
+				if (req.body.sort) validations.push(Validation.string('Sort', req.body.sort))
 
 				// 'user' paramter used to filter annotations for "annotator" role
 				if (req.body.user) validations.push(Validation.string('User', req.body.user))
@@ -139,6 +140,7 @@ module.exports = router => {
 					model: Annotation,
 					pageSize: req.body.pageSize ? req.body.pageSize : 20,
 					skip: req.body.skip,
+					sort: req.body.sort,
 					query: query,
 				};
 

@@ -45,6 +45,7 @@ module.exports = router => {
 				// Pagination parameters
 				if (req.body.pageSize) validations.push(Validation.pageSize('Page size', req.body.pageSize))
 				if (req.body.skip) validations.push(Validation.number('Skip', req.body.skip))
+				if (req.body.sort) validations.push(Validation.string('Sort', req.body.sort))
 
 				// Filter parameters
 				if (req.body.name) validations.push(Validation.string('Name', req.body.name))
@@ -68,6 +69,7 @@ module.exports = router => {
 					model: User,
 					pageSize: req.body.pageSize ? req.body.pageSize : 20,
 					skip: req.body.skip,
+					sort: req.body.sort,
 					query: query,
 				};
 

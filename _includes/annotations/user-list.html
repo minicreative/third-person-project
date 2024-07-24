@@ -12,10 +12,10 @@
         </template>
 
         <table cellspacing="0" cellpadding="0">
-            <thead>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Role</th>
+            <thead id="user-list">
+                <th class="sortable" sortname="name" @click="sort">Name</th>
+                <th class="sortable" sortname="email" @click="sort">Email</th>
+                <th class="sortable" sortname="role" @click="sort">Role</th>
                 <th># of annotations</th>
                 <th></th>
             </thead>
