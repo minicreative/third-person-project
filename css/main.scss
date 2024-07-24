@@ -437,8 +437,8 @@ button {
     td {padding:10px 12px; font-size:18px; border-bottom:1px solid #444; min-width:100px;}
     tr:last-child td {border-bottom:0px;}
     .buttons {
-        text-align:right; min-width:0px;
-        div {cursor:pointer; margin-left:12px;}
+        text-align:right; min-width:60px;
+        div {display:inline-block; cursor:pointer; margin-left:8px;}
         button.fa {background:none; padding:0px; color:inherit;}
     }
     select {font-family:inherit; font-size:inherit;}

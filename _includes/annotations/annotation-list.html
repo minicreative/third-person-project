@@ -57,6 +57,7 @@
                 <td x-text="annotation.attribution ? `${annotation.attribution} (${annotation.userName})` : annotation.userName"></td>
                 <td x-text="annotation.status" class="capitalize"></td>
                 <td class="buttons">
+                    <div class="fa fa-trash-o" x-on:click="erase($event, annotation)"></div>
                     <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>
                 </td>
             </tr></template>

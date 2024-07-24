@@ -355,6 +355,38 @@ function annotationList() {
                 scope: this,
             })
         },
+        erase(e, annotation) {
+            // Start loading sequence
+            $(e.target).removeClass("fa-trash-o")
+            $(e.target).addClass("fa-spinner")
+
+            fetchAPI({
+                path: "annotation.delete",
+                body: {
+                    guid: annotation.guid,
+                },
+                success: () => {
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "Annotation deleted!"
+                    })
+                    for (let i in this.annotations) {
+                        if (this.annotations[i].guid == annotation.guid) {
+                            this.annotations.splice(i, 1)
+                            break
+                        }
+                    }
+                },
+                failure: (data) => {
+                    $(e.target).removeClass("fa-spinner")
+                    $(e.target).addClass("fa-trash-o")
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message,
+                    })
+                }
+            })
+        },
         populate: function (annotation) {
             for (let i in this.annotations) {
                 if (this.annotations[i].guid == annotation.guid) {
