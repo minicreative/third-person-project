@@ -366,6 +366,7 @@ form {
     input {border:1px solid #ccc; padding:10px;}
     select {font-family:inherit; font-size:inherit; min-width:240px;}
     button {margin-top:20px; margin-right:20px;}
+    .error {color:#cc0000; font-weight:bold;}
 }
 button {
     display:inline-block; cursor:pointer; border:0px; font-family:inherit; font-size:18px;

@@ -9,6 +9,9 @@ const ANNOTATOR = 'annotator'
 const EDITOR = 'editor'
 const ADMINISTRATOR = 'administrator'
 
+const EVENT_USER_ROLE_CHANGE = "userRoleChange"
+const EVENT_USER_DELETE = "userDelete"
+
 module.exports = {
 
 	DRAFT: DRAFT,
@@ -18,6 +21,8 @@ module.exports = {
 	ANNOTATOR: ANNOTATOR,
 	EDITOR: EDITOR,
 	ADMINISTRATOR: ADMINISTRATOR,
+	EVENT_USER_ROLE_CHANGE: EVENT_USER_ROLE_CHANGE,
+	EVENT_USER_DELETE: EVENT_USER_DELETE,
 
 	/** Status Enumerations
 	 * @memberof api/tools/Messages
@@ -28,6 +33,11 @@ module.exports = {
 	 * @memberof api/tools/Messages
 	 */
 	'roles': [ANNOTATOR, EDITOR, ADMINISTRATOR],
+
+	/** Event Enumerations
+	 * @memberof api/tools/Messages
+	 */
+	'events': [EVENT_USER_DELETE, EVENT_USER_ROLE_CHANGE],
 
 	/**
 	 * HTTP Response Codes
@@ -51,6 +61,7 @@ module.exports = {
 		'missingToken': "Missing authentication token",
 		'unauthentication': "Unauthenticated",
 		'userRoleChanged': "User role changed, authentication no longer valid, please sign in again",
+		'userDeleted': "User deleted, please contact an administrator",
 		'expired': "Authentication expired, please sign in again",
 		'unauthorized': "Unauthorized",
 		'notAdmin': "Only an administrator can view or edit users besides themselves",

@@ -107,7 +107,7 @@ module.exports = router => {
 
 			// Authenticate user
 			callback => {
-				Authentication.authenticateUser(req, function (err, token) {
+				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},
@@ -279,7 +279,7 @@ module.exports = router => {
 
 			// Authenticate user
 			callback => {
-				Authentication.authenticateUser(req, function (err, token) {
+				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},
@@ -372,6 +372,72 @@ module.exports = router => {
 	})
 
 	/**
+	 * @api {POST} /user.delete Delete
+	 * @apiName Delete
+	 * @apiGroup User
+	 * @apiDescription Deletes a user based on provided GUID
+	 *
+	 * @apiParam {String} guid User's GUID
+	 * 
+	 * @apiSuccess {Object} user User object
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.delete', (req, res, next) => {
+		req.handled = true;
+
+		// Validate all fields
+		let validations = [
+			Validation.string('GUID', req.body.guid),
+		];
+		var err = Validation.catchErrors(validations);
+		if (err) return next(err);
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Authenticate user
+			callback => {
+				Authentication.authenticateAdministrator(req, function (err, token) {
+					callback(err, token);
+				});
+			},
+
+			// Get user for GUID
+			(token, callback) => {
+				Database.findOne({
+					'model': User,
+					'query': {
+						'guid': req.body.guid
+					}
+				}, (err, user) => {
+					if (!user) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					else callback(err, token, user)
+				})
+			},
+
+			// Update user with delete event
+			(token, user, callback) => {
+				user.edit({
+					editingUser: token.user,
+					toBeDeleted: true,
+				}, (err, user) => {
+					callback(err, user);
+				});
+			},
+
+			// Delete user
+			(user, callback) => {
+				user.delete((err, user) => {
+					Secretary.addToResponse(res, "user", user)
+					callback(err, user);
+				});
+			},
+
+		], err => next(err));
+	})
+
+	/**
 	 * @api {POST} /user.login Login
 	 * @apiName Login
 	 * @apiGroup User
@@ -410,19 +476,29 @@ module.exports = router => {
 						'email': req.body.email,
 					},
 				}, (err, user) => {
-					if (!user) callback(Secretary.conflictError(Messages.conflictErrors.emailNotFound));
-					else callback(err, user);
-				});
-			},
 
-			// Check password, add to request if correct
-			(user, callback) => {
-				if (HashPassword.verify(req.body.password, user.password)) {
-					callback(null, user);
+					// Handle error
+					if (err) return callback(err)
+
+					// Handle user not found
+					if (!user) {
+						return callback(Secretary.conflictError(Messages.conflictErrors.emailNotFound));
+					}
+
+					// Verify password
+					if (!HashPassword.verify(req.body.password, user.password)) {
+						return callback(Secretary.conflictError(Messages.conflictErrors.passwordIncorrect));
+					} 
+
+					// Handle user erased
+					if (user.erased) {
+						return callback(Secretary.authorizationError(Messages.authErrors.userDeleted));
+					}
+
 					Secretary.addToResponse(res, "user", user);
-				} else {
-					callback(Secretary.conflictError(Messages.conflictErrors.passwordIncorrect));
-				}
+					return callback(null, user);
+
+				});
 			},
 
 			// Create an authentication token for user, add to reply

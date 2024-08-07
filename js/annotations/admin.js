@@ -191,6 +191,38 @@ function userList() {
         watchKeypress(event) {
             if (event.keyCode === 13) this.load({})
         },
+        erase(e, user) {
+            // Start loading sequence
+            $(e.target).removeClass("fa-trash-o")
+            $(e.target).addClass("fa-spinner")
+
+            fetchAPI({
+                path: "user.delete",
+                body: {
+                    guid: user.guid,
+                },
+                success: () => {
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "User deleted!"
+                    })
+                    for (let i in this.users) {
+                        if (this.users[i].guid == user.guid) {
+                            this.users.splice(i, 1)
+                            break
+                        }
+                    }
+                },
+                failure: (data) => {
+                    $(e.target).removeClass("fa-spinner")
+                    $(e.target).addClass("fa-trash-o")
+                    Alpine.store('messages').post({
+                        type: 'error',
+                        text: data.message,
+                    })
+                }
+            })
+        },
         edit(guid) {
             this.modal.show = true
             this.modal.loading = true

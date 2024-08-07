@@ -53,6 +53,9 @@
                     <td x-text="user.role" class="capitalize"></td>
                     <td x-text="user.annotationCount"></td>
                     <td class="buttons">
+                        <template x-if="$store.auth.user.guid !== user.guid">
+                            <div class="fa fa-trash-o" x-on:click="erase($event, user)"></div>
+                        </template>
                         <div class="fa fa-pencil-square-o" x-on:click="edit(user.guid)"></div>
                     </td>
                 </tr></template>

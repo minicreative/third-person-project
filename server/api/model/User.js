@@ -34,6 +34,10 @@ function UserProperties (schema) {
 			'required': true,
 		},
 		'events': [{
+			'type': {
+				'type': String,
+				'required': true,
+			},
 			'date': {
 				'type': Number,
 				'required': true,
@@ -44,7 +48,6 @@ function UserProperties (schema) {
 			},
 			'role': {
 				'type': String,
-				'required': true,
 			}
 		}],
     });
@@ -151,26 +154,32 @@ function UserInstanceMethods (schema) {
 				if (!thisObject.events || thisObject.events.length == 0) 
 					return callback()
 
-				// Add formatted admin event to object
+				// Add formatted "userRoleChanged" admin event to object
+				// TODO: Eventually do this client-side
 				let event = thisObject.events[0]
-				let eventDate = Moment(parseInt(event.date*1000, 10)).format('M/D/YY') + ' at ' +
+				if (event.type === Messages.EVENT_USER_ROLE_CHANGE) {
+					let eventDate = Moment(parseInt(event.date*1000, 10)).format('M/D/YY') + ' at ' +
 					Moment(parseInt(event.date*1000, 10)).format('h:mma')
-				let eventRole = event.role.charAt(0).toUpperCase() + event.role.slice(1)
-				Database.findOne({
-					'model': Mongoose.model('User'),
-					'query': {
-						'guid': event.user,
-					},
-				}, function(err, user) {
-					if (!err && user) {
-						thisObject.adminEvent = 
-							`Role set to ${eventRole} by ${user.name} on ${eventDate}`
-					} else {
-						thisObject.adminEvent = 
-							`Role set to ${eventRole} by unknown user on ${eventDate}`
-					}
+					let eventRole = event.role.charAt(0).toUpperCase() + event.role.slice(1)
+					Database.findOne({
+						'model': Mongoose.model('User'),
+						'query': {
+							'guid': event.user,
+						},
+					}, function(err, user) {
+						if (!err && user) {
+							thisObject.adminEvent = 
+								`Role set to ${eventRole} by ${user.name} on ${eventDate}`
+						} else {
+							thisObject.adminEvent = 
+								`Role set to ${eventRole} by unknown user on ${eventDate}`
+						}
+						callback()
+					})
+				} else {
 					callback()
-				})
+				}
+				
 			}
 
 		], function (err) {
@@ -183,11 +192,13 @@ function UserInstanceMethods (schema) {
 	 * @memberof api/model/User
 	 * @param {Object} params
 	 * @param {String} [params.name] Name of user
+	 * @param {String} [params.editingUser] GUID of editing user
 	 * @param {String} [params.role] Role of user
+	 * @param {String} [params.toBeDeleted] Boolean specifying if user is being deleted 
 	 * @param {function(err, user)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		name, role, editingUser
+		name, editingUser, role, toBeDeleted
 	}, callback) {
 
 		// Save reference to model
@@ -195,16 +206,31 @@ function UserInstanceMethods (schema) {
 
 		let set = {}
 
-		// Setup administrative event
+		// Setup administrative events =============
+
+		// Handle role change event
 		if (editingUser && role) {
+			set.role = role
+
 			let events = this.events
 			events.unshift({
+				'type': Messages.EVENT_USER_ROLE_CHANGE,
 				'date': Dates.now(),
 				'user': editingUser,
 				'role': role
 			})
 			set.events = events
-			set.role = role
+		} 
+		
+		// Handle delete event
+		else if (editingUser && toBeDeleted) {
+			let events = this.events
+			events.unshift({
+				'type': Messages.EVENT_USER_DELETE,
+				'date': Dates.now(),
+				'user': editingUser,
+			})
+			set.events = events
 		}
 
 		// Basic edits

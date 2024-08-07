@@ -65,6 +65,13 @@ module.exports = router => {
 		// Synchronously perform the following tasks...
 		Async.waterfall([
 
+			// Validate authentication if provided
+			callback => {
+				Authentication.authenticateUser(req, false, function (err, token) {
+					callback(err);
+				});
+			},
+
 			// Validate parameters
 			(callback) => {
 				var validations = [];
@@ -183,7 +190,7 @@ module.exports = router => {
 
 			// Authenticate user
 			callback => {
-				Authentication.authenticateUser(req, function (err, token) {
+				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},
@@ -252,7 +259,7 @@ module.exports = router => {
 
 			// Authenticate user
 			callback => {
-				Authentication.authenticateUser(req, function (err, token) {
+				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},
@@ -335,7 +342,7 @@ module.exports = router => {
 
 			// Authenticate user
 			callback => {
-				Authentication.authenticateUser(req, function (err, token) {
+				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},

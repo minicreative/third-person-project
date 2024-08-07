@@ -38,11 +38,19 @@ module.exports = {
 	 * Produces an authentication error or returns a decoded token for a user
 	 * @memberof api/tools/Authentication
 	 * @param {object} request Express.js request object
+	 * @param {boolean} isRequired Boolean expressing whether authentication is required
 	 * @param {function(err, decodedToken)} callback Callback function
 	 */
-	authenticateUser(request, callback) {
+	authenticateUser(request, isRequired, callback) {
 		const token = getTokenFromRequest(request);
-		if (!token) return callback(Secretary.authenticationError(Messages.authErrors.missingToken));
+
+		// Handle missing token if authentication is required
+		if (!token) {
+			if (isRequired) return callback(Secretary.authenticationError(Messages.authErrors.missingToken));
+			return callback()
+		}
+
+		// Authenticate provided token
 		const pureToken = token.replace('Bearer ', '');
 		Token.verify(pureToken, process.env.tpp_secret, function (err, decodedToken) {
 			if (!err && decodedToken) {
@@ -51,7 +59,9 @@ module.exports = {
 					query: { guid: decodedToken.user }
 				}, function(err, user) {
 					if (!err && user) {
-						if (user.role === decodedToken.role) {
+						if (user.erased) {
+							callback(Secretary.authenticationError(Messages.authErrors.userDeleted))
+						} else if (user.role === decodedToken.role) {
 							callback(null, decodedToken)
 						} else {
 							callback(Secretary.authenticationError(Messages.authErrors.userRoleChanged))
@@ -77,7 +87,7 @@ module.exports = {
 	 * @param {function(err, decodedToken)} callback Callback function
 	 */
 	authenticateAdministrator(request, callback) {
-		this.authenticateUser(request, function(err, decodedToken) {
+		this.authenticateUser(request, true, function(err, decodedToken) {
 			if (err) return callback(err)
 			if (decodedToken.role !== "administrator")
 				return callback(Secretary.authorizationError(Messages.authErrors.notAdmin))
