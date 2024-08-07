@@ -86,6 +86,7 @@ function AnnotationStaticMethods (schema) {
 					'user': user,
 					'status': status,
 					'dateCreated': Dates.now(),
+					'erased': false,
 				}
 				if (attribution) set.attribution = attribution
 				Database.update({
@@ -147,23 +148,6 @@ function AnnotationInstanceMethods (schema) {
 			'update': {
 				'$set': set
 			},
-		}, function (err, annotation) {
-			callback(err, annotation);
-		});
-	};
-
-    /**
-	 * Deletes an existing Annotaton
-	 * @memberof api/model/Annotaton
-	 * @param {function(err, annotation)} callback Callback function
-	 */
-	schema.methods.delete = function (callback) {
-
-		// Save reference to model
-		var Annotation = this;
-
-		Annotation.deleteOne({
-			'guid': this.guid,
 		}, function (err, annotation) {
 			callback(err, annotation);
 		});

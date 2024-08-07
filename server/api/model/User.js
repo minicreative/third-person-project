@@ -95,6 +95,7 @@ function UserStaticMethods (schema) {
 							'password': password,
 							'role': role,
 							'dateCreated': Dates.now(),
+							'erased': false,
 						}
 					},
 				}, function (err, user) {

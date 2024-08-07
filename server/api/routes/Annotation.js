@@ -105,7 +105,9 @@ module.exports = router => {
 			(authorUsers, callback) => {
 
 				// Setup query
-				const query = {}
+				const query = {
+					erased: false
+				}
 
 				// Add text queries
 				if (req.body.text) query.text = Database.text(req.body.text)

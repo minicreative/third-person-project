@@ -3,6 +3,7 @@
 // Initialize dependencies
 const Uuid = require('uuid');
 const Database = require('../tools/Database.js');
+const Dates = require('../tools/Dates.js');
 
 // Object Properties: configures properties for database object
 function ObjectProperties (schema) {
@@ -15,7 +16,7 @@ function ObjectProperties (schema) {
             'unique': true
         },
 
-		// Date Created: this time this object was created
+		// Date Created: the time this object was created
 		'dateCreated': {
 			'type': Number,
 		},
@@ -24,7 +25,19 @@ function ObjectProperties (schema) {
         'lastModified': {
             'type': Number,
             'index': true
-        }
+        },
+
+		// Erased: whether object has been deleted
+		'erased': {
+			'type': Boolean,
+			'index': true,
+			'required': true,
+		},
+
+		// Date Erased: the time this object was marked as deleted
+		'dateErased': {
+			'type': Number,
+		}
 
     });
 }
@@ -39,6 +52,29 @@ function ObjectInstanceMethods (schema) {
 	schema.methods.format = function (callback) {
 		callback(null, this.toObject())
 	};
+
+	/**
+	 * Deletes an existing object
+	 * @memberof api/model/Object
+	 * @param {function(err, object)} callback Callback function
+	 */
+	schema.methods.delete = function (callback) {
+		var model = this;
+		Database.update({
+			'model': model.constructor,
+			'query': {
+				'guid': this.guid,
+			},
+			'update': {
+				'$set': {
+					erased: true,
+					dateErased: Dates.now(),
+				}
+			},
+		}, function (err, obj) {
+			callback(err, obj);
+		});
+	}
 }
 
 // Object Static Methods: attaches functionality used by the schema in general

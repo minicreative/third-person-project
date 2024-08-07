@@ -6,6 +6,7 @@ const Validation = require('./../tools/Validation')
 const Secretary = require('./../tools/Secretary')
 const Messages = require('./../tools/Messages')
 const Authentication = require('./../tools/Authentication')
+const Dates = require('./../tools/Dates')
 
 const User = require('./../model/User')
 
@@ -59,7 +60,9 @@ module.exports = router => {
 			callback => {
 
 				// Setup query
-				const query = {}
+				const query = {
+					erased: false,
+				}
 
 				if (req.body.name) query.name = Database.text(req.body.name)
 				if (req.body.email) query.email = Database.text(req.body.email)
@@ -229,7 +232,7 @@ module.exports = router => {
 					'name': req.body.name,
 					'email': req.body.email,
 					'password': password,
-					'role': "annotator"
+					'role': "annotator",
 				}, (err, user) => {
 					if (user) Secretary.addToResponse(res, "user", user)
 					callback(err, user);
