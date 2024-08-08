@@ -72,16 +72,6 @@ function isInvalidEmail (input) {
 	return null;
 };
 
-function isInvalidPassword (input) {
-	if (input === null || input === undefined) 
-		return " must be defined";
-	if (input.search(/[a-zA-Z]/) == -1)
-		return Messages.fieldErrors.passwordLetter;
-	if (input.search(/\d/) == -1)
-		return Messages.fieldErrors.passwordNumber;
-	return null;
-};
-
 function isInvalidStatus (input) {
 	if (!Messages.statuses.includes(input))
 		return " is not valid"
@@ -133,7 +123,6 @@ module.exports.password = function (name, input) {
 	return getNamedErrorFromArray([
 		isInvalidString(input),
 		isInvalidLength(input, 8),
-		isInvalidPassword(input)
 	], name);
 };
 
