@@ -244,6 +244,12 @@ collections:
           - label: "Login Welcome Text"
             name: "login_welcome_text"
             widget: markdown
+          - label: "Login Tab Text"
+            name: "login_tab_text"
+            widget: text
+          - label: "Signup Tab Text"
+            name: "signup_tab_text"
+            widget: text
           - label: "Dashboard Welcome Text"
             name: "dashboard_welcome_text"
             widget: markdown

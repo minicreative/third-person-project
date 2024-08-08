@@ -497,7 +497,6 @@ module.exports = router => {
 
 					Secretary.addToResponse(res, "user", user);
 					return callback(null, user);
-
 				});
 			},
 

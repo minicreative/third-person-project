@@ -5,6 +5,7 @@ if (location.href.includes("localhost")) {
 
 // On Page Load
 $(document).ready(function() {
+	setupTabs()
 	setupMobileNav()
     setupSlider()
     setColumnWidth()
@@ -49,6 +50,39 @@ function handleStickyNav() {
 	} else {
 		stickyToolbar.removeClass("sticky")
 	}
+}
+
+function setupTabs() {
+	$(".tab-container").each(function () {
+		let container = $(this)
+		let tab_button_list = container.find(".tabs").first()
+		let tab_areas = container.find(".tab")
+
+		// Setup click events
+		tab_button_list.find("div").each(function () {
+			$(this).on('click', function () {
+				console.log("tab button click!")
+				console.log(tab_areas)
+				console.log(tab_button_list)
+				const name = $(this).attr("name")
+				
+				// Iterate through tab buttons
+				tab_button_list.find("div").each(function () {
+					let button = $(this)
+					if (button.attr('name') === name) button.addClass("active")
+					else button.removeClass("active")
+				})
+
+				// Iterate through tabs
+				tab_areas.each(function () {
+					let tab_area = $(this)
+					if (tab_area.attr('id') === name) tab_area.addClass("active")
+					else tab_area.removeClass("active")
+				})
+			})
+		})
+
+	})
 }
 
 function setupSlider() {

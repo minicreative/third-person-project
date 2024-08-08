@@ -4,15 +4,17 @@
     <template x-data x-if="!$store.auth.loggedIn"><div>
         <div class="section container content-area content">
             <div id="expired">{{ page.expired_text | markdownify }}</div>
-            {{ page.content | markdownify }}
-        </div>
+            {{ page.login_welcome_text | markdownify }}
 
-        <div class="section container">
-            <div class="columns">
-                <div class="column half login" x-data="login()">
+            <div class="tab-container" x-init="setupTabs()">
+                <div class="tabs">
+                    <div class="active" name="login">{{ page.login_tab_text }}</div>
+                    <div name="signup">{{ page.signup_tab_text }}</div>
+                </div>
+                <div id="login" class="tab active" x-data="login()">
                     {% include annotations/login.html %}
                 </div>
-                <div class="column half signup" x-data="signup()">
+                <div id="signup" class="tab" x-data="signup()">
                     {% include annotations/signup.html %}
                 </div>
             </div>
@@ -25,7 +27,7 @@
         <div class="section container admin-auth">
             <button class="logout" x-on:click="$store.auth.logout()">Log Out</button>
             <h2>Welcome, <span x-text="$store.auth.user.name"></span></h2>
-            {{ page.welcome_text | markdownify }}
+            {{ page.dashboard_welcome_text | markdownify }}
             {% include annotations/annotation-list.html %}
             {% include annotations/user-list.html %}
         </div>
