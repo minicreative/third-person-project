@@ -192,13 +192,14 @@ function UserInstanceMethods (schema) {
 	 * @memberof api/model/User
 	 * @param {Object} params
 	 * @param {String} [params.name] Name of user
+	 * @param {String} [params.password] Password
 	 * @param {String} [params.editingUser] GUID of editing user
 	 * @param {String} [params.role] Role of user
 	 * @param {String} [params.toBeDeleted] Boolean specifying if user is being deleted 
 	 * @param {function(err, user)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		name, editingUser, role, toBeDeleted
+		name, password, editingUser, role, toBeDeleted
 	}, callback) {
 
 		// Save reference to model
@@ -235,6 +236,7 @@ function UserInstanceMethods (schema) {
 
 		// Basic edits
 		if (name) set.name = name
+		if (password) set.password = password
 
 		// Make database update
 		Database.update({

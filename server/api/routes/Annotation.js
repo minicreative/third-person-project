@@ -40,7 +40,7 @@ module.exports = router => {
 			}
 		}, (err, annotation) => {
 			if (err) return next(err)
-			if (!annotation) return next(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+			if (!annotation) return next(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
 			Secretary.addToResponse(res, "annotation", annotation);
 			next()
 		})
@@ -285,7 +285,7 @@ module.exports = router => {
 						'guid': req.body.guid
 					}
 				}, (err, annotation) => {
-					if (!annotation) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					if (!annotation) callback(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
 					else callback(err, token, annotation)
 				})
 			},
@@ -363,7 +363,7 @@ module.exports = router => {
 						'guid': req.body.guid
 					}
 				}, (err, annotation) => {
-					if (!annotation) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					if (!annotation) callback(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
 					else callback(err, token, annotation)
 				})
 			},

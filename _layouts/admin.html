@@ -10,12 +10,16 @@
                 <div class="tabs">
                     <div class="active" name="login">{{ page.login_tab_text }}</div>
                     <div name="signup">{{ page.signup_tab_text }}</div>
+                    <div name="forgot-password">{{ page.forgot_password_tab_text }}</div>
                 </div>
-                <div id="login" class="tab active" x-data="login()">
+                <div id="login" class="tab active">
                     {% include annotations/login.html %}
                 </div>
-                <div id="signup" class="tab" x-data="signup()">
+                <div id="signup" class="tab">
                     {% include annotations/signup.html %}
+                </div>
+                <div id="forgot-password" class="tab">
+                    {% include annotations/forgot-password.html %}
                 </div>
             </div>
         </div>

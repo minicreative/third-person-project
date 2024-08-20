@@ -67,13 +67,15 @@ document.addEventListener('alpine:init', () => {
 })
 
 // Fetch wrapper
-async function fetchAPI({ path, body, success, failure, final }) {
+async function fetchAPI({ path, body, temporaryToken, success, failure, final }) {
 
     // Setup headers
     let headers = {
         "Content-Type": "application/json",
     }
-    if (Alpine.store('auth').loggedIn) {
+    if (temporaryToken) {
+        headers.Authorization = `Bearer ${temporaryToken}`
+    } else if (Alpine.store('auth').loggedIn) {
         headers.Authorization = `Bearer ${Alpine.store('auth').token}`
     }
 
@@ -84,7 +86,7 @@ async function fetchAPI({ path, body, success, failure, final }) {
             headers: headers,
             body: JSON.stringify(body)
         })
-        const data = await response.json()
+        let data = await response.json()
 
         // Handle OK response
         if (response.ok) {
@@ -94,7 +96,13 @@ async function fetchAPI({ path, body, success, failure, final }) {
         // Handle handled errors
         else {
             if (response.status === 401) {
-                return Alpine.store('auth').logout(true)
+                if (temporaryToken) {
+                    data = {
+                        message: "Your password reset token has expired. Please request a new one"
+                    }
+                } else {
+                    return Alpine.store('auth').logout(true)
+                }
             }
             failure(data)
         }

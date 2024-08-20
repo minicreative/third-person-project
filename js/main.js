@@ -61,9 +61,6 @@ function setupTabs() {
 		// Setup click events
 		tab_button_list.find("div").each(function () {
 			$(this).on('click', function () {
-				console.log("tab button click!")
-				console.log(tab_areas)
-				console.log(tab_button_list)
 				const name = $(this).attr("name")
 				
 				// Iterate through tab buttons

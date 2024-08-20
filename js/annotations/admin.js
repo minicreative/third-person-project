@@ -51,6 +51,47 @@ function login() {
     }
 }
 
+// Forgot Password
+// Handles the forgot your password form in the admin template
+function forgotPassword() {
+    return {
+
+        email: "",
+        buttonText: "Request password reset",
+        errorMessage: "",
+
+        init() {
+            this.email = ""
+            this.buttonText = "Request password reset",
+            this.errorMessage = ""
+        },
+        submit() {
+            this.errorMessage = ""
+            this.buttonText = "Loading..."
+
+            fetchAPI({
+                path: "user.forgotPassword",
+                body: {
+                    email: this.email,
+                },
+                success: (data) => {
+                    this.init()
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: data.message,
+                    })
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message;
+                },
+                final: () => {
+                    this.buttonText = "Request password reset"
+                }
+            })
+        }
+    }
+}
+
 // Signup
 // Handles the signup form in the admin template
 function signup() {
@@ -430,6 +471,60 @@ function annotationList() {
     }
 }
 
+// Reset Password
+// Handles the reset password form in the reset-password template
+function resetPassword() {
+    return {
+
+        password: "",
+        passwordConfirm: "",
+        buttonText: "Change password",
+        errorMessage: "",
+
+        init() {
+            this.password = ""
+            this.passwordConfirm = ""
+            this.buttonText = "Change password",
+            this.errorMessage = ""
+        },
+        submit() {
+            this.errorMessage = ""
+            
+            // Client side password validation
+            if (this.password !== this.passwordConfirm) {
+                this.errorMessage = "The passwords provided do not match"
+                return
+            }
+
+            // Get temporary token from URL
+            let urlParams = new URLSearchParams(window.location.search)
+
+            this.buttonText = "Loading..."
+            fetchAPI({
+                path: "user.resetPassword",
+                temporaryToken: urlParams.get("token"),
+                body: {
+                    password: this.password,
+                },
+                success: (data) => {
+                    this.init()
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "Your password was successfully changed! Please log in again to continue",
+                    })
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message;
+                },
+                final: () => {
+                    this.buttonText = "Change password"
+                }
+            })
+        }
+    }
+}
+
+// Helper Functions ==========================
 function updateSortIcon({listID, sortKey}) {
     
     // Parse sort key

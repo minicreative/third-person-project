@@ -9,6 +9,9 @@ const Messages = require('./Messages');
 const Database = require('./Database')
 const User = require('./../model/User')
 
+const Async = require('async')
+const SendGridMail = require('@sendgrid/mail');
+
 // Helper functions
 function getTokenFromRequest (request) {
 	if (!request.headers) return null;
@@ -59,25 +62,91 @@ module.exports = {
 					query: { guid: decodedToken.user }
 				}, function(err, user) {
 					if (!err && user) {
+
+						// Don't authorize erased users
 						if (user.erased) {
 							callback(Secretary.authenticationError(Messages.authErrors.userDeleted))
-						} else if (user.role === decodedToken.role) {
-							callback(null, decodedToken)
-						} else {
+						} 
+						
+						// Catch mismatched role to trigger re-authentication (if role is provided on token)
+						else if (decodedToken.role && user.role !== decodedToken.role) {
 							callback(Secretary.authenticationError(Messages.authErrors.userRoleChanged))
+						} 
+						
+						// Successful auth!
+						else {
+							callback(null, decodedToken)
 						}
-					} else {
+					} 
+					
+					// Catch user lookup error
+					else {
 						callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
 					}
 				})
-			} else {
+			} 
+			
+			// Catch error with token verification
+			else {
+
+				// Catch expired error
 				if (err.expiredAt) {
 					callback(Secretary.authenticationError(Messages.authErrors.expired));
-				} else {
+				} 
+				
+				// Catch other errors
+				else {
 					callback(Secretary.authenticationError(Messages.authErrors.unauthorized));
 				}
 			}
 		});
+	},
+
+	/**
+	 * Creates a forgotten password token and sends an email 
+	 * @memberof api/tools/Authentication
+	 * @param {object} user User model object
+	 * @param {function(err)} callback Callback function
+	*/
+	sendPasswordEmail(user, callback) {
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Create a password token valid for one hour
+			callback => {
+				const signedObject = {
+					'user': user.guid,
+					'exp': parseInt(Dates.fromNow(1, 'hour')),
+				};
+				Token.sign(signedObject, process.env.tpp_secret, function (err, token) {
+					callback(err, token);
+				});
+			},
+
+			// Use SendGrid to send password token in an email
+			(token, callback) => {
+				SendGridMail.setApiKey(process.env.tpp_sendgrid);
+				SendGridMail.send({
+					to: user.email,
+					from: {
+						email: 'no-reply@thirdpersonproject.org',
+						name: 'Third Person Project'
+					},
+					subject: 'Forgot your password?',
+					html: Messages.forgotPasswordEmail(token),
+				}).then(() => {
+					callback()
+				}, err => {
+					if (err.response) {
+						return callback(Secretary.conflictError(`Was unable to send email: ${err.response}`))
+					}
+					callback(Secretary.conflictError("Was unable to send email. Please try again"))
+				});
+			},
+
+		], err => callback(err));
+
 	},
 
 	/**

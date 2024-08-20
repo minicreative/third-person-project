@@ -22,7 +22,7 @@
 		<!-- Annotation App (Alpine) Includes -->
 		<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<script src="/js/annotations/main.js"></script>
-		{% if page.layout == "admin" %}
+		{% if page.layout == "admin" or page.layout == "reset-password" %}
 		<script src="/js/annotations/admin.js"></script>
 		{% endif %}
 		{% if page.layout == "item" and page.collection == "archives" %}
@@ -73,7 +73,7 @@
 				<ul>
 					{% assign sorted_pages = site.pages | sort:"order" %}
 					{% for page in sorted_pages | sort:"order" %}
-						{% if page.url != "/css/main.css" and page.layout != "admin" %}
+						{% if page.url != "/css/main.css" and page.hidden != true %}
 							<li><a href="{{ page.url }}">{{ page.title }}</a></li>
 						{% endif %}
 					{% endfor %}

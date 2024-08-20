@@ -36,6 +36,16 @@ module.exports = {
 	},
 
 	/**
+	 * Creates an error config object for a not found error
+	 * @memberof api/tools/Secretary
+	 * @param {String} message
+	 * @return {Object} Error object {code, message, handledError: true}
+	 */
+	notFoundError: message => {
+		return createError(Messages.codes.notFoundError, message);
+	},
+
+	/**
 	 * Creates an error config object for a conflict error
 	 * @memberof api/tools/Secretary
 	 * @param {String} message

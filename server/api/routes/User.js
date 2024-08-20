@@ -120,7 +120,7 @@ module.exports = router => {
 						'guid': token.user,
 					},
 				}, (err, user) => {
-					if (!user) return callback(Secretary.conflictError(Messages.authErrors.invalidToken));
+					if (!user) return callback(Secretary.requestError(Messages.authErrors.invalidToken));
 					Secretary.addToResponse(res, 'user', user);
 					callback();
 				});
@@ -141,44 +141,44 @@ module.exports = router => {
 	 *
 	 * @apiUse Error
 	 */
-		router.post('/user.getGUID', (req, res, next) => {
-			req.handled = true;
-	
-			// Synchronously perform the following tasks...
-			Async.waterfall([
-	
-				// Authenticate user
-				callback => {
-					Authentication.authenticateAdministrator(req, function (err) {
-						callback(err);
-					});
-				},
+	router.post('/user.getGUID', (req, res, next) => {
+		req.handled = true;
 
-				// Validate parameters
-				callback => {
-					var validations = [
-						Validation.string('GUID', req.body.guid)
-					];
-					callback(Validation.catchErrors(validations))
-				},
-	
-				// Find and return user from token
-				callback => {
-					Database.findOne({
-						'model': User,
-						'query': {
-							'guid': req.body.guid,
-						},
-					}, (err, user) => {
-						if (err) return callback(err)
-						if (!user) return callback(Secretary.conflictError(Messages.conflictErrors.objectNotFound));
-						Secretary.addToResponse(res, 'user', user);
-						callback()
-					});
-				}
-	
-			], err => next(err));
-		})
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Authenticate user
+			callback => {
+				Authentication.authenticateAdministrator(req, function (err) {
+					callback(err);
+				});
+			},
+
+			// Validate parameters
+			callback => {
+				var validations = [
+					Validation.string('GUID', req.body.guid)
+				];
+				callback(Validation.catchErrors(validations))
+			},
+
+			// Find and return user from token
+			callback => {
+				Database.findOne({
+					'model': User,
+					'query': {
+						'guid': req.body.guid,
+					},
+				}, (err, user) => {
+					if (err) return callback(err)
+					if (!user) return callback(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
+					Secretary.addToResponse(res, 'user', user);
+					callback()
+				});
+			}
+
+		], err => next(err));
+	})
 
 	/**
 	 * @api {POST} /user.create Create
@@ -352,7 +352,7 @@ module.exports = router => {
 						'guid': req.body.guid
 					}
 				}, (err, user) => {
-					if (!user) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					if (!user) callback(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
 					else callback(err, token, user)
 				})
 			},
@@ -411,7 +411,7 @@ module.exports = router => {
 						'guid': req.body.guid
 					}
 				}, (err, user) => {
-					if (!user) callback(Secretary.requestError(Messages.conflictErrors.objectNotFound));
+					if (!user) callback(Secretary.requestError(Messages.notFoundErrors.objectNotFound));
 					else callback(err, token, user)
 				})
 			},
@@ -482,12 +482,12 @@ module.exports = router => {
 
 					// Handle user not found
 					if (!user) {
-						return callback(Secretary.conflictError(Messages.conflictErrors.emailNotFound));
+						return callback(Secretary.notFoundError(Messages.notFoundErrors.emailNotFound));
 					}
 
 					// Verify password
 					if (!HashPassword.verify(req.body.password, user.password)) {
-						return callback(Secretary.conflictError(Messages.conflictErrors.passwordIncorrect));
+						return callback(Secretary.requestError(Messages.requestErrors.passwordIncorrect));
 					} 
 
 					// Handle user erased
@@ -504,6 +504,108 @@ module.exports = router => {
 			(user, callback) => {
 				Authentication.makeUserToken(user, (err, token) => {
 					if (token) Secretary.addToResponse(res, "token", token, true)
+					callback(err);
+				});
+			},
+
+		], err => next(err));
+	})
+
+	/**
+	 * @api {POST} /user.forgotPassword Forgot Password
+	 * @apiName Forgot Password
+	 * @apiGroup User
+	 *
+	 * @apiParam {String} email User's email address
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.forgotPassword', (req, res, next) => {
+		req.handled = true;
+
+		// Validate all fields
+		var validations = [
+			Validation.email('Email', req.body.email),
+		];
+		var err = Validation.catchErrors(validations);
+		if (err) return next(err);
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Find user with email
+			callback => {
+				Database.findOne({
+					'model': User,
+					'query': {
+						'email': req.body.email,
+					},
+				}, (err, user) => {
+					if (!user) err = Secretary.notFoundError(Messages.notFoundErrors.emailNotFound)
+					callback(err, user)
+				});
+			},
+
+			// Send a forgot password email
+			(user, callback) => {
+				Authentication.sendPasswordEmail(user, (err) => {
+					Secretary.successResponse(res, Messages.successMessages.passwordResetLink)
+					callback(err)
+				});
+			},
+
+		], err => next(err));
+	})
+
+	/**
+	 * @api {POST} /user.resetPassword Reset Password
+	 * @apiName Reset Password
+	 * @apiGroup User
+	 *
+	 * @apiParam {String} password New password
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.resetPassword', (req, res, next) => {
+		req.handled = true;
+
+		// Synchronously perform the following tasks...
+		Async.waterfall([
+
+			// Authenticate user
+			callback => {
+				Authentication.authenticateUser(req, true, function (err, token) {
+					callback(err, token);
+				});
+			},
+
+			// Validate parameters
+			(token, callback) => {
+				var validations = [
+					Validation.password('Password', req.body.password),
+				];
+				callback(Validation.catchErrors(validations), token)
+			},
+
+			// Find user with token
+			(token, callback) => {
+				Database.findOne({
+					'model': User,
+					'query': {
+						'guid': token.user,
+					},
+				}, (err, user) => {
+					if (!user) err = Secretary.notFoundError(Messages.notFoundErrors.objectNotFound)
+					callback(err, user)
+				});
+			},
+
+			// Update user
+			(user, callback) => {
+				user.edit({
+					password: HashPassword.generate(req.body.password),
+				}, (err, user) => {
+					Secretary.addToResponse(res, "user", user)
 					callback(err);
 				});
 			},

@@ -49,6 +49,7 @@ module.exports = {
 		'requestError': 400,
 		'unauthenticatedError': 401,
 		'unauthorizedError': 403,
+		'notFoundError': 404,
 		'conflictError': 409
 	},
 
@@ -94,13 +95,50 @@ module.exports = {
 	},
 
 	/**
+	 * Request error messages
+	 * @memberof api/tools/Messages
+	 */
+	'requestErrors': {
+		'passwordIncorrect': "Incorrect password",
+	},
+
+	/**
+	 * Not found error messages
+	 * @memberof api/tools/Messages
+	 */
+	'notFoundErrors': {
+		'objectNotFound': "Object not found in the database",
+		'emailNotFound': "Email not recognized",
+	},
+
+	/**
 	 * Conflict error messages
 	 * @memberof api/tools/Messages
 	 */
 	'conflictErrors': {
-		'objectNotFound': "Object not found in the database",
 		'emailAlreadyUsed': "An account with this email already exists",
-		'emailNotFound': "Email not recognized",
-		'passwordIncorrect': "Incorrect password",
-	}
+	},
+
+	/**
+	 * Success messages
+	 * @memberof api/tools/Messages
+	 */
+	'successMessages': {
+		'passwordResetLink': "A password reset link has been sent to your email.",
+	},
+
+	/**
+	 * Function to create the body of a "Forgot your password" email
+	 * @memberof api/tools/Messages
+	 * @param {String} token Forgot password token
+	 * @return {String} HTML string
+	 */
+	'forgotPasswordEmail': function(token) {
+		let html = "";
+		html += "<p><b>Hello from Third Person Project!</b></p>";
+		html += "<p>A link to reset the password on this account was recently requested. If you didn't make this request, please ignore this email and consider changing your password.</p>";
+		html += `<p>If you did request a password reset, <a href='https://thirdpersonproject.org/reset-password?token=${token}' clicktracking=off>click here to reset your password.</a></p>`;
+		return html;
+	},
+
 };
