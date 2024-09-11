@@ -40,7 +40,24 @@ function AnnotationProperties (schema) {
             'type': String,
             'index': false,
             'required': false,
-        }
+        },
+		'events': [{
+			'type': {
+				'type': String,
+				'enum': Messages.annotationEvents,
+				'required': true,
+			},
+			'date': {
+				'type': Number,
+				'required': true,
+			},
+			'status': {
+				'type': String,
+			},
+			'user': {
+				'type': String,
+			}
+		}],
     });
 };
 
@@ -120,10 +137,11 @@ function AnnotationInstanceMethods (schema) {
      * @param {String} [params.body] Annotation body
      * @param {String} [params.attribution] Annotation attribution
 	 * @param {String} [params.status] Annotation status
+	 * @param {String} [params.editingUser] Editing user GUID
 	 * @param {function(err, annotation)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		context, text, body, attribution, status
+		context, text, body, attribution, status, editingUser
 	}, callback) {
 
 		// Save reference to model
@@ -139,6 +157,16 @@ function AnnotationInstanceMethods (schema) {
         if (attribution === "" || attribution) set.attribution = attribution;
 		if (status) set.status = status;
 
+		// Create audit events
+		let events = this.events;
+		events.unshift({
+			'type': Messages.EVENT_ANNOTATION_EDIT,
+			'date': Dates.now(),
+			'status': status,
+			'user': editingUser
+		})
+		set.events = events;
+
 		// Make database update
 		Database.update({
 			'model': Annotation.constructor,
@@ -147,6 +175,49 @@ function AnnotationInstanceMethods (schema) {
 			},
 			'update': {
 				'$set': set
+			},
+		}, function (err, annotation) {
+			callback(err, annotation);
+		});
+	};
+
+	/**
+	 * Adds an event to an existing annotation
+	 * @memberof api/model/Annotation
+	 * @param {Object} params
+	 * @param {String} params.event Event name
+     * @param {String} [params.actingUser] Acting user GUID
+	 * @param {function(err, annotation)} callback Callback function
+	 */
+	schema.methods.log = function ({
+		event, actingUser
+	}, callback) {
+
+		// Validate paremeters
+		if (!event) {
+			return callback("Must include event")
+		} else if (!Messages.annotationEvents.includes(event)) {
+			return callback("Invalid event provided")
+		}
+
+		var Annotation = this;
+		let events = this.events;
+
+		let setEvent = {
+			'type': event,
+			'date': Dates.now(),
+		}
+		if (actingUser) setEvent.user = actingUser;
+		events.unshift(setEvent)
+
+		// Make database update
+		Database.update({
+			'model': Annotation.constructor,
+			'query': {
+				'guid': this.guid,
+			},
+			'update': {
+				'$set': { events }
 			},
 		}, function (err, annotation) {
 			callback(err, annotation);

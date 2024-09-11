@@ -15,7 +15,6 @@ const EVENT_USER_PASSWORD_FORGOT = "userPasswordForgot"
 const EVENT_USER_DELETE = "userDelete"
 
 const EVENT_ANNOTATION_EDIT = "annotationEdit"
-const EVENT_ANNOTATION_STATUS_CHANGE = "annotationStatusChange"
 const EVENT_ANNOTATION_DELETE = "annotationDelete"
 
 module.exports = {
@@ -34,7 +33,6 @@ module.exports = {
 	EVENT_USER_DELETE: EVENT_USER_DELETE,
 
 	EVENT_ANNOTATION_EDIT: EVENT_ANNOTATION_EDIT,
-	EVENT_ANNOTATION_STATUS_CHANGE: EVENT_ANNOTATION_STATUS_CHANGE,
 	EVENT_ANNOTATION_DELETE: EVENT_ANNOTATION_DELETE,
 
 	/** Status Enumerations
@@ -62,7 +60,6 @@ module.exports = {
 	 */
 	'annotationEvents': [
 		EVENT_ANNOTATION_EDIT,
-		EVENT_ANNOTATION_STATUS_CHANGE,
 		EVENT_ANNOTATION_DELETE
 	],
 
@@ -88,9 +85,9 @@ module.exports = {
 		'invalidToken': "Invalid token",
 		'missingToken': "Missing authentication token",
 		'unauthentication': "Unauthenticated",
-		'userRoleChanged': "User role changed, authentication no longer valid, please sign in again",
-		'userDeleted': "User deleted, please contact an administrator",
-		'expired': "Authentication expired, please sign in again",
+		'userRoleChanged': "You user role was changed. Please sign in again to continue",
+		'userDeleted': "This account was deleted. Please contact an administrator",
+		'expired': "Your session has expired. Please sign in again to continue",
 		'unauthorized': "Unauthorized",
 		'notAdmin': "Only an administrator can view or edit users besides themselves",
 		'annotatorStatusCreate': "An annotator cannot provide a status for a new annotation",

@@ -305,15 +305,23 @@ module.exports = router => {
 			// Edit annotation, add to reply
 			(token, annotation, callback) => {
                 let vars = {}
+
+				// Provide basic variables
                 if (req.body.context) vars.context = req.body.context
                 if (req.body.text) vars.text = req.body.text
                 if (req.body.body) vars.body = req.body.body
                 if (req.body.attribution === "" || req.body.attribution) vars.attribution = req.body.attribution;
+
+				// Automatically change the status to 'edited' when an annotator changes an annotation
 				if (token.role === Messages.ANNOTATOR) {
 					vars.status = Messages.EDITED
 				} else if (req.body.status) {
 					vars.status = req.body.status
 				}
+
+				// Provide editing user
+				vars.editingUser = token.user
+
 				annotation.edit(vars, (err, annotation) => {
 					Secretary.addToResponse(res, "annotation", annotation)
 					callback(err);
@@ -375,7 +383,17 @@ module.exports = router => {
 					if (token.user !== annotation.user)
 						err = Secretary.authorizationError(Messages.authErrors.annotatorDelete)
 				}
-				callback(err, annotation)
+				callback(err, token, annotation)
+			},
+
+			// Log audit event
+			(token, annotation, callback) => {
+				annotation.log({
+					event: Messages.EVENT_ANNOTATION_DELETE,
+					actingUser: token.user,
+				}, (err, annotation) => {
+					callback(err, annotation)
+				})
 			},
 
 			// Delete annotation
