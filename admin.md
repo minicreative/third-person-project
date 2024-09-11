@@ -4,7 +4,7 @@ permalink: "/annotate/"
 layout: admin
 hidden: true
 login_welcome_text: |-
-  Log in or create an account to **submit or manage annotations** for Wilmington's Daily Record.
+  Get started here to **submit or manage annotations** of archived issues of Wilmington's *Daily Record*.
 login_tab_text: Log In
 signup_tab_text: Create an account
 forgot_password_tab_text: Forgot your password?
