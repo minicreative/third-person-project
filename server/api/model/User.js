@@ -36,6 +36,7 @@ function UserProperties (schema) {
 		'events': [{
 			'type': {
 				'type': String,
+				'enum': Messages.userEvents,
 				'required': true,
 			},
 			'date': {
@@ -44,7 +45,6 @@ function UserProperties (schema) {
 			},
 			'user': {
 				'type': String,
-				'required': true,
 			},
 			'role': {
 				'type': String,
@@ -147,44 +147,87 @@ function UserInstanceMethods (schema) {
 				});
 			},
 
-			// Attach event metadata
+			// Add formatted "userRoleChanged" admin event to object 
 			function (callback) {
 
 				// Only process if there are events
 				if (!thisObject.events || thisObject.events.length == 0) 
 					return callback()
 
-				// Add formatted "userRoleChanged" admin event to object
-				// TODO: Eventually do this client-side
-				let event = thisObject.events[0]
-				if (event.type === Messages.EVENT_USER_ROLE_CHANGE) {
-					let eventDate = Moment(parseInt(event.date*1000, 10)).format('M/D/YY') + ' at ' +
-					Moment(parseInt(event.date*1000, 10)).format('h:mma')
-					let eventRole = event.role.charAt(0).toUpperCase() + event.role.slice(1)
-					Database.findOne({
-						'model': Mongoose.model('User'),
-						'query': {
-							'guid': event.user,
-						},
-					}, function(err, user) {
-						if (!err && user) {
-							thisObject.adminEvent = 
-								`Role set to ${eventRole} by ${user.name} on ${eventDate}`
-						} else {
-							thisObject.adminEvent = 
-								`Role set to ${eventRole} by unknown user on ${eventDate}`
-						}
-						callback()
-					})
-				} else {
-					callback()
-				}
-				
+				// Find most recent user role change event
+				Async.eachSeries(thisObject.events, (event, callback) => {
+					if (event.type === Messages.EVENT_USER_ROLE_CHANGE) {
+						let eventDate = Moment(parseInt(event.date*1000, 10)).format('M/D/YY') + ' at ' +
+						Moment(parseInt(event.date*1000, 10)).format('h:mma')
+						let eventRole = event.role.charAt(0).toUpperCase() + event.role.slice(1)
+						Database.findOne({
+							'model': Mongoose.model('User'),
+							'query': {
+								'guid': event.user,
+							},
+						}, (err, user) => {
+							if (!err && user) {
+								thisObject.adminEvent = 
+									`Role set to ${eventRole} by ${user.name} [${user.email}] on ${eventDate}`
+							} else {
+								thisObject.adminEvent = 
+									`Role set to ${eventRole} by unknown user on ${eventDate}`
+							}
+							callback({}) // Callback with empty error to exit iteration
+						})
+					} else {
+						callback() // Iterate to next event if not a match
+					}
+				}, function (err) {
+					callback() // Don't use error, error specifies a matched event
+				})
 			}
-
 		], function (err) {
 			callback(err, thisObject);
 		})
+	};
+
+	/**
+	 * Updates an existing user with an event
+	 * @memberof api/model/User
+	 * @param {Object} params
+	 * @param {String} params.event Event to log
+	 * @param {String} [params.actingUser] GUID of acting user
+	 * @param {function(err, user)} callback Callback function
+	 */
+	schema.methods.log = function ({
+		actingUser, event
+	}, callback) {
+
+		// Validate paremeters
+		if (!event) {
+			return callback("Must include event")
+		} else if (!Messages.userEvents.includes(event)) {
+			return callback("Invalid event provided")
+		}
+
+		var User = this;
+		let events = this.events
+
+		let setEvent = {
+			'type': event,
+			'date': Dates.now(),
+		}
+		if (actingUser) setEvent.user = actingUser;
+		events.unshift(setEvent)
+
+		// Make database update
+		Database.update({
+			'model': User.constructor,
+			'query': {
+				'guid': this.guid,
+			},
+			'update': {
+				'$set': { events }
+			},
+		}, function (err, user) {
+			callback(err, user);
+		});
 	};
 
 	/**
@@ -193,27 +236,34 @@ function UserInstanceMethods (schema) {
 	 * @param {Object} params
 	 * @param {String} [params.name] Name of user
 	 * @param {String} [params.password] Password
-	 * @param {String} [params.editingUser] GUID of editing user
 	 * @param {String} [params.role] Role of user
-	 * @param {String} [params.toBeDeleted] Boolean specifying if user is being deleted 
+	 * @param {String} [params.editingUser] GUID of editing user
 	 * @param {function(err, user)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		name, password, editingUser, role, toBeDeleted
+		name, password, editingUser, role
 	}, callback) {
 
-		// Save reference to model
 		var User = this;
-
+		let events = this.events
 		let set = {}
 
-		// Setup administrative events =============
+		// Handle basic updates
+		if (name) set.name = name
 
-		// Handle role change event
-		if (editingUser && role) {
+		// Handle password update (audited)
+		if (password) {
+			set.password = password
+			events.unshift({
+				'type': Messages.EVENT_USER_PASSWORD_CHANGE,
+				'date': Dates.now(),
+			})
+			set.events = events
+		}
+
+		// Handle role update (audited)
+		if (role) {
 			set.role = role
-
-			let events = this.events
 			events.unshift({
 				'type': Messages.EVENT_USER_ROLE_CHANGE,
 				'date': Dates.now(),
@@ -221,22 +271,7 @@ function UserInstanceMethods (schema) {
 				'role': role
 			})
 			set.events = events
-		} 
-		
-		// Handle delete event
-		else if (editingUser && toBeDeleted) {
-			let events = this.events
-			events.unshift({
-				'type': Messages.EVENT_USER_DELETE,
-				'date': Dates.now(),
-				'user': editingUser,
-			})
-			set.events = events
 		}
-
-		// Basic edits
-		if (name) set.name = name
-		if (password) set.password = password
 
 		// Make database update
 		Database.update({

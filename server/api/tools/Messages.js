@@ -10,7 +10,13 @@ const EDITOR = 'editor'
 const ADMINISTRATOR = 'administrator'
 
 const EVENT_USER_ROLE_CHANGE = "userRoleChange"
+const EVENT_USER_PASSWORD_CHANGE = "userPasswordChange"
+const EVENT_USER_PASSWORD_FORGOT = "userPasswordForgot"
 const EVENT_USER_DELETE = "userDelete"
+
+const EVENT_ANNOTATION_EDIT = "annotationEdit"
+const EVENT_ANNOTATION_STATUS_CHANGE = "annotationStatusChange"
+const EVENT_ANNOTATION_DELETE = "annotationDelete"
 
 module.exports = {
 
@@ -21,8 +27,15 @@ module.exports = {
 	ANNOTATOR: ANNOTATOR,
 	EDITOR: EDITOR,
 	ADMINISTRATOR: ADMINISTRATOR,
+
 	EVENT_USER_ROLE_CHANGE: EVENT_USER_ROLE_CHANGE,
+	EVENT_USER_PASSWORD_CHANGE: EVENT_USER_PASSWORD_CHANGE,
+	EVENT_USER_PASSWORD_FORGOT: EVENT_USER_PASSWORD_FORGOT,
 	EVENT_USER_DELETE: EVENT_USER_DELETE,
+
+	EVENT_ANNOTATION_EDIT: EVENT_ANNOTATION_EDIT,
+	EVENT_ANNOTATION_STATUS_CHANGE: EVENT_ANNOTATION_STATUS_CHANGE,
+	EVENT_ANNOTATION_DELETE: EVENT_ANNOTATION_DELETE,
 
 	/** Status Enumerations
 	 * @memberof api/tools/Messages
@@ -34,10 +47,24 @@ module.exports = {
 	 */
 	'roles': [ANNOTATOR, EDITOR, ADMINISTRATOR],
 
-	/** Event Enumerations
+	/** User Event Enumerations
 	 * @memberof api/tools/Messages
 	 */
-	'events': [EVENT_USER_DELETE, EVENT_USER_ROLE_CHANGE],
+	'userEvents': [
+		EVENT_USER_ROLE_CHANGE, 
+		EVENT_USER_PASSWORD_CHANGE, 
+		EVENT_USER_PASSWORD_FORGOT, 
+		EVENT_USER_DELETE
+	],
+
+	/** Annotation Event Enumerations
+	 * @memberof api/tools/Messages
+	 */
+	'annotationEvents': [
+		EVENT_ANNOTATION_EDIT,
+		EVENT_ANNOTATION_STATUS_CHANGE,
+		EVENT_ANNOTATION_DELETE
+	],
 
 	/**
 	 * HTTP Response Codes

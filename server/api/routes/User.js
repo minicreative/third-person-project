@@ -418,20 +418,20 @@ module.exports = router => {
 
 			// Update user with delete event
 			(token, user, callback) => {
-				user.edit({
-					editingUser: token.user,
-					toBeDeleted: true,
+				user.log({
+					event: Messages.EVENT_USER_DELETE,
+					actingUser: token.user,
 				}, (err, user) => {
-					callback(err, user);
-				});
+					callback(err, user)
+				})
 			},
 
 			// Delete user
 			(user, callback) => {
 				user.delete((err, user) => {
 					Secretary.addToResponse(res, "user", user)
-					callback(err, user);
-				});
+					callback(err, user)
+				})
 			},
 
 		], err => next(err));
@@ -544,6 +544,15 @@ module.exports = router => {
 					if (!user) err = Secretary.notFoundError(Messages.notFoundErrors.emailNotFound)
 					callback(err, user)
 				});
+			},
+
+			// Log event
+			(user, callback) => {
+				user.log({
+					event: Messages.EVENT_USER_PASSWORD_FORGOT,
+				}, (err, user) => {
+					callback(err, user)
+				})
 			},
 
 			// Send a forgot password email
