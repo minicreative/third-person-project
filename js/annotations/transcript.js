@@ -29,8 +29,13 @@ function addAnnotationsToTranscript(annotations) {
 
     // Iterate through annotations, add markup
     for (let annotation of annotations) {
-        let annotatedHtml = `<span id='${annotation.guid}'>${annotation.text}</span>`
-        transcriptContent = transcriptContent.replaceAll(annotation.text, annotatedHtml)
+        let text = annotation.text
+        let html = `<span id='${annotation.guid}'>${annotation.text}</span>`
+        if (annotation.textBefore !== undefined && annotation.textAfter !== undefined) {
+            text = annotation.textBefore + annotation.text + annotation.textAfter
+            html = `${annotation.textBefore}<span id='${annotation.guid}'>${annotation.text}</span>${annotation.textAfter}`
+        }
+        transcriptContent = transcriptContent.replaceAll(text, html)
     }
 
     // Update transcript with annotated HTML

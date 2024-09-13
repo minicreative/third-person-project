@@ -173,6 +173,8 @@ module.exports = router => {
 	 *
 	 * @apiParam {String} context Annotation context
 	 * @apiParam {String} text Annotated text
+	 * @apiParam {String} textBefore String before annotated text
+	 * @apiParam {String} textAfter String after annotated text
      * @apiParam {String} body Annotation body
 	 * @apiParam {String} [attribution] Attribution
 	 * @apiParam {String} [status] Annotation status
@@ -199,6 +201,8 @@ module.exports = router => {
 			(token, callback) => {
 				var validations = [
                     Validation.string('Text', req.body.text),
+					Validation.stringPossiblyEmpty('Before Text', req.body.textBefore),
+					Validation.stringPossiblyEmpty('After Text', req.body.textAfter),
                     Validation.string('Body', req.body.body),
                     Validation.string('Context', req.body.context)
                 ];
@@ -222,6 +226,8 @@ module.exports = router => {
 					'user': token.user,
 					'context': req.body.context,
 					'text': req.body.text,
+					'textBefore': req.body.textBefore,
+					'textAfter': req.body.textAfter,
 					'body': req.body.body,
 					'status': req.body.status ? req.body.status : Messages.DRAFT,
 				};
@@ -244,6 +250,8 @@ module.exports = router => {
      * @apiParam {String} guid Annotation GUID
 	 * @apiParam {String} [context] Annotation context
 	 * @apiParam {String} [text] Annotated text
+	 * @apiParam {String} [textBefore] String before annotated text
+	 * @apiParam {String} [textAfter] String after annotated text
      * @apiParam {String} [body] Annotation body
 	 *
 	 * @apiSuccess {Object} annotation Annotation object
@@ -271,6 +279,8 @@ module.exports = router => {
 				];
 				if (req.body.context) validations.push(Validation.string('Context', req.body.context))
 				if (req.body.text) validations.push(Validation.string('Text', req.body.text))
+				if (req.body.textBefore) validations.push(Validation.stringPossiblyEmpty('Before Text', req.body.textBefore))
+				if (req.body.textAfter) validations.push(Validation.stringPossiblyEmpty('After Text', req.body.textAfter))
 				if (req.body.body) validations.push(Validation.string('Body', req.body.body))
                 if (req.body.attribution) validations.push(Validation.string('Attribution', req.body.attribution))
 				if (req.body.status) validations.push(Validation.status('Status', req.body.status))
@@ -309,6 +319,8 @@ module.exports = router => {
 				// Provide basic variables
                 if (req.body.context) vars.context = req.body.context
                 if (req.body.text) vars.text = req.body.text
+				if (req.body.textBefore !== undefined) vars.textBefore = req.body.textBefore
+				if (req.body.textAfter !== undefined) vars.textAfter = req.body.textAfter
                 if (req.body.body) vars.body = req.body.body
                 if (req.body.attribution === "" || req.body.attribution) vars.attribution = req.body.attribution;
 

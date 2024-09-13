@@ -1,4 +1,7 @@
 
+const BUFFER_LENGTH = 10
+const MAX_SELECTION = 100
+
 // Add Annotation: handles 'Add annotation' button click
 function addAnnotation(e) {
     let transcriptArea = $(".transcript").first()
@@ -42,10 +45,33 @@ function addAnnotation(e) {
 
     // Detect end of highlight
     transcriptArea.on("mouseup", function(e) {
-        let selection = window.getSelection().toString()
-        if (selection.length > 0) {
+
+        // Get selection
+        let selection = window.getSelection()
+        let selectionString = selection.toString()
+
+        // Don't allow selections greater than max
+        if (selectionString.length > MAX_SELECTION) {
+            window.alert("Please make a selection of no more than 100 characters.")
+            endAnnotation()
+            return
+        }
+
+        // Get context from selection
+        let textBefore = ""
+        if (selection.baseNode && selection.baseNode.textContent) {
+            textBefore = selection.baseNode.textContent.substring(selection.baseOffset - BUFFER_LENGTH, selection.baseOffset)
+        }
+        let textAfter = ""
+        if (selection.focusNode && selection.focusNode.textContent) {
+            textAfter = selection.focusNode.textContent.substring(selection.focusOffset, selection.focusOffset + BUFFER_LENGTH)
+        }
+
+        if (selectionString.length > 0) {
             Alpine.store('annotation').openModal({
-                text: selection,
+                text: selectionString,
+                textBefore,
+                textAfter,
                 context: $("#page-slug").text()
             })
         }
@@ -94,7 +120,7 @@ document.addEventListener('alpine:init', () => {
             this.status = ""
             this.scope = null
         },
-        openModal({ guid, text, context, scope }) {
+        openModal({ guid, text, textBefore, textAfter, context, scope }) {
             this.init()
 
             // Populate scope
@@ -103,6 +129,12 @@ document.addEventListener('alpine:init', () => {
             // Populate modal
             this.text = text
             this.context = context
+
+            // Populate with selection context if provided
+            if (textBefore !== undefined && textAfter !== undefined) {
+                this.textBefore = textBefore
+                this.textAfter = textAfter
+            }
 
             // Handle existing annotation
             if (guid) {
@@ -241,6 +273,8 @@ document.addEventListener('alpine:init', () => {
                 text: this.text,
                 body: tinymce.get("annotation-editor").getContent()
             }
+            if (this.textBefore !== undefined) body.textBefore = this.textBefore
+            if (this.textAfter !== undefined) body.textAfter = this.textAfter
             if (this.context) body.context = this.context
             if (this.guid) body.guid = this.guid
             if (user.role === "editor" || user.role === "administrator") {

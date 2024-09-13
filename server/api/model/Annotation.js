@@ -20,6 +20,12 @@ function AnnotationProperties (schema) {
 			'index': true,
 			'required': true
 		},
+		'textBefore': {
+			'type': String,
+		},
+		'textAfter': {
+			'type': String,
+		},
         'body': {
 			'type': String,
 			'index': false,
@@ -71,13 +77,15 @@ function AnnotationStaticMethods (schema) {
      * @param {String} params.user User GUID
 	 * @param {String} params.context Context of annotation
 	 * @param {String} params.text Annotated text
+	 * @param {String} params.textBefore String before annotated text
+	 * @param {String} params.textAfter String after annotated text
 	 * @param {String} params.body Annotation body
 	 * @param {String} params.status Annotation status
 	 * @param {String} [params.attribution] Annotation attribution
 	 * @param {function(err, annotation)} callback Callback function
 	 */
 	schema.statics.create = function ({
-        user, context, text, body, attribution, status
+        user, context, text, textBefore, textAfter, body, attribution, status
     }, callback) {
 
 		// Save reference to model
@@ -99,6 +107,8 @@ function AnnotationStaticMethods (schema) {
 					'guid': GUID,
 					'context': context,
 					'text': text,
+					'textBefore': textBefore,
+					'textAfter': textAfter,
 					'body': body,
 					'user': user,
 					'status': status,
@@ -134,6 +144,8 @@ function AnnotationInstanceMethods (schema) {
 	 * @param {Object} params
 	 * @param {String} [params.context] Context of annotation
      * @param {String} [params.text] Annotated text
+	 * @param {String} [params.textBefore] String before annotated text
+	 * @param {String} [params.textAfter] String after annotated text
      * @param {String} [params.body] Annotation body
      * @param {String} [params.attribution] Annotation attribution
 	 * @param {String} [params.status] Annotation status
@@ -141,7 +153,7 @@ function AnnotationInstanceMethods (schema) {
 	 * @param {function(err, annotation)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		context, text, body, attribution, status, editingUser
+		context, text, textBefore, textAfter, body, attribution, status, editingUser
 	}, callback) {
 
 		// Save reference to model
@@ -153,6 +165,8 @@ function AnnotationInstanceMethods (schema) {
 		};
 		if (context) set.context = context;
         if (text) set.text = text;
+		if (textBefore !== undefined) set.textBefore = textBefore;
+		if (textAfter !== undefined) set.textAfter = textAfter;
         if (body) set.body = body;
         if (attribution === "" || attribution) set.attribution = attribution;
 		if (status) set.status = status;

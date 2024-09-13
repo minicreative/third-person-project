@@ -21,12 +21,12 @@ function getNamedErrorFromArray (errors, name) {
 };
 
 // Type validation functions ===================================================
-function isInvalidString (input) {
+function isInvalidString (input, allowEmpty) {
 	if (input === null || input === undefined)
 		return Messages.fieldErrors.missing;
 	if (!(typeof input === 'string' || input instanceof String))
 		return Messages.typeErrors.string;
-	if (input == "")
+	if (input == "" && !allowEmpty)
 		return Messages.typeErrors.emptyString;
 	return null;
 };
@@ -136,6 +136,19 @@ module.exports.password = function (name, input) {
 module.exports.string = function (name, input) {
 	return getNamedErrorFromArray([
 		isInvalidString(input),
+	], name);
+};
+
+/**
+ * Returns error with string input, allowing for empty string
+ * @memberof api/tools/Validation
+ * @param {String} name Name of field
+ * @param {String} input Field input
+ * @return {Object} Error message (or null)
+ */
+module.exports.stringPossiblyEmpty = function (name, input) {
+	return getNamedErrorFromArray([
+		isInvalidString(input, true),
 	], name);
 };
 
