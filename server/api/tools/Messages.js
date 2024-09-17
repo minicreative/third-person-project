@@ -4,7 +4,9 @@
 const DRAFT = 'draft'
 const EDITED = 'edited'
 const REVIEWED = 'reviewed'
+const FLAGGED = 'flagged'
 const PUBLISHED = 'published'
+
 const ANNOTATOR = 'annotator'
 const EDITOR = 'editor'
 const ADMINISTRATOR = 'administrator'
@@ -24,7 +26,9 @@ module.exports = {
 	DRAFT: DRAFT,
 	EDITED: EDITED,
 	REVIEWED: REVIEWED,
+	FLAGGED: FLAGGED,
 	PUBLISHED: PUBLISHED,
+
 	ANNOTATOR: ANNOTATOR,
 	EDITOR: EDITOR,
 	ADMINISTRATOR: ADMINISTRATOR,
@@ -42,7 +46,7 @@ module.exports = {
 	/** Status Enumerations
 	 * @memberof api/tools/Messages
 	 */
-	'statuses': [DRAFT, EDITED, REVIEWED, PUBLISHED],
+	'statuses': [DRAFT, EDITED, REVIEWED, FLAGGED, PUBLISHED],
 
 	/** Role Enumerations
 	 * @memberof api/tools/Messages
