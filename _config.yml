@@ -22,4 +22,4 @@ collections:
 sass:
   style: compressed
   sass_dir: _sass
-exclude: ['README.md', 'Gemfile', 'Gemfile.lock']
+exclude: ['README.md', 'Gemfile', 'Gemfile.lock', 'server']

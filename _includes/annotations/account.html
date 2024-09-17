@@ -1,0 +1,34 @@
+
+
+<div id="manage-account" class="tab-container" x-init="setupTabs()">
+    <div class="tabs">
+        <div class="active" name="user">{{ page.user_tab_text }}</div>
+        <div name="password">{{ page.password_tab_text }}</div>
+    </div>
+    <div id="user" class="tab active">
+        <div x-data="manageUser()">
+            <form @submit.prevent="submit()">
+                <span>Name</span>
+                <input type="text" name="name" x-model="name" />
+                <span>Email</span>
+                <input type="email" name="email" x-model="email" />
+                <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+                <button type="submit" x-text="buttonText"></button>
+            </form>
+        </div>
+    </div>
+    <div id="password" class="tab">
+        <div x-data="changePassword()">
+            <form @submit.prevent="submit()">
+                <span>Current password</span>
+                <input type="password" name="passwordCurrent" x-model="passwordCurrent" />
+                <span>New password</span>
+                <input type="password" name="password" x-model="password" />
+                <span>Confirm password</span>
+                <input type="password" name="passwordConfirm" x-model="passwordConfirm" />
+                <template x-if="errorMessage"><span class="error" x-text="errorMessage"></span></template>
+                <button type="submit" x-text="buttonText"></button>
+            </form>
+        </div>
+    </div>
+</div>

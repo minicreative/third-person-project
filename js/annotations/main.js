@@ -23,6 +23,10 @@ document.addEventListener('alpine:init', () => {
                 this.user = null
             }
         },
+        update(user) {
+            localStorage.setItem("user", JSON.stringify(user))
+            this.init()
+        },
         login(data) {
             localStorage.setItem("token", data.token)
             localStorage.setItem("user", JSON.stringify(data.user))
@@ -39,6 +43,14 @@ document.addEventListener('alpine:init', () => {
         },
         isEditor() {
             return this.user.role === "editor" || this.user.role === "administrator"
+        },
+        manage() {
+            let manageAccount = $("#manage-account")
+            if (manageAccount.hasClass("show")) {
+                manageAccount.removeClass("show")
+            } else {
+                manageAccount.addClass("show")
+            }
         }
     })
 

@@ -117,6 +117,7 @@ module.exports = {
 			callback => {
 				const signedObject = {
 					'user': user.guid,
+					'resetPasswordToken': true,
 					'exp': parseInt(Dates.fromNow(1, 'hour')),
 				};
 				Token.sign(signedObject, process.env.tpp_secret, function (err, token) {

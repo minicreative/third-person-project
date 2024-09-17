@@ -9,6 +9,8 @@ const ANNOTATOR = 'annotator'
 const EDITOR = 'editor'
 const ADMINISTRATOR = 'administrator'
 
+const EVENT_USER_NAME_CHANGE = "userNameChange"
+const EVENT_USER_EMAIL_CHANGE = "userEmailChange"
 const EVENT_USER_ROLE_CHANGE = "userRoleChange"
 const EVENT_USER_PASSWORD_CHANGE = "userPasswordChange"
 const EVENT_USER_PASSWORD_FORGOT = "userPasswordForgot"
@@ -28,6 +30,8 @@ module.exports = {
 	ADMINISTRATOR: ADMINISTRATOR,
 
 	EVENT_USER_ROLE_CHANGE: EVENT_USER_ROLE_CHANGE,
+	EVENT_USER_NAME_CHANGE: EVENT_USER_NAME_CHANGE,
+	EVENT_USER_EMAIL_CHANGE: EVENT_USER_EMAIL_CHANGE,
 	EVENT_USER_PASSWORD_CHANGE: EVENT_USER_PASSWORD_CHANGE,
 	EVENT_USER_PASSWORD_FORGOT: EVENT_USER_PASSWORD_FORGOT,
 	EVENT_USER_DELETE: EVENT_USER_DELETE,
@@ -49,9 +53,11 @@ module.exports = {
 	 * @memberof api/tools/Messages
 	 */
 	'userEvents': [
-		EVENT_USER_ROLE_CHANGE, 
-		EVENT_USER_PASSWORD_CHANGE, 
-		EVENT_USER_PASSWORD_FORGOT, 
+		EVENT_USER_ROLE_CHANGE,
+		EVENT_USER_NAME_CHANGE,
+		EVENT_USER_EMAIL_CHANGE,
+		EVENT_USER_PASSWORD_CHANGE,
+		EVENT_USER_PASSWORD_FORGOT,
 		EVENT_USER_DELETE
 	],
 
@@ -124,6 +130,7 @@ module.exports = {
 	 */
 	'requestErrors': {
 		'passwordIncorrect': "Incorrect password",
+		'passwordCurrentIncorrect': "Current password is incorrect",
 	},
 
 	/**
@@ -160,7 +167,7 @@ module.exports = {
 	'forgotPasswordEmail': function(token) {
 		let html = "";
 		html += "<p><b>Hello from Third Person Project!</b></p>";
-		html += "<p>A link to reset the password on this account was recently requested. If you didn't make this request, please ignore this email and consider changing your password.</p>";
+		html += "<p>We received a request to reset the password on your account. If you didn't make this request, please ignore this email and consider changing your password.</p>";
 		html += `<p>If you did request a password reset, <a href='https://thirdpersonproject.org/reset-password?token=${token}' clicktracking=off>click here to reset your password.</a></p>`;
 		return html;
 	},

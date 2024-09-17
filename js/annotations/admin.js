@@ -1,8 +1,9 @@
 
 let PAGE_SIZE = 20
 
-// Handle query parameters
 $(document).ready(() => {
+
+    // Handle query parameters
     let url = window.location.href;
     if (url.includes("expired=true")) {
         $("#expired").addClass("show")
@@ -138,6 +139,55 @@ function signup() {
                 },
                 final: () => {
                     this.buttonText = "Log in"
+                }
+            })
+        }
+    }
+}
+
+// Manage user
+// Handles the manage user form in the admin template
+function manageUser() {
+    return {
+
+        name: "",
+        email: "",
+        buttonText: "Save",
+        errorMessage: "",
+
+        init() {
+            this.name = Alpine.store('auth').user.name
+            this.email = Alpine.store('auth').user.email
+            this.buttonText = "Save",
+            this.errorMessage = ""
+        },
+        submit() {
+            this.errorMessage = ""
+            this.buttonText = "Loading..."
+
+            fetchAPI({
+                path: "user.edit",
+                body: {
+                    name: this.name,
+                    email: this.email,
+                },
+                success: (data) => {
+
+                    // Store new user data and refresh form
+                    Alpine.store('auth').update(data.user)
+                    this.init()
+
+                    // Post success message
+                    Alpine.store('messages').post({
+                        type: 'info',
+                        text: "Account updated",
+                    })
+                },
+                failure: (data) => {
+                    this.errorMessage = data.message;
+                },
+                final: () => {
+                    this.buttonText = "Save"
                 }
             })
         }
@@ -471,20 +521,30 @@ function annotationList() {
     }
 }
 
-// Reset Password
-// Handles the reset password form in the reset-password template
-function resetPassword() {
+// Change Password
+// Handles the reset password form in the reset-password template and the change password form in the admin template
+function changePassword() {
     return {
 
+        reset: false,
+        passwordCurrent: "",
         password: "",
         passwordConfirm: "",
         buttonText: "Change password",
         errorMessage: "",
 
         init() {
+            
+            // Handle form differently based on URL
+            let url = window.location.href;
+            if (url.includes("reset-password")) {
+                this.reset = true
+            }
+
+            this.passwordCurrent = ""
             this.password = ""
             this.passwordConfirm = ""
-            this.buttonText = "Change password",
+            this.buttonText = "Change password"
             this.errorMessage = ""
         },
         submit() {
@@ -497,20 +557,29 @@ function resetPassword() {
             }
 
             // Get temporary token from URL
-            let urlParams = new URLSearchParams(window.location.search)
+            let temporaryToken;
+            if (this.reset == true) {
+                let urlParams = new URLSearchParams(window.location.search)
+                temporaryToken = urlParams.get("token")
+            }
 
             this.buttonText = "Loading..."
             fetchAPI({
-                path: "user.resetPassword",
-                temporaryToken: urlParams.get("token"),
+                path: "user.changePassword",
+                temporaryToken: temporaryToken,
                 body: {
+                    passwordCurrent: !this.reset ? this.passwordCurrent : undefined,
                     password: this.password,
                 },
                 success: (data) => {
                     this.init()
+                    let successText = "Your password was successfully changed!"
+                    if (this.reset) {
+                        successText += " Please log in again to continue"
+                    }
                     Alpine.store('messages').post({
                         type: 'info',
-                        text: "Your password was successfully changed! Please log in again to continue",
+                        text: successText,
                     })
                 },
                 failure: (data) => {

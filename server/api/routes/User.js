@@ -268,11 +268,13 @@ module.exports = router => {
 
 		// Validate all fields
 		let validations = [];
-		if (req.body.name) {
-			validations.push(Validation.string('Name', req.body.name))
-		}
+		if (req.body.name) validations.push(Validation.string('Name', req.body.name))
+		if (req.body.email) validations.push(Validation.email('Email', req.body.email))
 		var err = Validation.catchErrors(validations);
 		if (err) return next(err);
+
+		// Setup placeholders for edit function
+		let newName, newEmail;
 
 		// Synchronously perform the following tasks...
 		Async.waterfall([
@@ -297,10 +299,40 @@ module.exports = router => {
 				})
 			},
 
+			// Check if provided values are new
+			(user, callback) => {
+				if (req.body.name && req.body.name !== user.name) {
+					newName = req.body.name
+				}
+				if (req.body.email && req.body.email !== user.email) {
+					newEmail = req.body.email
+				}
+				callback(null, user)
+			},
+
+			// Validate new email is unique if provided
+			(user, callback) => {
+				if (newEmail) {
+					Database.findOne({
+						'model': User,
+						'query': {
+							'email': newEmail,
+						}
+					}, (err, matchUser) => {
+						if (err) return callback(err)
+						if (matchUser) return callback(Secretary.conflictError(Messages.conflictErrors.emailAlreadyUsed));
+						callback(null, user)
+					})
+				} else {
+					callback(null, user)
+				}
+			},
+
 			// Edit user, add to reply
 			(user, callback) => {
 				user.edit({
-					'name': req.body.name,
+					'name': newName,
+					'email': newEmail,
 				}, (err, user) => {
 					if (user) Secretary.addToResponse(res, "user", user)
 					callback(err, user);
@@ -567,32 +599,37 @@ module.exports = router => {
 	})
 
 	/**
-	 * @api {POST} /user.resetPassword Reset Password
-	 * @apiName Reset Password
+	 * @api {POST} /user.changePassword Change Password
+	 * @apiName Change Password
 	 * @apiGroup User
 	 *
 	 * @apiParam {String} password New password
+	 * @apiParam {String} [passwordCurrent] Current password
 	 *
 	 * @apiUse Error
 	 */
-	router.post('/user.resetPassword', (req, res, next) => {
+	router.post('/user.changePassword', (req, res, next) => {
 		req.handled = true;
 
 		// Synchronously perform the following tasks...
 		Async.waterfall([
 
-			// Authenticate user
+			// Authenticate user (get token)
 			callback => {
 				Authentication.authenticateUser(req, true, function (err, token) {
 					callback(err, token);
 				});
 			},
 
-			// Validate parameters
+			// Validate parameters using token
 			(token, callback) => {
+				console.log(token)
 				var validations = [
 					Validation.password('Password', req.body.password),
 				];
+				if (!token.resetPasswordToken) {
+					validations.push(Validation.password('Current password', req.body.passwordCurrent))
+				}
 				callback(Validation.catchErrors(validations), token)
 			},
 
@@ -605,8 +642,16 @@ module.exports = router => {
 					},
 				}, (err, user) => {
 					if (!user) err = Secretary.notFoundError(Messages.notFoundErrors.objectNotFound)
-					callback(err, user)
+					callback(err, token, user)
 				});
+			},
+
+			// Validate current password if not password reset token
+			(token, user, callback) => {
+				if (!token.resetPasswordToken && !HashPassword.verify(req.body.passwordCurrent, user.password)) {
+					return callback(Secretary.requestError(Messages.requestErrors.passwordCurrentIncorrect));
+				}
+				return callback(null, user)
 			},
 
 			// Update user

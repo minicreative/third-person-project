@@ -241,15 +241,30 @@ function UserInstanceMethods (schema) {
 	 * @param {function(err, user)} callback Callback function
 	 */
 	schema.methods.edit = function ({
-		name, password, editingUser, role
+		name, email, password, editingUser, role
 	}, callback) {
 
 		var User = this;
 		let events = this.events
 		let set = {}
 
-		// Handle basic updates
-		if (name) set.name = name
+		// Handle basic updates (audited)
+		if (name) {
+			set.name = name
+			events.unshift({
+				'type': Messages.EVENT_USER_NAME_CHANGE,
+				'date': Dates.now(),
+			})
+			set.events = events
+		}
+		if (email) {
+			set.email = email
+			events.unshift({
+				'type': Messages.EVENT_USER_EMAIL_CHANGE,
+				'date': Dates.now(),
+			})
+			set.events = events
+		}
 
 		// Handle password update (audited)
 		if (password) {

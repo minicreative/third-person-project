@@ -27,15 +27,25 @@
 
     <!-- Authorized -->
     <template x-data x-if="$store.auth.loggedIn"><div>
+        <div class="section container">
 
-        <div class="section container admin-auth">
-            <button class="logout" x-on:click="$store.auth.logout()">Log Out</button>
+            <!-- Heading -->
+            <div class="admin-buttons">
+                <button x-on:click="$store.auth.manage()">Manage account</button>
+                <button x-on:click="$store.auth.logout()">Log Out</button>
+            </div>
             <h2>Welcome, <span x-text="$store.auth.user.name"></span></h2>
+
+            <!-- Manage user-->
+            {% include annotations/account.html %}
+
+            <!-- Introduction -->
             {{ page.dashboard_welcome_text | markdownify }}
+
+            <!-- Tables -->
             {% include annotations/annotation-list.html %}
             {% include annotations/user-list.html %}
         </div>
-
     </div></template>
 
 {% include footer.html %}

@@ -368,7 +368,7 @@ form {
     button {margin-top:20px; margin-right:20px;}
     .error {color:#cc0000; font-weight:bold;}
 }
-button {
+button, a.button {
     display:inline-block; cursor:pointer; border:0px; font-family:inherit; font-size:18px;
     background:#eee; padding:10px 20px;
 }
@@ -429,6 +429,10 @@ button {
     display:none; color:#cc0000; text-align:center; margin-bottom:30px;
     &.show {display:block;}
 }
+#manage-account {
+    display:none; margin:30px 0px;
+    &.show {display:block;}
+}
 
 .admin-messages {
     position:fixed; bottom:0px; right:0px; max-width:400px; padding:20px; z-index:10000;
@@ -442,9 +446,9 @@ button {
         }
     }
 }
-
-.admin-auth {
-    .logout {float:right; margin-top:0px;}
+.admin-buttons {
+    float:right; margin-top:0px;
+    button {margin-left:10px;}
 }
 .admin-table {
     margin-top:$padding;
