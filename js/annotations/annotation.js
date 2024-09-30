@@ -127,7 +127,7 @@ document.addEventListener('alpine:init', () => {
                 path: "annotation.getStatusOptions",
                 body: {},
                 success: (data) => {
-                    this.statusOptions = data.statuses
+                    this.statusOptions = data.options
                 }
             })
         },
