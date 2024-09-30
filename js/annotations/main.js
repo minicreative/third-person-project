@@ -116,7 +116,7 @@ async function fetchAPI({ path, body, temporaryToken, success, failure, final })
                     return Alpine.store('auth').logout(true)
                 }
             }
-            failure(data)
+            if (failure) failure(data)
         }
 
         // Run final if applicable
@@ -125,11 +125,16 @@ async function fetchAPI({ path, body, temporaryToken, success, failure, final })
         console.log(error)
 
         // Handle unhandled errors
-        failure({ 
+        if (failure) failure({ 
             message: "An error occurred: we are unable to access the server at this time. Please try again."
         })
 
         // Run final if applicable
         if (final) final()
     }
+}
+
+// Helper functions ==========================
+function uppercase(str) {
+    return str.charAt(0).toUpperCase()+str.slice(1)
 }

@@ -1,0 +1,17 @@
+<div class="multi-selector">
+    <div class="selection" x-on:click="toggle()">
+        <span x-text="selection"></span>
+        <i x-show="!showOptions" class="fa fa-angle-down"></i>
+        <i x-show="showOptions" class="fa fa-angle-up"></i>
+    </div>
+    <div x-show="showOptions" class="options">
+        <div class="padding">
+            <template x-for="option in options" :key="option">
+                <div class="option" :class="selected[option] ? 'selected' : ''" :name="option" x-on:click="handleSelect(option)">
+                    <i class="fa fa-check"></i><span x-text="uppercase(option)"></span>
+                </div>
+            </template>
+        </div>
+        <div x-on:click="apply()" class="apply" :class="applied ? '' : 'ready'">Apply</div>
+    </ul>
+</div>

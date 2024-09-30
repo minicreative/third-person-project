@@ -12,6 +12,24 @@ const User = require('../model/User')
 module.exports = router => {
 
 	/**
+	 * @api {POST} /annotation.getStatusOptions Get Status Options
+	 * @apiName Get Status Options
+	 * @apiGroup Annotation
+	 * @apiDescription Get an ordered array of status options
+	 *
+	 * @apiSuccess {Array} statuses Array of status options
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/annotation.getStatusOptions', (req, res, next) => {
+		req.handled = true;
+		res.body = {
+			options: Messages.statuses
+		}
+		next()
+	})
+
+	/**
 	 * @api {POST} /annotation.get Get
 	 * @apiName Get
 	 * @apiGroup Annotation
@@ -88,7 +106,7 @@ module.exports = router => {
 				if (req.body.text) validations.push(Validation.string('Text', req.body.text))
 				if (req.body.context) validations.push(Validation.string('Context', req.body.context))
 				if (req.body.author) validations.push(Validation.string('Author', req.body.author))
-				if (req.body.status) validations.push(Validation.status('Status', req.body.status)) // TODO: Allow for array of statuses
+				if (req.body.status) validations.push(Validation.statusArray('Status', req.body.status))
 
 				callback(Validation.catchErrors(validations))
 			},
@@ -121,7 +139,8 @@ module.exports = router => {
 				if (req.body.context) query.context = Database.text(req.body.context)
 
 				// Add status query
-				if (req.body.status) query.status = req.body.status // TODO: Allow for array of statuses
+				if (req.body.status && req.body.status.length > 0) 
+					query.status = {'$in': req.body.status}
 
 				// Add author query (using $or)
 				if (req.body.author || req.body.user) {

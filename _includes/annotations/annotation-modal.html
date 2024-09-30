@@ -50,11 +50,9 @@
 
                 <span>Status</span>
                 <select x-model="$store.annotation.status">
-                    <option value="draft">Draft</option>
-                    <option value="edited">Edited</option>
-                    <option value="reviewed">Reviewed</option>
-                    <option value="flagged">Flagged</option>
-                    <option value="published">Published</option>
+                    <template x-for="status in $store.annotation.statusOptions" :key="status">
+                        <option :value="status" x-text="uppercase(status)"></option>
+                    </template>
                 </select>
                 <span class="instructions">
                     When an annotator uploads a new annotation, its status is set to "Draft".<br />

@@ -107,18 +107,29 @@ document.addEventListener('alpine:init', () => {
         heading: "",
         attribution: "",
         status: "",
+        statusOptions: [],
         saveButtonText: "Save",
         deleteButtonText: "Delete",
         errorMessage: "",
         showModal: false,
 
         init() {
+            this.loadFormOptions()
             this.guid = ""
             this.errorMessage = ""
             this.body = ""
             this.author = ""
             this.status = ""
             this.scope = null
+        },
+        loadFormOptions() {
+            fetchAPI({
+                path: "annotation.getStatusOptions",
+                body: {},
+                success: (data) => {
+                    this.statusOptions = data.statuses
+                }
+            })
         },
         openModal({ guid, text, textBefore, textAfter, context, scope }) {
             this.init()

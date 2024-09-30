@@ -205,7 +205,7 @@ function userList() {
             pageSize: PAGE_SIZE,
             name: "",
             email: "",
-            role: "",
+            role: [],
             sort: "name",
         },
         page: 0,
@@ -372,7 +372,16 @@ function userList() {
         },
         close() {
             this.modal.show = false
-        }
+        },
+        getRoleUpdateFunc() {
+            const scope = this
+            let func = function(model) {
+                scope.query.role = model
+                scope.load({})
+
+            }
+            return func
+        },
     }
 }
 
@@ -387,7 +396,7 @@ function annotationList() {
         query: {
             pageSize: PAGE_SIZE,
             text: "",
-            status: "",
+            status: [],
             author: "",
             context: "",
             sort: "text",
@@ -518,6 +527,14 @@ function annotationList() {
                 }
             }
         },
+        getStatusUpdateFunc() {
+            const scope = this
+            let func = function(model) {
+                scope.query.status = model
+                scope.load({filtered: true})
+            }
+            return func
+        },
     }
 }
 
@@ -589,6 +606,68 @@ function changePassword() {
                     this.buttonText = "Change password"
                 }
             })
+        }
+    }
+}
+
+// Muli-Selector
+function multiSelector({ optionsURL, update }) {
+    return {
+
+        options: ["all"],
+        showOptions: false,
+        selected: {
+            all: true,
+        },
+        selection: "All",
+        applied: true,
+
+        init() {
+            if (optionsURL) this.getOptions()
+        },
+        getOptions() {
+            fetchAPI({
+                path: optionsURL,
+                body: {},
+                success: (data) => {
+                    for (let option of data.options) {
+                        this.options.push(option)
+                        this.selected[option] = false
+                    }
+                }
+            })
+        },
+        toggle() {
+            this.showOptions = !this.showOptions
+        },
+        handleSelect(option) {
+            this.applied = false
+            if (option == "all") {
+                for (let option of this.options) this.selected[option] = false
+                this.selected.all = true
+            } else {
+                this.selected.all = false
+                this.selected[option] = !this.selected[option]
+            }
+        },
+        apply() {
+            this.toggle()
+            this.applied = true;
+            if (this.selected.all) {
+                update([])
+                this.selection = "All"
+            } else {
+                let selectedArray = []
+                for (let option of this.options) {
+                    if (option !== "all" && this.selected[option]) selectedArray.push(option)
+                }
+                if (selectedArray.length == 1) {
+                    this.selection = uppercase(selectedArray[0])
+                } else if (selectedArray.length > 1) {
+                    this.selection = `${selectedArray.length} selected`
+                }
+                update(selectedArray)
+            }
         }
     }
 }

@@ -84,6 +84,18 @@ function isInvalidRole (input) {
 	return null;
 }
 
+function isInvalidStatusArray (input) {
+	for (let el of input) if (!Messages.statuses.includes(el))
+		return " is not valid"
+	return null;
+}
+
+function isInvalidRoleArray (input) {
+	for (let el of input) if (!Messages.roles.includes(el))
+		return " is not valid"
+	return null;
+}
+
 // Exports =====================================================================
 
 /**
@@ -218,5 +230,33 @@ module.exports.role = function (name, input) {
 	return getNamedErrorFromArray([
 		isInvalidString(input),
 		isInvalidRole(input),
+	], name);
+};
+
+/**
+ * Returns error with status array input
+ * @memberof api/tools/Validation
+ * @param {String} name Name of field
+ * @param {Array} input Field input
+ * @return {Object} Error message (or null)
+ */
+module.exports.statusArray = function (name, input) {
+	return getNamedErrorFromArray([
+		isInvalidArray(input),
+		isInvalidStatusArray(input),
+	], name);
+};
+
+/**
+ * Returns error with role array input
+ * @memberof api/tools/Validation
+ * @param {String} name Name of field
+ * @param {Array} input Field input
+ * @return {Object} Error message (or null)
+ */
+module.exports.roleArray = function (name, input) {
+	return getNamedErrorFromArray([
+		isInvalidArray(input),
+		isInvalidRoleArray(input),
 	], name);
 };

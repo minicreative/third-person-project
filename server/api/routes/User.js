@@ -13,6 +13,24 @@ const User = require('./../model/User')
 module.exports = router => {
 
 	/**
+	 * @api {POST} /user.getRoleOptions Get Role Options
+	 * @apiName Get Role Options
+	 * @apiGroup User
+	 * @apiDescription Get an ordered array of role options
+	 *
+	 * @apiSuccess {Array} roles Array of role options
+	 *
+	 * @apiUse Error
+	 */
+	router.post('/user.getRoleOptions', (req, res, next) => {
+		req.handled = true;
+		res.body = {
+			options: Messages.roles
+		}
+		next()
+	})
+
+	/**
 	 * @api {POST} /user.list List
 	 * @apiName List
 	 * @apiGroup User
@@ -51,7 +69,7 @@ module.exports = router => {
 				// Filter parameters
 				if (req.body.name) validations.push(Validation.string('Name', req.body.name))
 				if (req.body.email) validations.push(Validation.string('Email', req.body.email))
-				if (req.body.role) validations.push(Validation.role('Role', req.body.role)) // TODO: Allow for array of roles
+				if (req.body.role) validations.push(Validation.roleArray('Role', req.body.role)) 
 
 				callback(Validation.catchErrors(validations))
 			},
@@ -66,7 +84,8 @@ module.exports = router => {
 
 				if (req.body.name) query.name = Database.text(req.body.name)
 				if (req.body.email) query.email = Database.text(req.body.email)
-				if (req.body.role) query.role = req.body.role
+				if (req.body.role && req.body.role.length > 0) 
+					query.role = {'$in': req.body.role}
 
 				const pageOptions = {
 					model: User,

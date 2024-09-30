@@ -30,12 +30,9 @@
                             x-model="query.email" x-on:keypress="watchKeypress(event)" />
                     </td>
                     <td>
-                        <select x-model="query.role" x-on:change="load({})">
-                            <option value="">All</option>
-                            <option value="annotator">Annotator</option>
-                            <option value="editor">Editor</option>
-                            <option value="administrator">Administrator</option>
-                        </select>
+                        <div x-data="multiSelector({ optionsURL: 'user.getRoleOptions', update: getRoleUpdateFunc() })">
+                            {% include annotations/multi-selector.html %}
+                        </div>
                     </td>
                     <td></td>
                     <td class="buttons">

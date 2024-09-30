@@ -418,6 +418,28 @@ button, a.button {
     }
     .fa-spinner {@include spin;}
 }
+.multi-selector {
+    position:relative;
+    .selection, .options {width:100%; background:white; color:#222;}
+    .selection {
+        padding:0px 6px; cursor:pointer;
+        i.fa {float:right; line-height:24px;}
+    }
+    .options {
+        position:absolute; @include basic_shadow();
+        .padding {padding:4px 6px;}
+        .option {
+            cursor:pointer;
+            i.fa {display:inline-block; font-size:12px; margin-right:4px; color:#ddd;}
+            &.selected i.fa {color:#222;}
+        }
+        .apply {
+            width:100%; text-align:center; padding:4px; background:#ddd; cursor:pointer;
+            font-family:sans-serif; font-size:12px; text-transform: uppercase;
+            &.ready {background:#F2CD5C;}
+        }
+    }
+}
 
 #page-slug {display:none;}
 #annotation-note {
