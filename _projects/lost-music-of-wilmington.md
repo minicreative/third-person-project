@@ -3,6 +3,7 @@ title: Lost Music of Wilmington Series
 description: A series of events based on Wilmington’s place in the history of various
   musical genres.
 layout: item
+order: 3
 primary_image: "/uploads/LostLoveSong.jpg"
 press:
 - title: Lumina Festival's "Lost Love Song" unearth's forgotten tune with Wilmington

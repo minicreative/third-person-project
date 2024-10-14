@@ -202,6 +202,10 @@ details {
     .circle {
         .bg {opacity:0.9;}
     }
+    .item-name {
+        position:absolute; top:0px; left:0px; padding:6px 10px;
+        background:#F2CD5C; color:#222; font-weight:700; font-size:14px; text-transform:uppercase; 
+    }
 
     &.finding {
         padding:50px $padding 50px ($circleRevealItem + $padding);
@@ -309,18 +313,31 @@ details {
 // Page Styles =============================================================
 .home {
     .page-header {
+        @include breakpoint(m) {
+            h2 {font-size:28px;}
+        }
         @include breakpoint(s) {
             h2 {font-size:22px;}
         }
     }
 }
-.home-findings{
-    position:relative; margin-top:-120px; z-index:5;
+.home-features {
+    position:relative; margin-top:-210px; z-index:5;
+    @include breakpoint(m) {margin-top:-120px;}
     .item {
         border:0px; @include basic_shadow; background:white;
+        &.project {
+            background:#333; color:white; padding:200px 30px 50px; box-shadow:0px 0px 20px rgba(0,0,0,0.3);
+            .circle {
+                width:720px; height:720px; left:50%; top:0px; margin:-450px 0px 0px -360px;
+                .bg {width:100%; height:50%; margin-top:450px;}
+            }
+            .item-name {left:50%; margin-left:-80px;}
+            .block-title span {background:#F2CD5C; color:#222;}
+        }
     }
 }
-.home-features {
+.home-featured-sections {
     @include section_row; background:#eee; padding:50px 0px; text-align:center;
     .columns {@include row; max-width:840px;}
     .column {

@@ -27,11 +27,11 @@ collections:
           - label: "Header Text"
             name: "header_text"
             widget: "text"
-          - label: "Features Header"
-            name: "features_header"
+          - label: "Featured Sections Header"
+            name: "featured_sections_header"
             widget: "string"
-          - label: "Features"
-            name: "features"
+          - label: "Featured Sections"
+            name: "featured_sections"
             widget: "list"
             fields:
               - {label: Title, name: title, widget: string}

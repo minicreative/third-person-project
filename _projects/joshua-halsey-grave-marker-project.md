@@ -3,6 +3,7 @@ title: Joshua Halsey Grave Marker Project
 description: The organization of a monument for Joshua Halsey at the only known burial
   location of an 1898 victim.
 layout: item
+order: 2
 primary_image: "/uploads/HalseyGraveMarker.jpg"
 primary_image_position: center
 press:

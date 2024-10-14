@@ -1,18 +1,19 @@
 {% include header.html %}
 
-    <div class="home-findings container">
+    <div class="home-features container">
+        {% assign item = site.projects | sort: "order" | first %}{% include item.html %}
         {% assign item = site.findings | sort: "date" | reverse | first %}{% include item.html %}
     </div>
 
-    <div class="home-features">
-        <h2>{{ page.features_header }}</h2>
+    <div class="home-featured-sections">
+        <h2>{{ page.featured_sections_header }}</h2>
         <div class="columns container">
-        {% for feature in page.features %}
-            <div class="column half"><a href="{{ feature.link }}">
-                <div class="circle-item" style="background-image:url('{{ feature.primary_image }}')">
+        {% for section in page.featured_sections %}
+            <div class="column half"><a href="{{ section.link }}">
+                <div class="circle-item" style="background-image:url('{{ section.primary_image }}')">
                     <div class="center-inside"><div>
-                        <h2>{{ feature.title }}</h2>
-                        {{ feature.description | markdownify }}
+                        <h2>{{ section.title }}</h2>
+                        {{ section.description | markdownify }}
                     </div></div>
                 </div>
             </a></div>

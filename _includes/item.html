@@ -1,5 +1,6 @@
 <div class="item column 
-    {% if item.collection == 'projects' %}project half
+    {% if page.layout == 'home' and item.collection == 'projects' %}project full
+    {% elsif item.collection == 'projects' %}project half
     {% elsif item.collection == 'findings' %}finding full
     {% elsif item.collection == 'archives' %}archive full
     {% endif %}
@@ -7,9 +8,18 @@
 ">
 <a href="{{ item.url }}">
 
-    <!-- Preview -->
+    <!-- Image -->
     {% if item.primary_image != nil and item.primary_image != '' %}
         {% assign circle_item = item %}{% include circle.html %}
+    {% endif %}
+
+    <!-- Title -->
+    {% if page.layout == "home" %}
+        {% if item.collection == 'projects' %}
+            <span class="item-name">Featured Project</span>
+        {% elsif item.collection == 'findings' %}
+            <span class="item-name">Latest Finding</span>
+        {% endif %}
     {% endif %}
 
     <!-- Title -->

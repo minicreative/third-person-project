@@ -3,6 +3,7 @@ title: The Daily Record Recovery Project
 description: Our project to locate, transcribe, and digitize issues of the pioneering
   African-American broadsheet.
 layout: item
+order: 1
 primary_image: "/uploads/DailyRecord.jpg"
 press:
 - title: Middle Schoolers Help Transcribe, Digitize Rare Historical Newspapers
