@@ -88,11 +88,13 @@
 			{% if page.header_text %}
 				<h2>{{ page.header_text }}</h2>
             {% else %}
-                {% if page.collection %}
+				{% if page.header_title %}
+					{% assign page_title = page.header_title %}
+                {% elsif page.collection %}
                     {% for parent in site.pages %}
                         {% if parent.collection == page.collection %}{% assign page_title = parent.title %}{% endif %}
                     {% endfor %}
-                {% else %}
+				{% else %}
                     {% assign page_title = page.title %}
                 {% endif %}
 				<h1>{{ page_title }}</h1>

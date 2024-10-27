@@ -5,6 +5,22 @@ description: Our project to locate, transcribe, and digitize issues of the pione
 layout: item
 order: 1
 primary_image: "/uploads/DailyRecord.jpg"
+explore_buttons:
+  - title: The History of the Daily Record
+    description: Learn more about the history of Wilmington's Daily Record
+    link: "/daily-record-history/"
+    class: half
+    image: "/uploads/DailyRecord.jpg"
+  - title: Recovering the Daily Record
+    description: Read the story of Third Person Project's efforts to recover the Daily Record
+    link: "/daily-record-recovery/"
+    class: half
+    image: "/uploads/DailyRecord.jpg"
+  - title: Annotate the Daily Record
+    description: Sign up or log in to help annotate issues of the Daily Record
+    link: "/annotate/"
+    class: full
+    image: "/uploads/DailyRecord.jpg"
 press:
 - title: Middle Schoolers Help Transcribe, Digitize Rare Historical Newspapers
   publication: Library Journal

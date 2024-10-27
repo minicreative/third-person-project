@@ -16,6 +16,10 @@ collections:
     title: Projects
     output: true
     permalink: "/projects/:name/"
+  subpages:
+    title: Subpages
+    output: true
+    permalink: "/:name/"
   uploads:
     title: Uploads
     output: true

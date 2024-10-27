@@ -5,16 +5,33 @@
     <div class="section container content-area content">
         <h2>{{ page.title }}</h2>
 
+        <!-- Subtitle (non-project) -->
         {% if page.collection != "projects" %}
             {% assign item = page %}{% include subtitle.html %}
         {% endif %}
 
+        <!-- Page Content (non-archive) -->
         {% if page.collection != "archives" %}
             {{ page.content | markdownify }}
         {% endif %}
     </div>
 
-    <!-- Archives -->
+    <!-- Explore buttons -->
+    <div class="section container columns explore-buttons ">
+        {% for button in page.explore_buttons %}
+        <a class="column {{ button.class }}" href="{{ button.link }}">
+            {% if button.image %}<div class="bg" style="background-image:url('{{ button.image }}')"></div>{% endif %}
+            <div class="inside">
+                <div>
+                    <h2>{{ button.title }}</h2>
+                    <p>{{ button.description }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Archive Item: PDF & Transcript -->
     {% if page.collection == "archives" %}
     <div class="section container">
         <details>
@@ -45,8 +62,10 @@
 
     <!-- Press Listing -->
     {%if page.press != nil %}
-    <div class="section container columns press">
-        {% for item in page.press %}
+    <div class="section container press">
+        <h2>Press</h2>
+        <div class="columns">
+            {% for item in page.press %}
             <div class="column half">
                 <div class="inside">
                     <h3>{{ item.title }}</h3>
@@ -54,7 +73,8 @@
                 </div>
                 <a href="{{ item.url }}">Read story</a>
             </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
     {% endif %}
  
