@@ -131,7 +131,7 @@ document.addEventListener('alpine:init', () => {
                 }
             })
         },
-        openModal({ guid, text, textBefore, textAfter, context, scope }) {
+        openModal({ guid, text, textBefore, textAfter, context, scope, editMode }) {
             this.init()
 
             // Populate scope
@@ -161,6 +161,7 @@ document.addEventListener('alpine:init', () => {
                     },
                     success: ({ annotation }) => {
                         this.populate(annotation)
+                        if (editMode) this.edit() // Switch to edit modal if requested in modal args
                     },
                     failure: (data) => {
                         this.body = ""

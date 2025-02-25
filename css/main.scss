@@ -524,6 +524,7 @@ button, a.button {
     input::placeholder {font-style:italic; color:#ccc;}
     .table-loading {float:left; line-height:30px; margin-right:12px;}
     .fa-spinner {@include spin;}
+
     tr.filter {
         .buttons button {padding:2px 5px; border-radius:2px; background:#F2CD5C; color:#333;}
         td {background-color:#777;}
@@ -536,6 +537,10 @@ button, a.button {
             content:"\25BC";
         }
         &.sorted.reversed:after {content:"\25B2";}
+    }
+
+    td.linked {
+        text-decoration:underline; cursor:pointer;
     }
 
     .load-more {

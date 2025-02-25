@@ -48,13 +48,13 @@
                 <tr><td>Your filter returned no results.</td></tr>
             </template>
             <template x-for="annotation in annotations" :key="annotation.guid"><tr :id="annotation.guid">
-                <td x-text="annotation.text"></td>
-                <td x-text="annotation.context"></td>
+                <td x-text="annotation.text" class="linked"  x-on:click="open(annotation, false)"></td>
+                <td x-text="annotation.context" class="linked" x-on:click="openContext(annotation)"></td>
                 <td x-text="annotation.attribution ? `${annotation.attribution} (${annotation.userName})` : annotation.userName"></td>
                 <td x-text="annotation.status" class="capitalize"></td>
                 <td class="buttons">
                     <div class="fa fa-trash-o" x-on:click="erase($event, annotation)"></div>
-                    <div class="fa fa-pencil-square-o" x-on:click="edit(annotation)"></div>
+                    <div class="fa fa-pencil-square-o" x-on:click="open(annotation, true)"></div>
                 </td>
             </tr></template>
         </tbody>

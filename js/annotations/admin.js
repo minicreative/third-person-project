@@ -480,12 +480,16 @@ function annotationList() {
         watchKeypress(event) {
             if (event.keyCode === 13) this.load({filtered: true})
         },
-        edit(annotation) {
+        open(annotation, editMode) {
             Alpine.store('annotation').openModal({
                 guid: annotation.guid,
                 text: annotation.text,
                 scope: this,
+                editMode,
             })
+        },
+        openContext(annotation) {
+            window.open(`/archives/daily-record-${annotation.context}/`, "_self")
         },
         erase(e, annotation) {
             // Start loading sequence

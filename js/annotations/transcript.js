@@ -29,9 +29,6 @@ function addAnnotationsToTranscript(annotations) {
 
     // Iterate through annotations, add markup
     for (let annotation of annotations) {
-
-        console.log(annotation)
-
         let text = annotation.text
         let html = `<span id='${annotation.guid}'>${annotation.text}</span>`
         if (annotation.textBefore !== undefined && annotation.textAfter !== undefined) {
