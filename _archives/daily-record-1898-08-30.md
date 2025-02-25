@@ -1,8 +1,8 @@
 ---
 title: Daily Record, Volume 2 No. 18
 date: 1898-08-30 11:00:00 -05:00
-primary_image: "/uploads/1898-08-30.jpg"
-file: "/uploads/1898-08-30.pdf"
+primary_image: "/uploads/daily-record-1898-08-30.jpg"
+file: "/uploads/daily-record-1898-08-30.pdf"
 layout: item
 ---
 

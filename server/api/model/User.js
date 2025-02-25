@@ -136,6 +136,7 @@ function UserInstanceMethods (schema) {
 					'model': Mongoose.model('Annotation'),
 					'query': {
 						'user': thisObject.guid,
+						'erased': false,
 					}
 				}, function (err, annotations) {
 					if (!err && annotations) {

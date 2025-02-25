@@ -1,8 +1,8 @@
 ---
 title: Daily Record, Volume 2 No. 62
 date: 1898-10-20 11:00:00 -05:00
-primary_image: "/uploads/1898-10-20.jpg"
-file: "/uploads/1898-10-20.pdf"
+primary_image: "/uploads/daily-record-1898-10-20.jpg"
+file: "/uploads/daily-record-1898-10-20.pdf"
 layout: item
 ---
 

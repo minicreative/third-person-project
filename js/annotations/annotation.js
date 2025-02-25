@@ -72,7 +72,7 @@ function addAnnotation(e) {
                 text: selectionString,
                 textBefore,
                 textAfter,
-                context: $("#page-slug").text()
+                context: $("#page-slug").text().replace("daily-record-","")
             })
         }
         endAnnotation()
@@ -118,7 +118,7 @@ document.addEventListener('alpine:init', () => {
             this.guid = ""
             this.errorMessage = ""
             this.body = ""
-            this.author = ""
+            this.attribution = ""
             this.status = ""
             this.scope = null
         },
