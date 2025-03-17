@@ -6,22 +6,16 @@ file: "/uploads/daily-record-1898-08-30.pdf"
 layout: item
 ---
 
-# Page One
+#### Page One
 
-## The Daily Record
-
-Circulation Large.
-
-Advertising Rates Given
-
-The Latest News
-
-25 cents per month
+# The Daily Record  
+Circulation Large.  
+Advertising Rates Given  
+The Latest News  
+25 cents per month  
 
 **Advertise in the Daily Record**
-
-Volume 2. No. 18
-
+Volume 2. No. 18  
 Wilmington N. C., Tuesday Evening, August 30, 1898.
 
 ## A Homeless Mascott.
@@ -31,8 +25,7 @@ The little fellow, who was attired in garments much too large for him, cast-off 
 
 The Gerry Society will endeavor to find the boy’s mother. When she left home, he said she was accompanied by a younger brother and sister. Magistrate Flammer, sitting in the Jefferson Market Police Court this morning, committed the boy to the care of the society pending the resolutions.
 
--N.  Y.  Commercial Advertiser
-
+-N.Y. Commercial Advertiser
 
 ## Advices From Santiago.
 Washington, Aug. 29. -The following despatch [sic] has been received at the War Department:
@@ -132,7 +125,8 @@ In taking a summary of the situation the fact at once becomes apparent that the 
 
 ## Negroes Terrorized
 Dallas, Texas, Aug. 27.- A reign of terror exists all over northern [illegible] Negroes. They are flocking to Dallas for protection. Whitecaps in Denton, Rockwell, Grayson, Kaufman, Fannin and other counties are to blame. Outrages have been perpetrated in numerous places during the last thirty days including whipping and shooting Negroes for various criminal offences, and blowing up a half dozen or more houses by dynamite.
-	Negro districts and suburbs of Dallas are crowded with strangers. Chief of Police Cordwell says there are nearly 2,000 strange Negroes here and ore coming. Police Capt. Ceehan says 200 came in last night, and were huddled together like sheep. The police and sheriff’s department find the race problem a difficult problem to solve. Robberies are increasing, but officers believe most of them is the work of white thieves, who argue that the crimes will be charge to strange Negroes.
+
+Negro districts and suburbs of Dallas are crowded with strangers. Chief of Police Cordwell says there are nearly 2,000 strange Negroes here and ore coming. Police Capt. Ceehan says 200 came in last night, and were huddled together like sheep. The police and sheriff’s department find the race problem a difficult problem to solve. Robberies are increasing, but officers believe most of them is the work of white thieves, who argue that the crimes will be charge to strange Negroes.
 
 ## Divorce Notice
 
@@ -179,7 +173,7 @@ Linen Duck in short length at 7 ½ cents. Ladies Shoes in odd sizes at and below
 
 J.J Shepard. 18 Market street
 
-# PAGE 2
+#### Page 2
 
 ## THE DAILY RECORD
 (Except Sunday)  
@@ -440,7 +434,7 @@ Educate Your Bowels With Cascarets.
 ## [Untitled]
 Candy [illegible], cure constipation forever c.2 [illegible]  [ ]il, druggists refund money
 
-# PAGE 3
+#### Page 3
 
 ## CASTLES IN SPAIN
 How fair they rise  
@@ -699,7 +693,7 @@ W. H. Green, General Superintendent.
 W.A.Turk, General Passenger Agent  
 J.M.Culp, Traffic Manager, 1800 Pa. Ave. Washington D.C.  (Newton Enterprise)
 	                                          
-# PAGE 4 
+#### Page 4 
 
 ## “The Expanding South.”
 

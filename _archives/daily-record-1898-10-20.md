@@ -6,23 +6,18 @@ file: "/uploads/daily-record-1898-10-20.pdf"
 layout: item
 ---
 
+#### Page 1
+
 # The Daily Record
-
-Circulation Large.
-
-Advertising Rates Given.
-
-The Latest news
-
-25 Cents Per Month.
+Circulation Large.  
+Advertising Rates Given.  
+The Latest news  
+25 Cents Per Month.  
 
 **Be Sure To Register Saturday.**
-
-Volume 2. NO. 62.
-
-Wilmington N.C., Thursday Evening, October 20, 1898.
-
-Price Two CTS.
+Volume 2. NO. 62.  
+Wilmington N.C., Thursday Evening, October 20, 1898.  
+Price Two CTS.  
 
 ## A Few Hints
 
@@ -184,6 +179,44 @@ LOCAL FORECAST FOR WILMINGTON AND VICINITY
 
 For 36 hours from 8 a.m. to-day: Partly cloudy tonight, with slight rise in temperature; Friday, rain; fresh to brisk easterly winds.
 
+#### Page 2
+
+## THE DAILY RECORD
+(Except Sunday)  
+Published Every Evening  
+by the  
+RECORD PUBLISHING COMPANY    
+417 So. Seventh St.,  
+Wilmington, N.C  
+
+Entered at the Post Office in Wilmington, N. C., as Second Class Mail Matter.  
+
+**Subscription in Advance.**   
+Daily.   
+One year ... $3.00  
+Six months ... 1.50  
+One ... .25  
+
+**The Weekly Record**  
+Issue Every Saturday.
+One year ... $1.00
+Six months ... $0.60
+Three months $0.35
+
+**Advertising Rates Given on Application**  
+To insure insertion the same day the copy for advertisements must be [ ] later than 10 o’clock a. [ ] news [ ]ems, or information of general interest will gladly be received.
+
+Money can be sent safely by Money Order or Registered letter.
+
+Address all communications to the RECORD PUBLISHING COMPANY
+
+**Interstate Telephone No. 232.**  
+Alex. L. Manly, Editor  
+John N. Goins, Business Manager  
+L. D. Manly, Foreman  
+John T. Howe, Gen’l Traveling Agent  
+F. G. Manly, General Manager  
+
 ## Schooling Outside Schools
 
 Germany's Bands of Tramp Students Have a Good Time.
@@ -285,6 +318,8 @@ Corn contains nearly sixty-three per cent of starch and oats about forty-five pe
 Scab in the heads of wheat cannot be controlled when it once appears in the field. The only way to avoid it seems to be by sowing early varieties, the work being done as early as possible and followed by thorough cultivation.
 
 "Make hay while the sun shines and plow while 'tis cool," is an old saying that should be observed. If the cultivator is kept going while the dew is on the grass in the mornings and no grass cut until it is dry, it is much easier to cure it evenly and make a good quality of hay.
+
+#### Page 3
 
 ## Beauty is Blood Deep.
 
@@ -694,6 +729,8 @@ Procured on cash, or easy instalment \[sic\].VOWLES & BURNS, Patent Attorneys, 2
 CURES WHERE ALL ELSE FAILS.
 
 Best Cough Syrup. Tastes Good. Use in time. Sold by druggists.
+
+#### Page 4
 
 ## Loclal\[sic\] Briefs.
 
