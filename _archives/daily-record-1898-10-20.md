@@ -15,6 +15,7 @@ The Latest news
 25 Cents Per Month.  
 
 **Be Sure To Register Saturday.**
+
 Volume 2. NO. 62.  
 Wilmington N.C., Thursday Evening, October 20, 1898.  
 Price Two CTS.  

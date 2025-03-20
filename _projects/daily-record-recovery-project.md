@@ -10,17 +10,18 @@ explore_buttons:
     description: Learn more about the history of Wilmington's Daily Record
     link: "/daily-record-history/"
     class: half
-    image: "/uploads/DailyRecord.jpg"
   - title: Recovering the Daily Record
     description: Read the story of Third Person Project's efforts to recover the Daily Record
     link: "/daily-record-recovery/"
     class: half
-    image: "/uploads/DailyRecord.jpg"
+  - title: Archived Issues
+    description: View scans and transcripts of recovered Daily Record issues
+    link: "/archives/"
+    class: half
   - title: Annotate the Daily Record
     description: Sign up or log in to help annotate issues of the Daily Record
     link: "/annotate/"
-    class: full
-    image: "/uploads/DailyRecord.jpg"
+    class: half
 press:
 - title: Middle Schoolers Help Transcribe, Digitize Rare Historical Newspapers
   publication: Library Journal

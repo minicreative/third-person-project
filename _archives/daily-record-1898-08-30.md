@@ -15,6 +15,7 @@ The Latest News
 25 cents per month  
 
 **Advertise in the Daily Record**
+
 Volume 2. No. 18  
 Wilmington N. C., Tuesday Evening, August 30, 1898.
 

@@ -6,8 +6,6 @@ file: "/uploads/daily-record-1897-11-15.pdf"
 layout: item
 ---
 
-THE DAILY RECORD, VOLUME 1. NO. 85 WILMINGTON, N.C. MONDAY EVENING, NOVEMBER 15, 1897, Schomburg Center. [COMPLETE ISSUE]
-
 #### Page One
 
 # The Daily Record
@@ -15,10 +13,10 @@ THE DAILY RECORD, VOLUME 1. NO. 85 WILMINGTON, N.C. MONDAY EVENING, NOVEMBER 15,
 [ ] rculation Large.  
 [ ] tising rates given.
 
+**The Only Negro Daily in the World! Ta[ ]**
+
 Volume 1. NO. 85.  
 Wilmington, N. C., Monday Evening, November 15, 1897
-
-**The Only Negro Daily in the World! Ta[ ]**
 
 ## Fillbuster Dauntless [Indecipherable] Back.
 

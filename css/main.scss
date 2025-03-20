@@ -386,6 +386,19 @@ details {
         @include narrow; margin-left:auto; margin-right:auto; padding:$section_pad_ $padding;
         @include breakpoint(s) {padding:$padding $padding_;}
 
+
+        // Newspaper Header
+        h1 {font-size:36px;}
+
+        // Article Headers
+        h2 {font-size:30px; border-top:1px solid #ccc; margin-top:30px; padding-top:20px;}
+
+        // Issue Pages
+        h4 {margin:80px 0px 20px; font-weight:bold;
+            font-family:Arial, Helvetica, sans-serif; font-size:14px; text-transform:uppercase;}
+        h4:first-of-type {margin-top:0px;}
+
+        // Annotations
         span {background:#F2CD5C; cursor:pointer;}
     }
 }
