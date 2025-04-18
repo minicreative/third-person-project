@@ -57,3 +57,5 @@ press:
 
 The *Daily Record* newspaper office was torched by a racist mob in 1898 because its editorials challenged the status quo of its time. Its content, and the world it represented, was all but destroyed during an unfolding massacre in the city it represented. Over a century later, our project, involving students from multiple schools, has so far located, transcribed, and digitized eight separate issues of the pioneering African-American broadsheet, along with over 150 remnant articles preserved through republication elsewhere.  
 
+Read more about the story of The Daily Record Project on the [Digital NC blog](https://www.digitalnc.org/blog/the-daily-record-project-remnants/).
+
