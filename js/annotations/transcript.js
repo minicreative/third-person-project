@@ -1,7 +1,19 @@
 
 $("#transcript").ready(function() {
+    makeTableOfContents()
     listAnnotations()
 })
+
+function makeTableOfContents() {
+    let toc = ""
+    let transcript = $("#transcript")
+    let headings = transcript.find("h2, h4")
+    headings.each(function () {
+        let heading = $(this)
+        toc += `<a href="#${heading.attr('id')}" class="${heading.prop('nodeName')}">${heading.text()}</a>`
+    })
+    $("#toc").html(toc)
+}
 
 function listAnnotations() {
     let body = {

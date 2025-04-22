@@ -17,19 +17,24 @@
     </div>
 
     <!-- Explore buttons -->
-    <div class="section container columns explore-buttons ">
-        {% for button in page.explore_buttons %}
-        <a class="column {{ button.class }}" href="{{ button.link }}">
-            {% if button.image %}<div class="bg" style="background-image:url('{{ button.image }}')"></div>{% endif %}
-            <div class="inside">
-                <div>
-                    <h2>{{ button.title }}</h2>
-                    <p>{{ button.description }}</p>
+    {% if page.explore_buttons %}
+    <div class="section container explore-buttons">
+        <h2>Explore</h2>
+        <div class="columns">
+            {% for button in page.explore_buttons %}
+            <a class="column {{ button.class }}" href="{{ button.link }}">
+                {% if button.image %}<div class="bg" style="background-image:url('{{ button.image }}')"></div>{% endif %}
+                <div class="inside">
+                    <div>
+                        <h2>{{ button.title }}</h2>
+                        <p>{{ button.description }}</p>
+                    </div>
                 </div>
-            </div>
-        </a>
-        {% endfor %}
+            </a>
+            {% endfor %}
+        </div>
     </div>
+    {% endif %}
 
     <!-- Archive Item: PDF & Transcript -->
     {% if page.collection == "archives" %}

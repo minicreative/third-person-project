@@ -2,6 +2,12 @@
     {% include annotations/annotation-toolbar.html %}
     <div class="content">
         {% include annotations/annotation-note.html %}
+
+        <details class="toc-details">
+            <summary>Table of Contents</summary>
+            <div id="toc"></div>
+        </details>
+
         <div id="transcript">
             {{ page.content | markdownify }}
         </div>
