@@ -28,9 +28,13 @@ module.exports = {
 	 * @param {function (err, object)} callback Callback function
 	 */
 	findOne: ({model, query}, callback) => {
-		model.findOne(query, (err, object) => {
-			callback(err, object);
-		});
+		model.findOne(query)
+			.then(function(object) {
+				callback(null, object)
+			})
+			.catch(function(err) {
+				callback(err)
+			})
 	},
 
 	/**
@@ -42,9 +46,13 @@ module.exports = {
 	 * @param {function (err, objects)} callback Callback function
 	 */
 	find: ({model, query}, callback) => {
-		model.find(query, (err, objects) => {
-			callback(err, objects);
-		});
+		model.find(query)
+			.then(function(objects) {
+				callback(null, objects)
+			})
+			.catch(function(err) {
+				callback(err)
+			})
 	},
 
 	/**
@@ -59,9 +67,13 @@ module.exports = {
 	 * @param {function (err, objects)} callback Callback function
 	 */
 	page: ({model, query, pageSize, sort, skip}, callback) => {
-		model.find(query).sort(sort).skip(skip).limit(pageSize).exec((err, objects) => {
-			callback(err, objects);
-		});
+		model.find(query).sort(sort).skip(skip).limit(pageSize).exec()
+			.then(function(objects) {
+				callback(null, objects)
+			})
+			.catch(function(err) {
+				callback(err)
+			})
 	},
 
 	/**
@@ -88,24 +100,26 @@ module.exports = {
 		if (!update.$setOnInsert) update.$setOnInsert = {}; // Make a setOnInsert operation if one isn't defined in the update
 
 		// Make query and update with Mongoose
-		model.findOneAndUpdate(query, update, options, (err, object) => {
-			callback(err, object);
-		});
+		model.findOneAndUpdate(query, update, options)
+			.then(function(object) {
+				callback(null, object)
+			})
+			.catch(function(err) {
+				callback(err)
+			})
 	},
 
 	setup: () => {
 		process.stdout.write(`Connecting to Mongo at ${process.env.tpp_mongo_host}...`)
 		const auth = `${process.env.tpp_mongo_user}:${process.env.tpp_mongo_pass}`
-		return Mongoose.connect(`mongodb://${auth}@${process.env.tpp_mongo_host}/${process.env.tpp_mongo_name}`, {
-			useNewUrlParser: true,
-			useUnifiedTopology: true,
-			useCreateIndex: true
-		}).then(() => {
-			process.stdout.write(' done!\n')
-		}).catch(err => {
-			process.stderr.write('Database error: '+err.stack+'\n')
-			process.exit(0)
-		})
+		return Mongoose.connect(`mongodb://${auth}@${process.env.tpp_mongo_host}/${process.env.tpp_mongo_name}`)
+			.then(() => {
+				process.stdout.write(' done!\n')
+			})
+			.catch(err => {
+				process.stderr.write('Database error: '+err.stack+'\n')
+				process.exit(0)
+			})
 	},
 }
 
