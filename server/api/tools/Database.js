@@ -91,7 +91,7 @@ module.exports = {
 		var options = {
 			'setDefaultsOnInsert': true, // Adds default properties to database object
 			'runValidators': true, // Allows mongoDB to validate update
-			'new': true, // Returns the modified document
+			'returnDocument': 'after', // Returns the modified document
 			'upsert': true, // If a document isn't found, make one based on query
 		};
 
