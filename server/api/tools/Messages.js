@@ -163,12 +163,32 @@ module.exports = {
 	},
 
 	/**
-	 * Function to create the body of a "Forgot your password" email
+	 * Forgot password subject
+	 * @memberof api/tools/Messages
+	 */
+	'forgotPasswordEmailSubject': "Forgot your password?",
+
+	/**
+	 * Function to create the text body of a "Forgot your password" email
+	 * @memberof api/tools/Messages
+	 * @param {String} token Forgot password token
+	 * @return {String} text string
+	 */
+	'forgotPasswordEmailText': function(token) {
+		let text = "";
+		text += "Hello from Third Person Project! ";
+		text += "We received a request to reset the password on your account. If you didn't make this request, please ignore this email and consider changing your password. ";
+		text += `If you did request a password reset, copy and paste the following URL into your browser to reset your password: https://thirdpersonproject.org/reset-password?token=${token}`;
+		return text;
+	},
+
+	/**
+	 * Function to create the HTML body of a "Forgot your password" email
 	 * @memberof api/tools/Messages
 	 * @param {String} token Forgot password token
 	 * @return {String} HTML string
 	 */
-	'forgotPasswordEmail': function(token) {
+	'forgotPasswordEmailHTML': function(token) {
 		let html = "";
 		html += "<p><b>Hello from Third Person Project!</b></p>";
 		html += "<p>We received a request to reset the password on your account. If you didn't make this request, please ignore this email and consider changing your password.</p>";

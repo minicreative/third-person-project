@@ -10,6 +10,8 @@ const REQUIRED_ENV = [
 	'tpp_mongo_name',
 	'tpp_mongo_user',
 	'tpp_mongo_pass',
+	'tpp_mailjet_key',
+	'tpp_mailjet_secret'
 ];
 
 // Start dependenies and listen to port

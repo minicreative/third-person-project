@@ -10,7 +10,7 @@ const Database = require('./Database')
 const User = require('./../model/User')
 
 const Async = require('async')
-const SendGridMail = require('@sendgrid/mail');
+const Mailjet = require('node-mailjet');
 
 // Helper functions
 function getTokenFromRequest (request) {
@@ -125,25 +125,36 @@ module.exports = {
 				});
 			},
 
-			// Use SendGrid to send password token in an email
+			// Use Mailjet to send password token in an email
 			(token, callback) => {
-				SendGridMail.setApiKey(process.env.tpp_sendgrid);
-				SendGridMail.send({
-					to: user.email,
-					from: {
-						email: 'no-reply@thirdpersonproject.org',
-						name: 'Third Person Project'
-					},
-					subject: 'Forgot your password?',
-					html: Messages.forgotPasswordEmail(token),
-				}).then(() => {
-					callback()
-				}, err => {
-					if (err.response) {
-						return callback(Secretary.conflictError(`Was unable to send email: ${err.response}`))
+				const mailjet = new Mailjet({
+					apiKey: process.env.tpp_mailjet_key,
+					apiSecret: process.env.tpp_mailjet_secret,
+					options: {
+						timeout: 15000,
 					}
-					callback(Secretary.conflictError("Was unable to send email. Please try again"))
-				});
+				})
+				const request = mailjet
+					.post('send', { version: 'v3.1' })
+					.request({Messages: [{
+						From: {
+							Email: "no-reply@thirdpersonproject.org",
+							Name: "Third Person Project",
+						},
+						To: [{Email: user.email}],
+						Subject: Messages.forgotPasswordEmailSubject,
+						TextPart: Messages.forgotPasswordEmailText(token),
+						HTMLPart: Messages.forgotPasswordEmailHTML(token),
+					}]})
+					.then(() => {
+						callback()
+					}, (err) => {
+						console.log(err)
+						if (err.originalMessage) {
+							return callback(Secretary.conflictError(`Unable to send email: ${err.originalMessage}`))
+						}
+						callback(Secretary.conflictError("Unable to send email. Please try again"))
+					})
 			},
 
 		], err => callback(err));
